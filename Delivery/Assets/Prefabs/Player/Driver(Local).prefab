@@ -504,6 +504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b349a935d71f09041978f67e9bd21ed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  driverControls: {fileID: 11400000, guid: f361457be67d16b4ba650e3541ad61a1, type: 2}
   maxAccel: 10
   brakeAccel: 50
   turnSensitivity: 0.5
