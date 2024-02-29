@@ -5,7 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Prototypes/Prototype.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Prototypes/Temp_LobbyScene.unity
+    guid: bbc862e48692e74428ae8954c7b40918
+  - enabled: 1
+    path: Assets/Scenes/Prototypes/DrivingPrototype.unity
+    guid: 8e59913c877f3f2409b53f227b0ec730
+  - enabled: 1
+    path: Assets/Scenes/Prototypes/NavigatorPrototype.unity
+    guid: 5804c1772b47246408308c30e76fb3dc
   m_configObjects: {}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +19,11 @@ public class RotateMap : MonoBehaviour
     void Update()
     {
         Rotate();
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            TriggerRandomRotation();
+        }
     }
 
     private void Rotate()
@@ -42,6 +46,16 @@ public class RotateMap : MonoBehaviour
     public void ApplyCurrentRotationToAllMaps()
     {
         mapManager.GetActiveMap.transform.rotation = currentMapRot;
+    }
+
+    public void TriggerRandomRotation()
+    {
+        int x = Random.Range(0, 180);
+        int y = Random.Range(0, 180);
+
+        //mapManager.GetActiveMap.transform.Rotate(new Vector3(x,y,0));
+        mapManager.GetActiveMap.transform.localRotation *= Quaternion.Euler(x, y, 0);
+        Debug.Log($"Map Has Rotated {x}:{y}:{0}");
     }
     #endregion
 }
