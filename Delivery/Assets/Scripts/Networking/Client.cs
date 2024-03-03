@@ -67,7 +67,6 @@ public class Client : MonoBehaviour
                         //Extract the buffer data and set the delivery location from this data
                         LocationHandler.instance.SetDeliveryLocation(new DeliveryLocationPacket().Deserialize(buffer));
                         Debug.Log($"Delivery Location set: {new DeliveryLocationPacket().Deserialize(buffer)}");
-
                         break;
 
                     case PacketType.DriverArrived:
@@ -79,10 +78,14 @@ public class Client : MonoBehaviour
                         DriverCollisionHandler.instance.TriggerRandomMapRotation(new DriverCollidedPacket().Deserialize(buffer));
                         Debug.Log($"Driver has collided {new DriverArrivedPacket().Deserialize(buffer)}");
                         break;
-
+                    
                     case PacketType.SpawnEnemy:
                         NetworkPlayerManager.instance.SpawnEnemyPlayer(new SpawnEnemyPacket().Deserialize(buffer).pos, new SpawnEnemyPacket().Deserialize(buffer).rot);
                         Debug.Log($"Enemy Driver has spawned in Pos: {new SpawnEnemyPacket().Deserialize(buffer).pos}");
+                        break;
+
+                    case PacketType.UpdateEnemyPos:
+                        NetworkPlayerManager.instance.UpdateEnemyTransform(new UpdateEnemyTransformPacket().Deserialize(buffer).pos, new UpdateEnemyTransformPacket().Deserialize(buffer).rot);
                         break;
                 }
             }
