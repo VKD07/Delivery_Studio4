@@ -63,7 +63,6 @@ public class Client : MonoBehaviour
                 switch (basePacket.packetType)
                 {
                     case PacketType.DeliveryLocation:
-
                         //if packet is delivery location
                         //Extract the buffer data and set the delivery location from this data
                         LocationHandler.instance.SetDeliveryLocation(new DeliveryLocationPacket().Deserialize(buffer));
@@ -79,6 +78,11 @@ public class Client : MonoBehaviour
                     case PacketType.DriverHasCollided:
                         DriverCollisionHandler.instance.TriggerRandomMapRotation(new DriverCollidedPacket().Deserialize(buffer));
                         Debug.Log($"Driver has collided {new DriverArrivedPacket().Deserialize(buffer)}");
+                        break;
+
+                    case PacketType.SpawnEnemy:
+                        NetworkPlayerManager.instance.SpawnEnemyPlayer(new SpawnEnemyPacket().Deserialize(buffer).pos, new SpawnEnemyPacket().Deserialize(buffer).rot);
+                        Debug.Log($"Enemy Driver has spawned in Pos: {new SpawnEnemyPacket().Deserialize(buffer).pos}");
                         break;
                 }
             }
@@ -97,7 +101,7 @@ public class Client : MonoBehaviour
         }
         catch (SocketException ex)
         {
-            Debug.Log("Failed to get BUffer");
+            Debug.Log("Failed to send packet");
         }
     }
 

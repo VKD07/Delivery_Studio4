@@ -469,6 +469,7 @@ GameObject:
   - component: {fileID: 8575697494658588706}
   - component: {fileID: 4160227518201139527}
   - component: {fileID: 8490055439870714189}
+  - component: {fileID: 9107256898738581138}
   m_Layer: 0
   m_Name: Driver(Local)
   m_TagString: Player
@@ -539,7 +540,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   driverControls: {fileID: 11400000, guid: f361457be67d16b4ba650e3541ad61a1, type: 2}
   maxAccel: 10
-  brakeAccel: 50
+  brakeAccel: 35
   turnSensitivity: 0.5
   maxSteerAngle: 30
   centerOfMass: {x: 0, y: 0, z: 0}
@@ -569,6 +570,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04a8b3e6033a678459810dd873d03709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9107256898738581138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3844283215702382378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2061c0c22ed6f004089c5650a79ce9c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4238809056406529070
@@ -810,7 +823,7 @@ GameObject:
   - component: {fileID: 6405040554200408421}
   m_Layer: 0
   m_Name: CarModel
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
