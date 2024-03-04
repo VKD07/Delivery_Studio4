@@ -8,13 +8,17 @@ public enum PacketType
 {
     None = 0,
     Message = 1,
+    //Game play packets
     DeliveryLocation = 2,
     DriverArrived = 3,
     DriverHasCollided = 4,
-
+    //Sending PlayerPos
     SpawnEnemy = 5,
     UpdateEnemyPos = 6,
     UpdateEnemyRot = 7,
+    //Car Animation
+    WheelRot = 8,
+    FrontWheelHolderRot = 9,
 }
 
 public class BasePacket

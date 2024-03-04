@@ -51,6 +51,8 @@ namespace Driver
         public Wheel[] GetWheels => wheelList.ToArray();
         public float GetMoveInput => moveInput;
         public float GetSteerInput => steerInput;
+        public float GetTurnSensitivity => turnSensitivity;
+        public float GetMaxSteerAngle => maxSteeringAngle;
         #endregion
 
         private void Start()
@@ -98,28 +100,11 @@ namespace Driver
 
         void SteeringWheel()
         {
-
-            // Calculate the target steering angle based on input sensitivity and speed
             float targetSteerAngle = steerInput * steeringSensitivity * maxSteeringAngle;
 
-            // Smoothly interpolate the current steering angle towards the target steering angle
             currentSteerAngle = Mathf.Lerp(currentSteerAngle, targetSteerAngle, Time.deltaTime * steeringSpeed);
 
-            // Apply the interpolated steering angle to the wheel
             steeringWheel.localRotation = Quaternion.Euler(0, currentSteerAngle, 0);
-
-            //float steerAngle = steerInput * steeringSensitivity * steeringSpeed;
-
-            //steeringWheel.localRotation = Quaternion.Euler(0, steerAngle, 0);
-
-            //if (steerInput > 0 || steerInput < 0)
-            //{
-            //    steeringWheel.Rotate(new Vector3(0, steerInput * steeringSensitivity * Time.deltaTime, 0));
-            //}
-            //else
-            //{
-            //    steeringWheel.localRotation = Quaternion.Lerp(steeringWheel.localRotation, initRot, 5 * Time.deltaTime);
-            //}
         }
 
         void Break()

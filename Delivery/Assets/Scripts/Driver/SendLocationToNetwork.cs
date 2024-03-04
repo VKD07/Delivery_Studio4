@@ -12,6 +12,7 @@ public class SendLocationToNetwork : MonoBehaviour
         {
             hasSpawned = true;
             Client.instance?.SendPacket(new SpawnEnemyPacket(transform.position, transform.rotation));
+            Debug.Log("Has spawned enemy");
         }
 
         if (hasSpawned)

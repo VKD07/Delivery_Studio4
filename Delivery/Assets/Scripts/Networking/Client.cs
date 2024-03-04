@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Net;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class Client : MonoBehaviour
 {
@@ -12,6 +13,16 @@ public class Client : MonoBehaviour
     bool connected;
     public delegate void OnMessageReceived(string message);
     public event OnMessageReceived onMessageReceived;
+
+    public delegate void OnMove(Vector3 pos, Quaternion rot);
+    public event OnMove onMove;
+
+    public delegate void FrontWheelHolderRot(Quaternion rot);
+    public event FrontWheelHolderRot onWheelHolderRot;
+
+    public delegate void WheelSpeed(float wheelSpeed);
+    public event WheelSpeed onWheelSpeed;
+
 
     private void Awake()
     {
@@ -85,7 +96,19 @@ public class Client : MonoBehaviour
                         break;
 
                     case PacketType.UpdateEnemyPos:
-                        NetworkPlayerManager.instance.UpdateEnemyTransform(new UpdateEnemyTransformPacket().Deserialize(buffer).pos, new UpdateEnemyTransformPacket().Deserialize(buffer).rot);
+                        onMove(new UpdateEnemyTransformPacket().Deserialize(buffer).pos, new UpdateEnemyTransformPacket().Deserialize(buffer).rot);
+                        //NetworkPlayerManager.instance.UpdateEnemyTransform(new UpdateEnemyTransformPacket().Deserialize(buffer).pos, new UpdateEnemyTransformPacket().Deserialize(buffer).rot);
+                        break;
+
+                    //case PacketType.WheelRot:
+                    //    onWheelSpeed(new WheelRotationPacket().Deserialize(buffer));
+                    //    break;
+
+                    //Fix this not working on Update only on Late Update
+                    case PacketType.FrontWheelHolderRot:
+                        Debug.Log("Receiving Holder rot");
+                        onWheelHolderRot(new FrontWheelHolderPacket().Deserialize(buffer));
+                        //NetworkPlayerManager.instance.UpdateEnemyFrontWheelHolder(new FrontWheelHolderPacket().Deserialize(buffer));
                         break;
                 }
             }

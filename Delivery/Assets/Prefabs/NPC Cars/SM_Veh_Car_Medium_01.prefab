@@ -625,8 +625,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visionPoint: {fileID: 6861386861106295276}
-  visionRadius: 6.42
-  castDistance: 9.23
+  visionRadius: 3
+  castDistance: 5.51
   npcLayer:
     serializedVersion: 2
     m_Bits: 64
