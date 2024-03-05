@@ -14,48 +14,78 @@ public enum PacketType
     DriverHasCollided = 4,
     //Sending PlayerPos
     SpawnEnemy = 5,
-    UpdateEnemyPos = 6,
-    UpdateEnemyRot = 7,
-    //Car Animation
-    WheelRot = 8,
-    FrontWheelHolderRot = 9,
+    UpdateEnemyProperties = 6,
 }
 
 public class BasePacket
 {
     //for binary writing
-    public MemoryStream sms { get; protected set; }
-    public BinaryWriter binaryWriter { get; protected set; }
+    protected MemoryStream sms; //protected
+    protected BinaryWriter binaryWriter; //protected
 
     //for binary reading
-    public MemoryStream dms { get; protected set; }
-
-    public BinaryReader binaryReader { get; protected set; }
-
+    protected MemoryStream dms; //protected
+    protected BinaryReader binaryReader; // protected
     public PacketType packetType { get; protected set; }
 
-    /// <summary>
-    /// Writes data and convert it into a buffer
-    /// </summary>
-    protected void Serialize()
+    public int packetSize { get; private set; }
+    public static int currentBufferPosition;
+
+    public BasePacket()
+    {
+        dms = null;
+        binaryWriter = null;
+        binaryReader = null;
+    }
+
+    public BasePacket(PacketType packetType)
+    {
+        this.packetType = packetType;
+    }
+
+    protected void BeginSerialize()
     {
         sms = new MemoryStream();
         binaryWriter = new BinaryWriter(sms);
         binaryWriter.Write((int)packetType);
     }
 
-    /// <summary>
-    /// converts buffer into primitive data
-    /// receives packet type from byte
-    /// </summary>
-    /// <param name="buffer"></param>
+    protected byte[] EndSerialize()
+    {
+        packetSize = (int)sms.Length + 4; //setting the packet size to tell how much buffer size we have
+        binaryWriter.Write(packetSize); //writing the packet size
+        Debug.Log(packetSize);
+        return sms.ToArray();
+    }
+
     public BasePacket Deserialize(byte[] buffer)
     {
-        dms = new MemoryStream(buffer);
-        binaryReader = new BinaryReader(dms);
-        packetType = (PacketType)binaryReader.ReadInt32();
+        BeginDeserialize(buffer);
         return this;
     }
 
-    public byte[] ByteBuffer => sms.ToArray();
+    protected void BeginDeserialize(byte[] buffer)
+    {
+        dms = new MemoryStream(buffer);
+        dms.Seek(currentBufferPosition, SeekOrigin.Begin); //making sure to read in a position starting from the index where the unread bytes are
+        binaryReader = new BinaryReader(dms);
+        packetType = (PacketType)binaryReader.ReadInt32();
+        //create new playerData here
+    }
+
+    protected void EndDeserialize()
+    {
+        packetSize = binaryReader.ReadInt32();
+        currentBufferPosition += packetSize;
+    }
+
+    public static bool DataRemainingInBuffer(int bufferSize)
+    {
+        if (currentBufferPosition < bufferSize)
+    {
+        return true;
+    }
+    currentBufferPosition = 0;
+    return false;
+    }
 }

@@ -92,7 +92,7 @@ PlayerSettings:
   bakeCollisionMeshes: 0
   forceSingleInstance: 0
   useFlipModelSwapchain: 1
-  resizableWindow: 0
+  resizableWindow: 1
   useMacAppStoreValidation: 0
   macAppStoreCategory: public.app-category.games
   gpuSkinning: 1
@@ -913,10 +913,10 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 928ae650-a363-481f-9e50-19c64d648af2
+  cloudProjectId: 905387c4-5cbc-4de3-a642-c5b4aff01b72
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Delivery
+  projectName: Delivery 2024-03-05_19-25-22
   organizationId: unity_81aec4d192bcfe72817b
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

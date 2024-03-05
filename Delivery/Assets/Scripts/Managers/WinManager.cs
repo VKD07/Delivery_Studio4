@@ -20,6 +20,23 @@ public class WinManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        Client.instance.onDriverArrived += DeclareWinner;
+    }
+
+    private void OnDisable()
+    {
+        Client.instance.onDriverArrived -= DeclareWinner;
+    }
+
+    public void DeclareWinner(DriverArrivedPacket packet)
+    {
+        if (!packet.hasArrived) return;
+        WinPanel.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
     public void DeclareWinner(bool value)
     {
         if (!value) return;

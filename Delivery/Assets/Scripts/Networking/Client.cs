@@ -14,14 +14,20 @@ public class Client : MonoBehaviour
     public delegate void OnMessageReceived(string message);
     public event OnMessageReceived onMessageReceived;
 
-    public delegate void OnMove(Vector3 pos, Quaternion rot);
+    public delegate void SendDeliveryAddress(DeliveryLocationPacket packet);
+    public event SendDeliveryAddress onDeliveryAddress;
+
+    public delegate void OnDriverArrived(DriverArrivedPacket packet);
+    public event OnDriverArrived onDriverArrived;
+
+    public delegate void OnDriverCollision(DriverCollidedPacket packet);
+    public event OnDriverCollision onDriverCollision;
+
+    public delegate void OnEnemySpawn(SpawnEnemyPacket packet);
+    public event OnEnemySpawn onEnemySpawn;
+
+    public delegate void OnMove(EnemyPropertiesPacket packet);
     public event OnMove onMove;
-
-    public delegate void FrontWheelHolderRot(Quaternion rot);
-    public event FrontWheelHolderRot onWheelHolderRot;
-
-    public delegate void WheelSpeed(float wheelSpeed);
-    public event WheelSpeed onWheelSpeed;
 
 
     private void Awake()
@@ -49,6 +55,7 @@ public class Client : MonoBehaviour
         connected = true;
 
         Debug.Log($"Successfully connected to {ipAddress} in port 3000");
+
     }
 
     private void Update()
@@ -56,7 +63,7 @@ public class Client : MonoBehaviour
         ReceiveDataBuffer();
     }
 
-    private void ReceiveDataBuffer()
+    void ReceiveDataBuffer()
     {
         if (connected)
         {
@@ -68,48 +75,36 @@ public class Client : MonoBehaviour
                 //do events and delegates instead. let Message txt update when message is being received.
                 //onMessageReceived.Invoke(Encoding.ASCII.GetString(buffer));
 
-                //reading the packet type enum from the buffer
-                BasePacket basePacket = new BasePacket().Deserialize(buffer);
-
-                switch (basePacket.packetType)
+                //if (!BasePacket.DataRemainingInBuffer(buffer.Length)) return;
+                while (BasePacket.DataRemainingInBuffer(buffer.Length))
                 {
-                    case PacketType.DeliveryLocation:
-                        //if packet is delivery location
-                        //Extract the buffer data and set the delivery location from this data
-                        LocationHandler.instance.SetDeliveryLocation(new DeliveryLocationPacket().Deserialize(buffer));
-                        Debug.Log($"Delivery Location set: {new DeliveryLocationPacket().Deserialize(buffer)}");
-                        break;
+                    //reading the packet type enum from the buffer
+                    BasePacket basePacket = new BasePacket().Deserialize(buffer);
 
-                    case PacketType.DriverArrived:
-                        WinManager.instance.DeclareWinner(new DriverArrivedPacket().Deserialize(buffer));
-                        Debug.Log($"Driver has arrived {new DriverArrivedPacket().Deserialize(buffer)}");
-                        break;
+                    switch (basePacket.packetType)
+                    {
+                        case PacketType.DeliveryLocation:
+                            //if packet is delivery location
+                            //Extract the buffer data and set the delivery location from this data
+                            onDeliveryAddress(new DeliveryLocationPacket().Deserialize(buffer));
+                            break;
 
-                    case PacketType.DriverHasCollided:
-                        DriverCollisionHandler.instance.TriggerRandomMapRotation(new DriverCollidedPacket().Deserialize(buffer));
-                        Debug.Log($"Driver has collided {new DriverArrivedPacket().Deserialize(buffer)}");
-                        break;
-                    
-                    case PacketType.SpawnEnemy:
-                        NetworkPlayerManager.instance.SpawnEnemyPlayer(new SpawnEnemyPacket().Deserialize(buffer).pos, new SpawnEnemyPacket().Deserialize(buffer).rot);
-                        Debug.Log($"Enemy Driver has spawned in Pos: {new SpawnEnemyPacket().Deserialize(buffer).pos}");
-                        break;
+                        case PacketType.DriverArrived:
+                            onDriverArrived(new DriverArrivedPacket().Deserialize(buffer));
+                            break;
 
-                    case PacketType.UpdateEnemyPos:
-                        onMove(new UpdateEnemyTransformPacket().Deserialize(buffer).pos, new UpdateEnemyTransformPacket().Deserialize(buffer).rot);
-                        //NetworkPlayerManager.instance.UpdateEnemyTransform(new UpdateEnemyTransformPacket().Deserialize(buffer).pos, new UpdateEnemyTransformPacket().Deserialize(buffer).rot);
-                        break;
+                        case PacketType.DriverHasCollided:
+                            onDriverCollision(new DriverCollidedPacket().Deserialize(buffer));
+                            break;
 
-                    //case PacketType.WheelRot:
-                    //    onWheelSpeed(new WheelRotationPacket().Deserialize(buffer));
-                    //    break;
+                        case PacketType.SpawnEnemy:
+                            onEnemySpawn(new SpawnEnemyPacket().Deserialize(buffer));
+                            break;
 
-                    //Fix this not working on Update only on Late Update
-                    case PacketType.FrontWheelHolderRot:
-                        Debug.Log("Receiving Holder rot");
-                        onWheelHolderRot(new FrontWheelHolderPacket().Deserialize(buffer));
-                        //NetworkPlayerManager.instance.UpdateEnemyFrontWheelHolder(new FrontWheelHolderPacket().Deserialize(buffer));
-                        break;
+                        case PacketType.UpdateEnemyProperties:
+                            onMove(new EnemyPropertiesPacket().Deserialize(buffer));
+                            break;
+                    }
                 }
             }
             catch (SocketException ex)
@@ -119,31 +114,15 @@ public class Client : MonoBehaviour
         }
     }
 
-    public void SendPacket(BasePacket packet)
+    public void SendPacket(byte[] buffer)
     {
         try
         {
-            clientSocket.Send(packet.ByteBuffer);
+            clientSocket.Send(buffer);
         }
         catch (SocketException ex)
         {
             Debug.Log("Failed to send packet");
         }
     }
-
-
-    //public new void SendMessage(string message)
-    //{
-    //    try
-    //    {
-    //        MessagePacket packet = new MessagePacket(message);
-    //        //sending a packet type int
-    //        //sending a message string
-    //        clientSocket.Send(packet.ByteBuffer);
-    //    }
-    //    catch (SocketException ex)
-    //    {
-    //        Debug.Log("Failed to get BUffer");
-    //    }
-    //}
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     [Header("Car Animation")]
-    [SerializeField] Transform[] frontWheelHolder;
+    [SerializeField] Transform flWheelHolder, frWheelHolder;
     [SerializeField] Transform[] wheels;
     [SerializeField] float wheelRotationMultiplier;
 
@@ -16,15 +16,19 @@ public class EnemyManager : MonoBehaviour
     public Rigidbody rb => GetComponent<Rigidbody>();
     #endregion
 
-    #region Pos & Rot Setters
-    public void UpdatePosition(Vector3 position)
+    #region Setters
+    public void SetProperties(Vector3 position, Quaternion rot, float wheelSpeed, Quaternion flWheelRot, Quaternion frWheelRot)
     {
         transform.position = position;
-    }
+        transform.rotation = rot;
 
-    public void UpdateRotation(Quaternion rotation)
-    {
-        transform.rotation = rotation;
+        for (int i = 0; i < wheels.Length; i++)
+        {
+            wheels[i].Rotate(wheelSpeed, 0f, 0f);
+        }
+
+        flWheelHolder.localRotation = flWheelRot;
+        frWheelHolder.localRotation = frWheelRot;
     }
     #endregion
 
@@ -55,26 +59,4 @@ public class EnemyManager : MonoBehaviour
 
         //RotateCarWheels(speed);
     }
-
-    public void RotateCarWheels(float speed)
-    {
-        for (int i = 0; i < wheels.Length; i++)
-        {
-            wheels[i].Rotate(speed, 0f, 0f);
-        }
-        Debug.Log($"Received Speed {speed}");
-    }
-
-    #region CarAnimation Setters
-
-    public void FronWheelsHolderRotation(Quaternion rotation)
-    {
-        Debug.Log($"Received rotations {rotation}");
-
-        for (int i = 0; i < frontWheelHolder.Length; i++)
-        {
-            frontWheelHolder[i].transform.localRotation = rotation;
-        }
-    }
-    #endregion
 }

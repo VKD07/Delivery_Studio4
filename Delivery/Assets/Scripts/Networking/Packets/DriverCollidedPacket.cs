@@ -5,29 +5,26 @@ using UnityEngine;
 
 public class DriverCollidedPacket : BasePacket
 {
-    bool hasCollided;
+    public bool hasCollided;
     public DriverCollidedPacket() { }
-    public DriverCollidedPacket(bool hasCollided)
+    public DriverCollidedPacket(bool hasCollided) : base(PacketType.DriverHasCollided)
     {
-        packetType = PacketType.DriverHasCollided;
         this.hasCollided = hasCollided;
-        base.Serialize();
-        Serialize();
-
     }
 
-    protected new void Serialize()
+    public byte[] Serialize()
     {
+        BeginSerialize();
         binaryWriter.Write(hasCollided);
+        return EndSerialize();
     }
 
     //reads the buffer
-    public new bool Deserialize(byte[] buffer)
+    public new DriverCollidedPacket Deserialize(byte[] buffer)
     {
-        dms = new MemoryStream(buffer);
-        binaryReader = new BinaryReader(dms);
-        int packetType = binaryReader.ReadInt32();
-        bool hasCollided = binaryReader.ReadBoolean();
-        return hasCollided;
+        BeginDeserialize(buffer);
+        hasCollided = binaryReader.ReadBoolean();
+        EndDeserialize();
+        return this;
     }
 }

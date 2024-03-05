@@ -32,44 +32,27 @@ public class NetworkPlayerManager : MonoBehaviour
     #region Subscribe Unsubscribe Events
     private void OnEnable()
     {
-        Client.instance.onMove += UpdateEnemyTransform;
-        Client.instance.onWheelHolderRot += UpdateEnemyFrontWheelHolder;
-        //Client.instance.onWheelSpeed += UpdateWheelRotation;
+        Client.instance.onMove += SetEnemyProperties;
+        Client.instance.onEnemySpawn += SpawnEnemyPlayer;
     }
 
     private void OnDisable()
     {
-        Client.instance.onMove -= UpdateEnemyTransform;
-        Client.instance.onWheelHolderRot -= UpdateEnemyFrontWheelHolder;
-        //Client.instance.onWheelSpeed -= UpdateWheelRotation;
+        Client.instance.onMove -= SetEnemyProperties;
+        Client.instance.onEnemySpawn -= SpawnEnemyPlayer;
     }
     #endregion
 
     #region Spawn and Pos
-    public void SpawnEnemyPlayer(Vector3 spawnPoint, Quaternion rotation)
+    public void SpawnEnemyPlayer(SpawnEnemyPacket packet)
     {
-        GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnPoint, rotation);
+        GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, packet.pos, Quaternion.identity);
         enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
     }
 
-    public void UpdateEnemyTransform(Vector3 position, Quaternion rotation)
+    public void SetEnemyProperties(EnemyPropertiesPacket packet)
     {
-        enemyManager?.UpdatePosition(position);
-        enemyManager?.UpdateRotation(rotation);
-    }
-    #endregion
-
-    #region Car Animation
-
-
-    public void UpdateEnemyFrontWheelHolder(Quaternion frontWheelHolder)
-    {
-        enemyManager?.FronWheelsHolderRotation(frontWheelHolder);
-    }
-
-    public void UpdateWheelRotation(float wheelSpeed)
-    {
-        enemyManager?.RotateCarWheels(wheelSpeed);
+        enemyManager?.SetProperties(packet.pos, packet.rot, packet.wheelSpeed, packet.flWheelHolderRot, packet.frWheelHolderRot);
     }
     #endregion
 }

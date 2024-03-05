@@ -6,29 +6,26 @@ using UnityEngine.Experimental.AI;
 
 public class DeliveryLocationPacket : BasePacket
 {
-    string buildingName;
+   public string buildingName { get; private set; }
    public DeliveryLocationPacket() { }
-   public DeliveryLocationPacket(string buildingName)
+   public DeliveryLocationPacket(string buildingName) : base(PacketType.DeliveryLocation)
     {
-        packetType = PacketType.DeliveryLocation;
         this.buildingName = buildingName;
-
-        base.Serialize();
-        Serialize();
     }
 
-    protected new void Serialize()
+    public byte [] Serialize()
     {
+        BeginSerialize();
         binaryWriter.Write(buildingName);
+        return EndSerialize();
     }
 
     //reads string from buffer
-    public new string Deserialize(byte[] buffer)
+    public new DeliveryLocationPacket Deserialize(byte[] buffer)
     {
-        dms = new MemoryStream(buffer);
-        binaryReader = new BinaryReader(dms);
-        int packetType = binaryReader.ReadInt32();
-        string buildingName = binaryReader.ReadString();
-        return buildingName;
+        BeginDeserialize(buffer);
+        buildingName = binaryReader.ReadString();
+        EndDeserialize();
+        return this;
     }
 }

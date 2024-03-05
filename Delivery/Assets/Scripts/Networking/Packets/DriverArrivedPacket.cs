@@ -6,29 +6,26 @@ using UnityEngine;
 
 public class DriverArrivedPacket : BasePacket
 {
-    bool hasArrived;
+    public bool hasArrived { get; private set; }
 
     public DriverArrivedPacket() { }
-    public DriverArrivedPacket(bool hasArrived)
+    public DriverArrivedPacket(bool hasArrived) : base(PacketType.DriverArrived)
     {
-        packetType = PacketType.DriverArrived;
         this.hasArrived = hasArrived;
-        base.Serialize();
-        Serialize();
     }
 
-    protected new void Serialize()
+    public byte[] Serialize()
     {
+        BeginSerialize();
         binaryWriter.Write(hasArrived);
+        return EndSerialize();
     }
 
-    //reads string from buffer
-    public new bool Deserialize(byte[] buffer)
+    public new DriverArrivedPacket Deserialize(byte[] buffer)
     {
-        dms = new MemoryStream(buffer);
-        binaryReader = new BinaryReader(dms);
-        int packetType = binaryReader.ReadInt32();
-        bool hasArrived = binaryReader.ReadBoolean();
-        return hasArrived;
+        BeginDeserialize(buffer);
+        hasArrived = binaryReader.ReadBoolean();
+        EndDeserialize();
+        return this;
     }
 }

@@ -22,14 +22,16 @@ public class DriverPlacement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// If Driver Has arrived then Trigger win
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            Client.instance.SendPacket(new DriverArrivedPacket(true));
-            WinManager.instance.DeclareWinner(true);
+            Client.instance.SendPacket(new DriverArrivedPacket(true).Serialize());
+            WinManager.instance?.DeclareWinner(true);
         }
     }
-
-
 }
