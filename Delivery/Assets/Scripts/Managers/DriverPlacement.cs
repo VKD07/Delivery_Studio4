@@ -30,7 +30,11 @@ public class DriverPlacement : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Client.instance.SendPacket(new DriverArrivedPacket(true).Serialize());
+            using (DriverArrivedPacket packet = new DriverArrivedPacket(true))
+            {
+                Client.instance?.SendPacket(packet.Serialize());
+            }
+            //Client.instance.SendPacket(new DriverArrivedPacket(true).Serialize());
             WinManager.instance?.DeclareWinner(true);
         }
     }

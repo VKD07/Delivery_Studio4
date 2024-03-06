@@ -8,6 +8,9 @@ public class WinManager : MonoBehaviour
 
     [SerializeField] GameObject WinPanel;
 
+    #region private var
+    Client client;
+    #endregion
     private void Awake()
     {
         if (instance == null)
@@ -18,16 +21,18 @@ public class WinManager : MonoBehaviour
         {
             Destroy(this);
         }
+        client = Client.instance;
     }
-
     private void OnEnable()
     {
-        Client.instance.onDriverArrived += DeclareWinner;
+        if (client == null) return;
+        client.onDriverArrived += DeclareWinner;
     }
 
     private void OnDisable()
     {
-        Client.instance.onDriverArrived -= DeclareWinner;
+        if (client == null) return;
+        client.onDriverArrived -= DeclareWinner;
     }
 
     public void DeclareWinner(DriverArrivedPacket packet)

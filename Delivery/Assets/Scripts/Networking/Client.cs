@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Net;
 using UnityEngine;
-using Unity.VisualScripting;
+using System;
 
 public class Client : MonoBehaviour
 {
@@ -11,6 +11,7 @@ public class Client : MonoBehaviour
 
     Socket clientSocket;
     bool connected;
+
     public delegate void OnMessageReceived(string message);
     public event OnMessageReceived onMessageReceived;
 
@@ -43,7 +44,6 @@ public class Client : MonoBehaviour
         }
     }
 
-
     public void ConnectToServer(string ipAddress)
     {
         //creatign a socket for the client
@@ -55,7 +55,6 @@ public class Client : MonoBehaviour
         connected = true;
 
         Debug.Log($"Successfully connected to {ipAddress} in port 3000");
-
     }
 
     private void Update()
@@ -74,42 +73,43 @@ public class Client : MonoBehaviour
                 clientSocket.Receive(buffer);
                 //do events and delegates instead. let Message txt update when message is being received.
                 //onMessageReceived.Invoke(Encoding.ASCII.GetString(buffer));
-
                 //if (!BasePacket.DataRemainingInBuffer(buffer.Length)) return;
                 while (BasePacket.DataRemainingInBuffer(buffer.Length))
                 {
                     //reading the packet type enum from the buffer
-                    BasePacket basePacket = new BasePacket().Deserialize(buffer);
-
-                    switch (basePacket.packetType)
+                    //BasePacket basePacket = new BasePacket().Deserialize(buffer);
+                    using (BasePacket basePacket = new BasePacket().Deserialize(buffer))
                     {
-                        case PacketType.DeliveryLocation:
-                            //if packet is delivery location
-                            //Extract the buffer data and set the delivery location from this data
-                            onDeliveryAddress(new DeliveryLocationPacket().Deserialize(buffer));
-                            break;
+                        switch (basePacket.packetType)
+                        {
+                            case PacketType.DeliveryLocation:
+                                //if packet is delivery location
+                                //Extract the buffer data and set the delivery location from this data
+                                onDeliveryAddress(new DeliveryLocationPacket().Deserialize(buffer));
+                                break;
 
-                        case PacketType.DriverArrived:
-                            onDriverArrived(new DriverArrivedPacket().Deserialize(buffer));
-                            break;
+                            case PacketType.DriverArrived:
+                                onDriverArrived(new DriverArrivedPacket().Deserialize(buffer));
+                                break;
 
-                        case PacketType.DriverHasCollided:
-                            onDriverCollision(new DriverCollidedPacket().Deserialize(buffer));
-                            break;
+                            case PacketType.DriverHasCollided:
+                                try { onDriverCollision(new DriverCollidedPacket().Deserialize(buffer)); } catch (Exception) { }
+                                break;
 
-                        case PacketType.SpawnEnemy:
-                            onEnemySpawn(new SpawnEnemyPacket().Deserialize(buffer));
-                            break;
+                            case PacketType.SpawnEnemy:
+                                onEnemySpawn(new SpawnEnemyPacket().Deserialize(buffer));
+                                break;
 
-                        case PacketType.UpdateEnemyProperties:
-                            onMove(new EnemyPropertiesPacket().Deserialize(buffer));
-                            break;
+                            case PacketType.UpdateEnemyProperties:
+                                onMove(new EnemyPropertiesPacket().Deserialize(buffer));
+                                break;
+                        }
                     }
+
                 }
             }
             catch (SocketException ex)
             {
-
             }
         }
     }

@@ -17,7 +17,7 @@ public enum PacketType
     UpdateEnemyProperties = 6,
 }
 
-public class BasePacket
+public class BasePacket : IDisposable
 {
     //for binary writing
     protected MemoryStream sms; //protected
@@ -34,6 +34,7 @@ public class BasePacket
     public BasePacket()
     {
         dms = null;
+        sms = null;
         binaryWriter = null;
         binaryReader = null;
     }
@@ -54,7 +55,6 @@ public class BasePacket
     {
         packetSize = (int)sms.Length + 4; //setting the packet size to tell how much buffer size we have
         binaryWriter.Write(packetSize); //writing the packet size
-        Debug.Log(packetSize);
         return sms.ToArray();
     }
 
@@ -82,10 +82,18 @@ public class BasePacket
     public static bool DataRemainingInBuffer(int bufferSize)
     {
         if (currentBufferPosition < bufferSize)
-    {
-        return true;
+        {
+            return true;
+        }
+        currentBufferPosition = 0;
+        return false;
     }
-    currentBufferPosition = 0;
-    return false;
+
+    public virtual void Dispose()
+    {
+        sms?.Dispose();
+        binaryWriter?.Dispose();
+        dms?.Dispose();
+        binaryReader?.Dispose();
     }
 }

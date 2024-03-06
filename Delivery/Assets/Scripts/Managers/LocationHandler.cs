@@ -10,6 +10,9 @@ public class LocationHandler : MonoBehaviour
 {
     public static LocationHandler instance;
 
+    #region Private Vars
+    Client client;
+    #endregion
     private void Awake()
     {
         if(instance == null)
@@ -19,16 +22,19 @@ public class LocationHandler : MonoBehaviour
         {
             Destroy(this);
         }
+        client = Client.instance;
     }
 
     private void OnEnable()
     {
-        Client.instance.onDeliveryAddress += SetDeliveryLocation;
+        if (client == null) return;
+        client.onDeliveryAddress += SetDeliveryLocation;
     }
 
     private void OnDisable()
     {
-        Client.instance.onDeliveryAddress -= SetDeliveryLocation;
+        if (client == null) return;
+        client.onDeliveryAddress -= SetDeliveryLocation;
     }
 
     [SerializeField] GameObject[] deliveryLocations;

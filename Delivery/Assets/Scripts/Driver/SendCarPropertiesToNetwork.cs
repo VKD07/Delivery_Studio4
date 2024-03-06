@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class SendCarPropertiesToNetwork : MonoBehaviour
@@ -14,14 +15,24 @@ public class SendCarPropertiesToNetwork : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P) && !hasSpawned)
         {
             hasSpawned = true;
-            Client.instance?.SendPacket(new SpawnEnemyPacket(transform.position).Serialize());
+
+            using (SpawnEnemyPacket packet = new SpawnEnemyPacket(transform.position))
+            {
+                Client.instance?.SendPacket(packet.Serialize());
+            }
+            //Client.instance?.SendPacket(new SpawnEnemyPacket(transform.position).Serialize());
             Debug.Log("Has spawned enemy");
         }
 
         if (hasSpawned)
         {
-            Client.instance?.SendPacket(new EnemyPropertiesPacket(transform.position, transform.rotation,
-                carAnimation.GetWheelSpeed, flWheelHolder.localRotation, frWheelHolder.localRotation).Serialize());
+            using (EnemyPropertiesPacket packet = new EnemyPropertiesPacket(transform.position, transform.rotation,
+                carAnimation.GetWheelSpeed, flWheelHolder.localRotation, frWheelHolder.localRotation))
+            {
+                Client.instance.SendPacket(packet.Serialize());
+            }
+            //Client.instance?.SendPacket(new EnemyPropertiesPacket(transform.position, transform.rotation,
+            //    carAnimation.GetWheelSpeed, flWheelHolder.localRotation, frWheelHolder.localRotation).Serialize());
         }
     }
 }

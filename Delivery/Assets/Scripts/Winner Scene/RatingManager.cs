@@ -52,7 +52,6 @@ public class RatingManager : MonoBehaviour
     public void SendRating()
     {
         hasRated = true;
-
         //TODO: Send Rating Packet to your partner
     }
 }

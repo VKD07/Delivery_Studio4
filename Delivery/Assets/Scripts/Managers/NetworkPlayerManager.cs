@@ -13,6 +13,10 @@ public class NetworkPlayerManager : MonoBehaviour
     [SerializeField] GameObject enemyPlayerPrefab;
     EnemyManager enemyManager;
 
+    #region 
+    Client client;
+    #endregion
+
     #region Getter
     public EnemyManager GetEnemyManager => enemyManager;
     #endregion
@@ -27,26 +31,30 @@ public class NetworkPlayerManager : MonoBehaviour
         {
             Destroy(this);
         }
+        client = Client.instance;
     }
 
     #region Subscribe Unsubscribe Events
     private void OnEnable()
     {
-        Client.instance.onMove += SetEnemyProperties;
-        Client.instance.onEnemySpawn += SpawnEnemyPlayer;
+        if (client == null) return;
+        client.onMove += SetEnemyProperties;
+        client.onEnemySpawn += SpawnEnemyPlayer;
     }
 
     private void OnDisable()
     {
-        Client.instance.onMove -= SetEnemyProperties;
-        Client.instance.onEnemySpawn -= SpawnEnemyPlayer;
+        if (client == null) return;
+        client.onMove -= SetEnemyProperties;
+        client.onEnemySpawn -= SpawnEnemyPlayer;
     }
     #endregion
 
     #region Spawn and Pos
-    public void SpawnEnemyPlayer(SpawnEnemyPacket packet)
+    public void SpawnEnemyPlayer(SpawnEnemyPacket spawnEnemyPacket)
     {
-        GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, packet.pos, Quaternion.identity);
+        Debug.Log("Location Received");
+        GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnEnemyPacket.pos, Quaternion.identity);
         enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
     }
 
@@ -54,5 +62,18 @@ public class NetworkPlayerManager : MonoBehaviour
     {
         enemyManager?.SetProperties(packet.pos, packet.rot, packet.wheelSpeed, packet.flWheelHolderRot, packet.frWheelHolderRot);
     }
+
+    //public void SetEnemyProperties(Vector3 pos, Quaternion rot, float wheelSpeed, Quaternion flRot, Quaternion frRot)
+    //{
+    //    enemyManager?.SetProperties(pos, rot, wheelSpeed, flRot, frRot);
+    //}
+
+    //public void SpawnEnemyPlayer(Vector3 pos)
+    //{
+    //    Debug.Log("Location Received");
+    //    //SpawnEnemyPacket spawnEnemyPacket = (SpawnEnemyPacket)packet;
+    //    GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, pos, Quaternion.identity);
+    //    enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
+    //}
     #endregion
 }

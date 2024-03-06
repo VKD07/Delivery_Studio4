@@ -69,4 +69,6 @@ public class EnemyPropertiesPacket : BasePacket
         EndDeserialize();
         return this;
     }
+
+    public override void Dispose() => base.Dispose();
 }

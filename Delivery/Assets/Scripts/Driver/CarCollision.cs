@@ -6,7 +6,10 @@ public class CarCollision : MonoBehaviour
 {
     private void OnCollisionEnter(Collision collision)
     {
-        Client.instance?.SendPacket(new DriverCollidedPacket(true).Serialize());
+        using(DriverCollidedPacket packet = new DriverCollidedPacket(true))
+        {
+            Client.instance?.SendPacket(packet.Serialize());
+        }
         Debug.Log("Driver has collided something");
     }
 }
