@@ -8,7 +8,8 @@ public class SpawnEnemyPacket : BasePacket
     public Vector3 pos;
 
     public SpawnEnemyPacket(){}
-    public SpawnEnemyPacket(Vector3 pos): base(PacketType.SpawnEnemy)
+    public SpawnEnemyPacket(Vector3 pos, PlayerData playerData) 
+        : base(PacketType.SpawnEnemy, playerData)
     {
         this.pos = pos;
     }

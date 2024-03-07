@@ -9,7 +9,8 @@ public class DriverArrivedPacket : BasePacket
     public bool hasArrived { get; private set; }
 
     public DriverArrivedPacket() { }
-    public DriverArrivedPacket(bool hasArrived) : base(PacketType.DriverArrived)
+    public DriverArrivedPacket(bool hasArrived, PlayerData playerData) :
+        base(PacketType.DriverArrived, playerData)
     {
         this.hasArrived = hasArrived;
     }

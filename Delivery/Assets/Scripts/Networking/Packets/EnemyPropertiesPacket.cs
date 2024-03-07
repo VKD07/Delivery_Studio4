@@ -16,8 +16,8 @@ public class EnemyPropertiesPacket : BasePacket
 
 
     public EnemyPropertiesPacket() { }
-    public EnemyPropertiesPacket(Vector3 pos, Quaternion rot, float wheelSpeed, Quaternion flWheelHolderRot, Quaternion frWheelHolderRot)
-        : base(PacketType.UpdateEnemyProperties)
+    public EnemyPropertiesPacket(Vector3 pos, Quaternion rot, float wheelSpeed, Quaternion flWheelHolderRot, Quaternion frWheelHolderRot, PlayerData playerData)
+        : base(PacketType.UpdateEnemyProperties, playerData)
     {
         this.pos = pos;
         this.rot = rot;

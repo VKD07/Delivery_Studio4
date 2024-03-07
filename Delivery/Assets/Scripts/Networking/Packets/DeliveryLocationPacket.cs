@@ -8,7 +8,8 @@ public class DeliveryLocationPacket : BasePacket
 {
    public string buildingName { get; private set; }
    public DeliveryLocationPacket() { }
-   public DeliveryLocationPacket(string buildingName) : base(PacketType.DeliveryLocation)
+   public DeliveryLocationPacket(string buildingName, PlayerData playerData) 
+        : base(PacketType.DeliveryLocation, playerData)
     {
         this.buildingName = buildingName;
     }

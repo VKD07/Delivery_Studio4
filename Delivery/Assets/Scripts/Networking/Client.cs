@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Net;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 public class Client : MonoBehaviour
 {
@@ -14,6 +15,11 @@ public class Client : MonoBehaviour
 
     public delegate void OnMessageReceived(string message);
     public event OnMessageReceived onMessageReceived;
+
+    #region Lobby Events
+    public delegate void OnLobbyJoined(JoinServerPacket packet);
+    public event OnLobbyJoined onLobbyJoined;
+    #endregion
 
     public delegate void SendDeliveryAddress(DeliveryLocationPacket packet);
     public event SendDeliveryAddress onDeliveryAddress;
@@ -30,6 +36,7 @@ public class Client : MonoBehaviour
     public delegate void OnMove(EnemyPropertiesPacket packet);
     public event OnMove onMove;
 
+    public PlayerData playerData;
 
     private void Awake()
     {
@@ -44,8 +51,10 @@ public class Client : MonoBehaviour
         }
     }
 
-    public void ConnectToServer(string ipAddress)
+    //TODO : Input player data
+    public void ConnectToServer(string ipAddress, string playerName, string partnerName, GameRole role)
     {
+        Client.instance.playerData = new PlayerData(playerName, partnerName, role);
         //creatign a socket for the client
         clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
@@ -55,6 +64,9 @@ public class Client : MonoBehaviour
         connected = true;
 
         Debug.Log($"Successfully connected to {ipAddress} in port 3000");
+        Debug.Log($"PlayerName: {playerData.name}");
+        Debug.Log($"PartnerName: {playerData.partnerName}");
+        Debug.Log($"Game Role: {playerData.role}");
     }
 
     private void Update()
@@ -82,6 +94,13 @@ public class Client : MonoBehaviour
                     {
                         switch (basePacket.packetType)
                         {
+                            #region lobby packets
+                            case PacketType.HasJoinedLobby:
+                                Debug.Log("joined lobby packet received");
+                                onLobbyJoined(new JoinServerPacket().Deserialize(buffer));
+                                break;
+                            #endregion
+
                             case PacketType.DeliveryLocation:
                                 //if packet is delivery location
                                 //Extract the buffer data and set the delivery location from this data

@@ -38,7 +38,7 @@ public class DeliveryLocationSetter : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            using(DeliveryLocationPacket packet = new DeliveryLocationPacket(chosenBuilding))
+            using(DeliveryLocationPacket packet = new DeliveryLocationPacket(chosenBuilding, Client.instance.playerData))
             {
                 Client.instance?.SendPacket(packet.Serialize());
             }

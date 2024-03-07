@@ -8,13 +8,18 @@ public enum PacketType
 {
     None = 0,
     Message = 1,
+
     //Game play packets
     DeliveryLocation = 2,
     DriverArrived = 3,
     DriverHasCollided = 4,
+
     //Sending PlayerPos
     SpawnEnemy = 5,
     UpdateEnemyProperties = 6,
+
+    //Lobby Packet
+    HasJoinedLobby = 7,
 }
 
 public class BasePacket : IDisposable
@@ -31,17 +36,18 @@ public class BasePacket : IDisposable
     public int packetSize { get; private set; }
     public static int currentBufferPosition;
 
+    public PlayerData playerData { get; private set; }
+
     public BasePacket()
     {
-        dms = null;
-        sms = null;
-        binaryWriter = null;
-        binaryReader = null;
+        packetType = PacketType.None;
+        playerData = null;
     }
 
-    public BasePacket(PacketType packetType)
+    public BasePacket(PacketType packetType, PlayerData playerData)
     {
         this.packetType = packetType;
+        this.playerData = playerData;
     }
 
     protected void BeginSerialize()
@@ -49,6 +55,11 @@ public class BasePacket : IDisposable
         sms = new MemoryStream();
         binaryWriter = new BinaryWriter(sms);
         binaryWriter.Write((int)packetType);
+
+        //writing the player data
+        binaryWriter.Write(playerData.name);
+        binaryWriter.Write(playerData.partnerName);
+        binaryWriter.Write((int)playerData.role);
     }
 
     protected byte[] EndSerialize()
@@ -70,7 +81,9 @@ public class BasePacket : IDisposable
         dms.Seek(currentBufferPosition, SeekOrigin.Begin); //making sure to read in a position starting from the index where the unread bytes are
         binaryReader = new BinaryReader(dms);
         packetType = (PacketType)binaryReader.ReadInt32();
-        //create new playerData here
+
+        //reading player data
+        playerData = new PlayerData(binaryReader.ReadString(), binaryReader.ReadString(), (GameRole)binaryReader.ReadInt32());
     }
 
     protected void EndDeserialize()

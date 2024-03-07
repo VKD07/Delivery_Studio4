@@ -16,7 +16,7 @@ public class SendCarPropertiesToNetwork : MonoBehaviour
         {
             hasSpawned = true;
 
-            using (SpawnEnemyPacket packet = new SpawnEnemyPacket(transform.position))
+            using (SpawnEnemyPacket packet = new SpawnEnemyPacket(transform.position, Client.instance.playerData))
             {
                 Client.instance?.SendPacket(packet.Serialize());
             }
@@ -27,7 +27,7 @@ public class SendCarPropertiesToNetwork : MonoBehaviour
         if (hasSpawned)
         {
             using (EnemyPropertiesPacket packet = new EnemyPropertiesPacket(transform.position, transform.rotation,
-                carAnimation.GetWheelSpeed, flWheelHolder.localRotation, frWheelHolder.localRotation))
+                carAnimation.GetWheelSpeed, flWheelHolder.localRotation, frWheelHolder.localRotation, Client.instance.playerData))
             {
                 Client.instance.SendPacket(packet.Serialize());
             }

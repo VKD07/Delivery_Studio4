@@ -7,7 +7,8 @@ public class DriverCollidedPacket : BasePacket
 {
     public bool hasCollided;
     public DriverCollidedPacket() { }
-    public DriverCollidedPacket(bool hasCollided) : base(PacketType.DriverHasCollided)
+    public DriverCollidedPacket(bool hasCollided, PlayerData playerData) 
+        : base(PacketType.DriverHasCollided, playerData)
     {
         this.hasCollided = hasCollided;
     }

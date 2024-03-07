@@ -30,7 +30,7 @@ public class DriverPlacement : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            using (DriverArrivedPacket packet = new DriverArrivedPacket(true))
+            using (DriverArrivedPacket packet = new DriverArrivedPacket(true, Client.instance.playerData))
             {
                 Client.instance?.SendPacket(packet.Serialize());
             }
