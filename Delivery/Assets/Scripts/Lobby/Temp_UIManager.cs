@@ -1,25 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Temp_UIManager : MonoBehaviour
 {
     [SerializeField] TMP_InputField playerName;
     [SerializeField] TMP_InputField ipAddressInput;
-    public void ChooseDriver()
+    [SerializeField] Button joinServerBtn;
+    [SerializeField] GameObject logInPanel, lobbyPanel;
+    [SerializeField] PlayerLobbyManager playerLobbyManager;
+
+    private void Awake()
     {
-        Client.instance.ConnectToServer(ipAddressInput.text, playerName.text, "", GameRole.Driver);
-        //SceneManager.LoadScene(1);
+        logInPanel.SetActive(true);
+        lobbyPanel.SetActive(false);
+        joinServerBtn.onClick.AddListener(JoinServer);
     }
 
-    public void ChooseNavigator()
+    public void JoinServer()
     {
-        Client.instance.ConnectToServer(ipAddressInput.text, playerName.text, "", GameRole.Navigator);
-        //SceneManager.LoadScene(2);
-
-
-
+        try
+        {
+            Client.instance.ConnectToServer(ipAddressInput.text, playerName.text, 0, GameRole.None);
+            playerLobbyManager.SendJoinLobbyPacket();
+            logInPanel.SetActive(false);
+            lobbyPanel.SetActive(true);
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("Failed to connect to server");
+        }
+    
     }
 }

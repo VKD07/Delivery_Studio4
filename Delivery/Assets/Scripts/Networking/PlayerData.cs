@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class PlayerData
 {
-    public string name { get; private set; }
-    public string partnerName { get; private set; }
+    public string name { get; set; }
+    public int teamNumber { get; set; }
     
-    public GameRole role { get; private set; }
+    public GameRole role { get; set; }
 
-    public PlayerData(string name, string partnerName, GameRole role)
+    public PlayerData(string name, int teamNumber, GameRole role)
     {
         this.name = name;
-        this.partnerName = partnerName;
+        this.teamNumber = teamNumber;
         this.role = role;
     }
 }
@@ -21,6 +21,7 @@ public class PlayerData
 [Serializable]
 public enum GameRole
 {
+    None = 0,
     Driver,
     Navigator
 }

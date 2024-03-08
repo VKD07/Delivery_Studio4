@@ -4,9 +4,9 @@ using System.Net.Http;
 using UnityEngine;
 
 [RequireComponent(typeof(LobbyUIManager))]
-public class LobbyManager : MonoBehaviour
+public class PlayerLobbyManager : MonoBehaviour
 {
-    public static LobbyManager instance;
+    public static PlayerLobbyManager instance;
     public List<string> listOfPlayerNames = new List<string>();
     public LobbyUIManager lobbyUIManager => GetComponent<LobbyUIManager>();
     public Client client;
@@ -44,7 +44,6 @@ public class LobbyManager : MonoBehaviour
     public void UpdatePlayerListAndSendNameToNetwork(JoinServerPacket packet)
     {
         AddPlayerToTheList(packet.playerData.name);
-        SendJoinLobbyPacket();
     }
 
     void AddPlayerToTheList(string playerName)
@@ -53,6 +52,7 @@ public class LobbyManager : MonoBehaviour
         {
             listOfPlayerNames.Add(playerName);
             lobbyUIManager.SetNameToPlayerList(playerName);
+            SendJoinLobbyPacket();
         }
     }
 }

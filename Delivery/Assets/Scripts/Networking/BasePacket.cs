@@ -20,6 +20,8 @@ public enum PacketType
 
     //Lobby Packet
     HasJoinedLobby = 7,
+    TeamAndRole = 8,
+    ChangeTeam = 9
 }
 
 public class BasePacket : IDisposable
@@ -58,7 +60,7 @@ public class BasePacket : IDisposable
 
         //writing the player data
         binaryWriter.Write(playerData.name);
-        binaryWriter.Write(playerData.partnerName);
+        binaryWriter.Write(playerData.teamNumber);
         binaryWriter.Write((int)playerData.role);
     }
 
@@ -83,7 +85,7 @@ public class BasePacket : IDisposable
         packetType = (PacketType)binaryReader.ReadInt32();
 
         //reading player data
-        playerData = new PlayerData(binaryReader.ReadString(), binaryReader.ReadString(), (GameRole)binaryReader.ReadInt32());
+        playerData = new PlayerData(binaryReader.ReadString(), binaryReader.ReadInt32(), (GameRole)binaryReader.ReadInt32());
     }
 
     protected void EndDeserialize()

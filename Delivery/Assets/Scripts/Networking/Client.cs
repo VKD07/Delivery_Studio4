@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.Sockets;
-using System.Net;
-using UnityEngine;
 using System;
-using Unity.VisualScripting;
+using System.Net;
+using System.Net.Sockets;
+using UnityEngine;
 
 public class Client : MonoBehaviour
 {
@@ -19,6 +16,12 @@ public class Client : MonoBehaviour
     #region Lobby Events
     public delegate void OnLobbyJoined(JoinServerPacket packet);
     public event OnLobbyJoined onLobbyJoined;
+
+    public delegate void PlayerTeamAndRole(TeamAndRolePacket packet);
+    public event PlayerTeamAndRole onPlayerTeamAndRole;
+
+    public delegate void OnChangeTeam(ChangeTeamPacket packet);
+    public event OnChangeTeam onChangeTeam;
     #endregion
 
     public delegate void SendDeliveryAddress(DeliveryLocationPacket packet);
@@ -52,9 +55,9 @@ public class Client : MonoBehaviour
     }
 
     //TODO : Input player data
-    public void ConnectToServer(string ipAddress, string playerName, string partnerName, GameRole role)
+    public void ConnectToServer(string ipAddress, string playerName, int teamNum, GameRole role)
     {
-        Client.instance.playerData = new PlayerData(playerName, partnerName, role);
+        playerData = new PlayerData(playerName, teamNum, role);
         //creatign a socket for the client
         clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
@@ -65,7 +68,7 @@ public class Client : MonoBehaviour
 
         Debug.Log($"Successfully connected to {ipAddress} in port 3000");
         Debug.Log($"PlayerName: {playerData.name}");
-        Debug.Log($"PartnerName: {playerData.partnerName}");
+        Debug.Log($"PartnerName: {playerData.teamNumber}");
         Debug.Log($"Game Role: {playerData.role}");
     }
 
@@ -96,8 +99,15 @@ public class Client : MonoBehaviour
                         {
                             #region lobby packets
                             case PacketType.HasJoinedLobby:
-                                Debug.Log("joined lobby packet received");
                                 onLobbyJoined(new JoinServerPacket().Deserialize(buffer));
+                                break;
+
+                            case PacketType.TeamAndRole:
+                                onPlayerTeamAndRole(new TeamAndRolePacket().Deserialize(buffer));
+                                break;
+
+                            case PacketType.ChangeTeam:
+                                onChangeTeam(new ChangeTeamPacket().Deserialize(buffer));
                                 break;
                             #endregion
 
