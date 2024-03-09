@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Client : MonoBehaviour
@@ -22,6 +23,9 @@ public class Client : MonoBehaviour
 
     public delegate void OnChangeTeam(ChangeTeamPacket packet);
     public event OnChangeTeam onChangeTeam;
+
+    public delegate void OnGameStart(GameStartPacket packet);
+    public event OnGameStart onGameStart;
     #endregion
 
     public delegate void SendDeliveryAddress(DeliveryLocationPacket packet);
@@ -109,12 +113,17 @@ public class Client : MonoBehaviour
                             case PacketType.ChangeTeam:
                                 onChangeTeam(new ChangeTeamPacket().Deserialize(buffer));
                                 break;
+
+                            case PacketType.StartGame:
+                                onGameStart(new GameStartPacket().Deserialize(buffer));
+                                break;
                             #endregion
 
+                            #region GamePlay Packets
                             case PacketType.DeliveryLocation:
-                                //if packet is delivery location
+                                //if packet is delivery locations
                                 //Extract the buffer data and set the delivery location from this data
-                                onDeliveryAddress(new DeliveryLocationPacket().Deserialize(buffer));
+                                try { onDeliveryAddress(new DeliveryLocationPacket().Deserialize(buffer)); } catch (Exception) { }
                                 break;
 
                             case PacketType.DriverArrived:
@@ -126,15 +135,15 @@ public class Client : MonoBehaviour
                                 break;
 
                             case PacketType.SpawnEnemy:
-                                onEnemySpawn(new SpawnEnemyPacket().Deserialize(buffer));
+                                try { onEnemySpawn(new SpawnEnemyPacket().Deserialize(buffer)); } catch (Exception) { }
                                 break;
 
                             case PacketType.UpdateEnemyProperties:
-                                onMove(new EnemyPropertiesPacket().Deserialize(buffer));
+                                try { onMove(new EnemyPropertiesPacket().Deserialize(buffer)); } catch (Exception) { }
                                 break;
+                                #endregion
                         }
                     }
-
                 }
             }
             catch (SocketException ex)

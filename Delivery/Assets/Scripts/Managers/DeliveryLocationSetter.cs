@@ -5,7 +5,7 @@ using UnityEngine;
 public class DeliveryLocationSetter : MonoBehaviour
 {
 
-    [SerializeField] GameObject [] deliveryLocations;
+    [SerializeField] GameObject[] deliveryLocations;
     [SerializeField] string glowRingName = "GlowRing";
     int chosenIndex;
 
@@ -32,18 +32,14 @@ public class DeliveryLocationSetter : MonoBehaviour
         if (chosenBuilding == null) return;
         EnableBuildingGlowRing();
         StartCoroutine(LerpBuildingColor());
+
+        StartCoroutine(SendDeliveryLocationToDriverPartner());
     }
 
-    private void Update()
+    IEnumerator SendDeliveryLocationToDriverPartner()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            using(DeliveryLocationPacket packet = new DeliveryLocationPacket(chosenBuilding, Client.instance.playerData))
-            {
-                Client.instance?.SendPacket(packet.Serialize());
-            }
-            //Client.instance?.SendPacket(new DeliveryLocationPacket(chosenBuilding).Serialize());
-        }
+        yield return new WaitForSeconds(2);
+        NetworkSender.instance?.SendDeliveryLocationToDriver(chosenBuilding);
     }
 
     void ChooseDeliveryLocation()

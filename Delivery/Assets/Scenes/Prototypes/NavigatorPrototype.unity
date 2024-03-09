@@ -872,6 +872,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1225906363}
+        m_TargetAssemblyTypeName: MapActivator, Assembly-CSharp
+        m_MethodName: NextMap
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &520108696 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3248753220786168313, guid: 36602e7df14d8754a9d6f7fd68b41b0b,
@@ -1603,6 +1615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WinPanel: {fileID: 9150893996235854206}
+  winnerTxt: {fileID: 1213880647604270946}
 --- !u!114 &894420423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2180,7 +2193,7 @@ MonoBehaviour:
   navControls: {fileID: 11400000, guid: 98e2018e32ea7d34e90b7497488e8a70, type: 2}
   mapsParent: {fileID: 774367607}
   resizeStrength: 0.1
-  mapMaxScaleLimit: 1.6
+  mapMaxScaleLimit: 2
   mapMinScaleLimit: 1
 --- !u!1 &1367972094
 GameObject:
@@ -3565,7 +3578,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DRIVER HAS ARRIVED!
+  m_text: TEAM 1 WINS!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

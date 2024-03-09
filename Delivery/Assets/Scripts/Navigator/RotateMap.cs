@@ -23,11 +23,6 @@ public class RotateMap : MonoBehaviour
     void Update()
     {
         Rotate();
-
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            TriggerRandomRotation();
-        }
     }
 
     private void Rotate()
@@ -54,18 +49,24 @@ public class RotateMap : MonoBehaviour
 
     public void TriggerRandomRotation()
     {
-        int xOry = Random.Range(0, 2);
-        switch (xOry)
-        {
-            case 0:
-                x = Random.Range(0, 180);
-                break;
-            case > 0:
-                y = Random.Range(0, 180);
-                break;
-        }
+        //int xOry = Random.Range(0, 2);
+        //switch (xOry)
+        //{
+        //    case 0:
+        //        x = Random.Range(0, 180);
+        //        mapManager.GetActiveMap.transform.Rotate(x, 0f, 0f, Space.World);
+        //        break;
+        //    case > 0:
+                
+        //        break;
+        //}
+
+        y = Random.Range(0, 180);
+        mapManager.GetActiveMap.transform.Rotate(0, y, 0f);
+
         //mapManager.GetActiveMap.transform.Rotate(new Vector3(x,y,0));
-        mapManager.GetActiveMap.transform.localRotation *= Quaternion.Euler(x, y, 0);
+
+        //mapManager.GetActiveMap.transform.localRotation *= Quaternion.Euler(x, y, 0);
     }
     #endregion
 }

@@ -13,8 +13,11 @@ public class NetworkPlayerManager : MonoBehaviour
     [SerializeField] GameObject enemyPlayerPrefab;
     EnemyManager enemyManager;
 
+    public bool hasSpawned { get; private set; }
+    public int enemySpawnIndex { get; private set; }
+
     #region 
-    Client client;
+    Client thisClient;
     #endregion
 
     #region Getter
@@ -31,49 +34,25 @@ public class NetworkPlayerManager : MonoBehaviour
         {
             Destroy(this);
         }
-        client = Client.instance;
+        thisClient = Client.instance;
     }
-
-    #region Subscribe Unsubscribe Events
-    private void OnEnable()
-    {
-        if (client == null) return;
-        client.onMove += SetEnemyProperties;
-        client.onEnemySpawn += SpawnEnemyPlayer;
-    }
-
-    private void OnDisable()
-    {
-        if (client == null) return;
-        client.onMove -= SetEnemyProperties;
-        client.onEnemySpawn -= SpawnEnemyPlayer;
-    }
-    #endregion
 
     #region Spawn and Pos
-    public void SpawnEnemyPlayer(SpawnEnemyPacket spawnEnemyPacket)
+    public void SpawnEnemyPlayer(PlayerData playerData, Vector3 spawnPos, int spawnIndex)
     {
         Debug.Log("Location Received");
-        GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnEnemyPacket.pos, Quaternion.identity);
+
+        if (playerData.teamNumber == thisClient.playerData.teamNumber) return;
+        GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnPos, Quaternion.identity);
         enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
+        enemySpawnIndex = spawnIndex;
     }
 
-    public void SetEnemyProperties(EnemyPropertiesPacket packet)
+    public void SetEnemyProperties(PlayerData playerData, Vector3 pos, Quaternion rot, float wheelSpeed, Quaternion flWheelHolderRot, Quaternion frWheelHolderRot)
     {
-        enemyManager?.SetProperties(packet.pos, packet.rot, packet.wheelSpeed, packet.flWheelHolderRot, packet.frWheelHolderRot);
+        hasSpawned = true;
+        if (playerData.teamNumber == thisClient.playerData.teamNumber) return;
+        enemyManager?.ReceivePropertiesFromNetwork(pos, rot, wheelSpeed, flWheelHolderRot, frWheelHolderRot);
     }
-
-    //public void SetEnemyProperties(Vector3 pos, Quaternion rot, float wheelSpeed, Quaternion flRot, Quaternion frRot)
-    //{
-    //    enemyManager?.SetProperties(pos, rot, wheelSpeed, flRot, frRot);
-    //}
-
-    //public void SpawnEnemyPlayer(Vector3 pos)
-    //{
-    //    Debug.Log("Location Received");
-    //    //SpawnEnemyPacket spawnEnemyPacket = (SpawnEnemyPacket)packet;
-    //    GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, pos, Quaternion.identity);
-    //    enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
-    //}
     #endregion
 }

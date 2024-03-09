@@ -18,6 +18,4 @@ public class PlayerDataManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
-
-
 }

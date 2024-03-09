@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class WinManager : MonoBehaviour
@@ -7,9 +8,10 @@ public class WinManager : MonoBehaviour
     public static WinManager instance;  
 
     [SerializeField] GameObject WinPanel;
+    [SerializeField] TextMeshProUGUI winnerTxt;
 
     #region private var
-    Client client;
+    Client thisClient;
     #endregion
     private void Awake()
     {
@@ -21,23 +23,13 @@ public class WinManager : MonoBehaviour
         {
             Destroy(this);
         }
-        client = Client.instance;
-    }
-    private void OnEnable()
-    {
-        if (client == null) return;
-        client.onDriverArrived += DeclareWinner;
+        thisClient = Client.instance;
     }
 
-    private void OnDisable()
+    public void DeclareWinner(bool hasArrived, PlayerData playerData)
     {
-        if (client == null) return;
-        client.onDriverArrived -= DeclareWinner;
-    }
-
-    public void DeclareWinner(DriverArrivedPacket packet)
-    {
-        if (!packet.hasArrived) return;
+        if (!hasArrived) return;
+        winnerTxt.SetText($"TEAM {playerData.teamNumber} WINS!");
         WinPanel.SetActive(true);
         Time.timeScale = 0f;
     }
@@ -45,6 +37,7 @@ public class WinManager : MonoBehaviour
     public void DeclareWinner(bool value)
     {
         if (!value) return;
+        winnerTxt.SetText($"TEAM {thisClient.playerData.teamNumber} WINS!");
         WinPanel.SetActive(true);
         Time.timeScale = 0f;
     }

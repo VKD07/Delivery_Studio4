@@ -21,7 +21,8 @@ public enum PacketType
     //Lobby Packet
     HasJoinedLobby = 7,
     TeamAndRole = 8,
-    ChangeTeam = 9
+    ChangeTeam = 9,
+    StartGame = 10,
 }
 
 public class BasePacket : IDisposable

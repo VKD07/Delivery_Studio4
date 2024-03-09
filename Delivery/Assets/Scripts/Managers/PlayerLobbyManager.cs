@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Http;
 using UnityEngine;
 
 [RequireComponent(typeof(LobbyUIManager))]
@@ -9,7 +8,7 @@ public class PlayerLobbyManager : MonoBehaviour
     public static PlayerLobbyManager instance;
     public List<string> listOfPlayerNames = new List<string>();
     public LobbyUIManager lobbyUIManager => GetComponent<LobbyUIManager>();
-    public Client client;
+    Client thisClient;
     private void Awake()
     {
         if (instance == null)
@@ -20,30 +19,18 @@ public class PlayerLobbyManager : MonoBehaviour
         {
             Destroy(this);
         }
-    }
 
-    private void OnEnable()
-    {
-        client.onLobbyJoined += UpdatePlayerListAndSendNameToNetwork;
+        thisClient = FindFirstObjectByType<Client>();
     }
-
-    private void OnDisable()
-    {
-        client.onLobbyJoined -= UpdatePlayerListAndSendNameToNetwork;
-    }
-
     public void SendJoinLobbyPacket()
     {
-        AddPlayerToTheList(client.playerData.name);
-        using (JoinServerPacket packet = new JoinServerPacket(client.playerData))
-        {
-            client.SendPacket(packet.Serialize());
-        }
+        AddPlayerToTheList(thisClient.playerData.name);
+        NetworkSender.instance?.SendLobbyJoinPacket();
     }
 
-    public void UpdatePlayerListAndSendNameToNetwork(JoinServerPacket packet)
+    public void UpdatePlayerListAndSendNameToNetwork(PlayerData playerData)
     {
-        AddPlayerToTheList(packet.playerData.name);
+        AddPlayerToTheList(playerData.name);
     }
 
     void AddPlayerToTheList(string playerName)

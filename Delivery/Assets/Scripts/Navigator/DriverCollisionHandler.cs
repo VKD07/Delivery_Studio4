@@ -21,22 +21,26 @@ public class DriverCollisionHandler : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private void Update()
     {
-        Client.instance.onDriverCollision += TriggerRandomMapRotation;
-    }
-    private void OnDisable()
-    {
-        Client.instance.onDriverCollision -= TriggerRandomMapRotation;
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            TriggerRandomMapRotation();
+        }
     }
 
-    //TODO: When collided, the map will go next randomly
-
-    public void TriggerRandomMapRotation(DriverCollidedPacket packet)
+    public void TriggerRandomMapRotation(bool hasCollided, PlayerData playerData)
     {
-        if (packet.hasCollided)
+        if (playerData.teamNumber != Client.instance.playerData.teamNumber) { return; }
+
+        if (hasCollided)
         {
             OnDriverCollided.Invoke();
         }
+    }
+
+    public void TriggerRandomMapRotation()
+    {
+        OnDriverCollided.Invoke();
     }
 }

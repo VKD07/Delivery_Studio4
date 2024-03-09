@@ -25,18 +25,6 @@ public class LocationHandler : MonoBehaviour
         client = Client.instance;
     }
 
-    private void OnEnable()
-    {
-        if (client == null) return;
-        client.onDeliveryAddress += SetDeliveryLocation;
-    }
-
-    private void OnDisable()
-    {
-        if (client == null) return;
-        client.onDeliveryAddress -= SetDeliveryLocation;
-    }
-
     [SerializeField] GameObject[] deliveryLocations;
 
     //private variables
@@ -58,13 +46,15 @@ public class LocationHandler : MonoBehaviour
         }    
     }
 
-    #region Setters
-    public void SetDeliveryLocation(DeliveryLocationPacket packet)
+    #region Network Receivers
+    public void SetDeliveryLocation(PlayerData playerData, string buildingName)
     {
-        Debug.Log(packet.buildingName);
+        if (playerData.teamNumber != client.playerData.teamNumber) return;
+
+        Debug.Log(buildingName);
         for (int i = 0; i < deliveryLocations.Length; i++)
         {
-            if(deliveryLocations[i].name == packet.buildingName)
+            if(deliveryLocations[i].name == buildingName)
             {
                 chosenLocation = deliveryLocations[i];
                 Debug.Log("location found");
