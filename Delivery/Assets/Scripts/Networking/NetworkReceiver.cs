@@ -34,6 +34,13 @@ public class NetworkReceiver : MonoBehaviour
         client.onDriverCollision += TriggerRandomMapRotation;
 
         client.onDriverArrived += DeclareWinner;
+
+        #region NPC Car events
+        client.onNPCCarSpawn += InstantiateNPCCar;
+        client.onNPCTransform += EnableAndUpdateNPCCar;
+        client.OnDisableNPCCar += DisableNPCCar;
+        #endregion
+
     }
 
     private void OnDisable()
@@ -50,6 +57,10 @@ public class NetworkReceiver : MonoBehaviour
         client.onDriverCollision -= TriggerRandomMapRotation;
 
         client.onDriverArrived -= DeclareWinner;
+
+        client.onNPCCarSpawn -= InstantiateNPCCar;
+        client.onNPCTransform -= EnableAndUpdateNPCCar;
+        client.OnDisableNPCCar -= DisableNPCCar;
     }
 
     #region LobbyReceivers
@@ -96,12 +107,29 @@ public class NetworkReceiver : MonoBehaviour
     {
         DriverCollisionHandler.instance?.TriggerRandomMapRotation(packet.hasCollided, packet.playerData);
     }
-        #endregion
+    #endregion
 
     #region Win Receivers
-        public void DeclareWinner(DriverArrivedPacket packet)
+    public void DeclareWinner(DriverArrivedPacket packet)
     {
         WinManager.instance?.DeclareWinner(packet.hasArrived, packet.playerData);
+    }
+    #endregion
+
+    #region NPC Cars Receiver
+    public void InstantiateNPCCar(InstantiateNPCCarPacket packet)
+    {
+        CarNPCSpawner.instance?.InstantiateNpcCar(packet.indexNumber, packet.id, packet.hasSpawned);
+    }
+    
+    public void EnableAndUpdateNPCCar(CarNPCTransformPacket packet)
+    {
+        CarNPCSpawner.instance?.UpdateCarPropertiesOnTheList(packet.id, packet.pos, packet.rot);
+    }
+
+    public void DisableNPCCar(DisableNPCCarPacket packet)
+    {
+        CarNPCSpawner.instance?.DisableNPCCar(packet.id, packet.disable);
     }
     #endregion
 

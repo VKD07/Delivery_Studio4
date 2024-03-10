@@ -28,6 +28,18 @@ public class Client : MonoBehaviour
     public event OnGameStart onGameStart;
     #endregion
 
+    #region NPC Car Events
+    public delegate void OnNPCCarSpawn(InstantiateNPCCarPacket packet);
+    public event OnNPCCarSpawn onNPCCarSpawn;
+
+    public delegate void NPCTransform(CarNPCTransformPacket packet);
+    public event NPCTransform onNPCTransform;
+
+    public delegate void DisableNPCCar(DisableNPCCarPacket packet);
+    public event DisableNPCCar OnDisableNPCCar;
+    #endregion
+
+    #region Gameplay Events
     public delegate void SendDeliveryAddress(DeliveryLocationPacket packet);
     public event SendDeliveryAddress onDeliveryAddress;
 
@@ -42,6 +54,8 @@ public class Client : MonoBehaviour
 
     public delegate void OnMove(EnemyPropertiesPacket packet);
     public event OnMove onMove;
+
+    #endregion
 
     public PlayerData playerData;
 
@@ -116,6 +130,20 @@ public class Client : MonoBehaviour
 
                             case PacketType.StartGame:
                                 onGameStart(new GameStartPacket().Deserialize(buffer));
+                                break;
+                            #endregion
+
+                            #region NPC Car Packets
+                            case PacketType.SpawnNPCCar:
+                                onNPCCarSpawn(new InstantiateNPCCarPacket().Deserialize(buffer));
+                                break;
+
+                            case PacketType.NPCCarTransform:
+                                onNPCTransform(new CarNPCTransformPacket().Deserialize(buffer));
+                                break;
+
+                            case PacketType.DisableNPCCar:
+                                OnDisableNPCCar(new DisableNPCCarPacket().Deserialize(buffer));
                                 break;
                             #endregion
 

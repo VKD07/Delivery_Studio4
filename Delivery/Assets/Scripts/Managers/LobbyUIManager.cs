@@ -107,6 +107,9 @@ public class LobbyUIManager : MonoBehaviour
 
         //Disable Cancel Btn
         cancelButton.gameObject.SetActive(false);
+
+        //Disable StartGameButton
+        startGameBtn.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -132,7 +135,7 @@ public class LobbyUIManager : MonoBehaviour
     private void Update()
     {
         EnableGameReady();
-        CheckAndEnableRoleBtns();
+        //CheckAndEnableRoleBtns();
     }
 
     private void EnableGameReady()

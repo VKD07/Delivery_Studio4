@@ -5,9 +5,12 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Splines;
 using GD.MinMaxSlider;
+using TMPro;
 
 public class CarNPCSpawner : MonoBehaviour
 {
+    public static CarNPCSpawner instance;
+
     [Header("=== SPLINE ===")]
     [SerializeField, Tooltip("This spline will be applied to all spawned cars")]
     SplineContainer splinePath;
@@ -21,8 +24,8 @@ public class CarNPCSpawner : MonoBehaviour
 
     [Header("=== SPAWNED CARS ===")]
     [SerializeField] GameObject[] carsToSpawn;
-    [Space]
-    [SerializeField] List<GameObject> poolOfCars;
+
+    Dictionary<int, GameObject> poolOfCars = new Dictionary<int, GameObject>();
     int activeCars;
 
 
@@ -30,41 +33,75 @@ public class CarNPCSpawner : MonoBehaviour
     [SerializeField] Color spherColor = Color.red;
     [SerializeField] float sphereRad = .5f;
 
+    #region private Vars
+    bool otherPlayerAlreadySpawned;
+    #endregion
+
     private void Awake()
     {
-        SpawnPoolOfCars();
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(this);
+        }
+
+        StartCoroutine(SpawnPoolOfCars());
     }
     private void Start()
     {
         StartCoroutine(SpawnCarsRandomly());
     }
 
-    void SpawnPoolOfCars()
+    IEnumerator SpawnPoolOfCars()
     {
-        for (int i = 0; i < initNumOfCarsToSpawn; i++)
+        //This is to avoid both drivers spawning npc cars together, It should be randomize so that,
+        //if one player instantiates first then other driver will receive the pool of npc cars to spawn
+        int randomTime = Random.Range(0, 5);
+        yield return new WaitForSeconds(randomTime);
+
+        if (!otherPlayerAlreadySpawned)
         {
-            int randomCarIndex = Random.Range(0, carsToSpawn.Length);
-            GameObject spawnedCar = Instantiate(carsToSpawn[randomCarIndex], transform.position, Quaternion.identity);
+            for (int i = 0; i < initNumOfCarsToSpawn; i++)
+            {
+                int randomCarIndex = Random.Range(0, carsToSpawn.Length);
+                GameObject spawnedCar = Instantiate(carsToSpawn[randomCarIndex], transform.position, Quaternion.identity);
 
-            spawnedCar.transform.forward = transform.forward;
+                spawnedCar.transform.forward = transform.forward;
+                SplineAnimate splineAnimate = spawnedCar.GetComponent<SplineAnimate>();
+                CarDataManager dataManager = spawnedCar.GetComponent<CarDataManager>();
 
-            SplineAnimate splineAnimate = spawnedCar.GetComponent<SplineAnimate>();
-            if (splineAnimate == null) return;
-            splineAnimate.MaxSpeed = carSpeed;
-            splineAnimate.Container = splinePath;
+                if (splineAnimate != null)
+                {
+                    splineAnimate.MaxSpeed = carSpeed;
+                    splineAnimate.Container = splinePath;
+                }
 
-            spawnedCar.SetActive(false);
-            poolOfCars.Add(spawnedCar);
+                if (dataManager != null)
+                {
+                    dataManager.id = i;
+                }
+
+                spawnedCar.SetActive(false);
+                poolOfCars.Add(i, spawnedCar);
+                NetworkSender.instance?.InstantiateNPCCar(randomCarIndex, i, true);
+            }
         }
     }
 
+
     IEnumerator SpawnCarsRandomly()
     {
-        while (true)
+        if (!otherPlayerAlreadySpawned) //make sure to not spawn when the other player is already spawning
         {
-            float randomSpawnTime = Random.Range(spawnTime.x, spawnTime.y);
-            yield return new WaitForSeconds(randomSpawnTime);
-            ChooseACarToEnable();
+            while (true)
+            {
+                float randomSpawnTime = Random.Range(spawnTime.x, spawnTime.y);
+                yield return new WaitForSeconds(randomSpawnTime);
+                ChooseACarToEnable();
+            }
         }
     }
 
@@ -79,6 +116,45 @@ public class CarNPCSpawner : MonoBehaviour
         poolOfCars[chosenCarIndex].GetComponent<SplineAnimate>().Play();
         poolOfCars[chosenCarIndex].SetActive(true);
     }
+
+    #region Network Receivers
+    public void InstantiateNpcCar(int carIndex, int id, bool hasSpawned)
+    {
+        if (hasSpawned)
+        {
+            otherPlayerAlreadySpawned = hasSpawned;
+        }
+
+        GameObject spawnedCar = Instantiate(carsToSpawn[carIndex], transform.position, Quaternion.identity);
+
+        spawnedCar.transform.forward = transform.forward;
+
+        SplineAnimate splineAnimate = spawnedCar.GetComponent<SplineAnimate>();
+
+        if (splineAnimate != null)
+        {
+            splineAnimate.Container = splinePath;
+            splineAnimate.enabled = false;
+        }
+
+        spawnedCar.SetActive(false);
+        poolOfCars.Add(id, spawnedCar);
+    }
+
+    public void UpdateCarPropertiesOnTheList(int id, Vector3 pos, Quaternion rot)
+    {
+        if (!poolOfCars[id].activeSelf)
+        {
+            poolOfCars[id].SetActive(true);
+        }
+        poolOfCars[id].GetComponent<CarDataManager>().UpdateTransform(pos, rot);
+    }
+
+    public void DisableNPCCar(int id, bool val)
+    {
+        poolOfCars[id].SetActive(!val);
+    }
+    #endregion
 
     private void OnDrawGizmos()
     {

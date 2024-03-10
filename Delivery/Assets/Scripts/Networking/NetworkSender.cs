@@ -101,4 +101,30 @@ public class NetworkSender : MonoBehaviour
         }
     }
     #endregion
+
+    #region NPC Cars Packets
+    public void InstantiateNPCCar(int randomCarIndex, int id, bool hasSpawned)
+    {
+        using (InstantiateNPCCarPacket packet = new InstantiateNPCCarPacket(randomCarIndex, id, hasSpawned, client.playerData))
+        {
+            client?.SendPacket(packet.Serialize());
+        }
+    }
+
+    public void SendNPCCarTransform(int id, Vector3 pos, Quaternion rot)
+    {
+        using (CarNPCTransformPacket packet = new CarNPCTransformPacket(id, pos, rot, client.playerData))
+        {
+            client?.SendPacket(packet.Serialize());
+        }
+    }
+
+    public void DisableNPCar(int id)
+    {
+        using (DisableNPCCarPacket packet = new DisableNPCCarPacket(id, true, client.playerData))
+        {
+            client?.SendPacket(packet.Serialize());
+        }
+    }
+    #endregion
 }

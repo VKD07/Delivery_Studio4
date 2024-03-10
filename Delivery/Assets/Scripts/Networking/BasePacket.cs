@@ -23,6 +23,11 @@ public enum PacketType
     TeamAndRole = 8,
     ChangeTeam = 9,
     StartGame = 10,
+
+    //NPC Car Packet
+    SpawnNPCCar = 11,
+    NPCCarTransform = 12,
+    DisableNPCCar = 13,
 }
 
 public class BasePacket : IDisposable

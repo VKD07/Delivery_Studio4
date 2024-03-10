@@ -12,11 +12,15 @@ public class DriverSpawnerManager : MonoBehaviour
     int randomIndex;
     private void Start()
     {
-        RandomizeSpawnPos();
+        StartCoroutine(RandomizeSpawnPos());
     }
 
-    void RandomizeSpawnPos()
+    IEnumerator RandomizeSpawnPos()
     {
+        //One of them will spawn first, and if someone spawn first, they need to tell the other driver what spawn point he took so that 
+        //Other player wont be in thesame spawn point
+        int randomTime = Random.Range(0, 4);
+        yield return new WaitForSeconds(randomTime);
         //if enemy exists then make sure to get its index position so that it wont be thesame as you
         randomIndex = Random.Range(0, spawnPoints.Length);
 

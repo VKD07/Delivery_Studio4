@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Splines;
 
-[RequireComponent(typeof(SplineAnimate))]
 public class TrafficAwareness : MonoBehaviour
 {
     [Header("=== AWARENESS SETTINGS ===")]
@@ -28,11 +28,12 @@ public class TrafficAwareness : MonoBehaviour
 
     #region Required Components 
     public SplineAnimate spline => GetComponent<SplineAnimate>();
+    public CarDataManager carDataManager => GetComponent<CarDataManager>();
     #endregion
     void Update()
     {
-        SphereRayCast();
-        CheckForTrafficLight();
+        //SphereRayCast();
+        //CheckForTrafficLight();
         ResetCar();
     }
 
@@ -81,9 +82,11 @@ public class TrafficAwareness : MonoBehaviour
 
     private void ResetCar()
     {
+        if (spline == null) return;
         if (spline.ElapsedTime > 32)
         {
             gameObject.SetActive(false);
+            NetworkSender.instance?.DisableNPCar(carDataManager.id);
         }
     }
 
