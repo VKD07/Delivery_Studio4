@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -8,6 +9,12 @@ public class CarDataManager : MonoBehaviour
 {
     public int id;
     public SplineAnimate spline => GetComponent<SplineAnimate>();
+    Transform trans;
+
+    private void Awake()
+    {
+        trans = transform;
+    }
 
     private void Update()
     {
@@ -17,7 +24,7 @@ public class CarDataManager : MonoBehaviour
 
     private void SendCurrentTransformToNetwork()
     {
-        NetworkSender.instance?.SendNPCCarTransform(id, transform.position, transform.rotation);
+        NetworkSender.instance?.SendNPCCarTransform(id, trans.position, trans.rotation);
     }
 
     private void ResetRoute()
