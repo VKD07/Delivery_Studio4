@@ -28,9 +28,9 @@ public class CarDataManager : MonoBehaviour
             {
                 if (spline.ElapsedTime >= 32)
                 {
-                    gameObject.SetActive(false);
                     NetworkSender.instance?.DisableNPCar(id);
-
+                    spline.Restart(true);
+                    gameObject.SetActive(false);
                 }
             }
         }

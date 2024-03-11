@@ -13,7 +13,7 @@ public class CarNPCSpawner : MonoBehaviour
 
     [Header("=== SPLINE ===")]
     [SerializeField, Tooltip("This spline will be applied to all spawned cars")]
-    SplineContainer splinePath;
+    SplineContainer [] splinePaths;
 
     [Header("=== SPAWNING SETTINGS ===")]
     [MinMaxSlider(0, 20)]
@@ -25,16 +25,13 @@ public class CarNPCSpawner : MonoBehaviour
     [Header("=== SPAWNED CARS ===")]
     [SerializeField] GameObject[] carsToSpawn;
 
-    Dictionary<int, GameObject> poolOfCars = new Dictionary<int, GameObject>();
-    int activeCars;
-
-
     [Header("=== DEBUG SETTINGS ===")]
     [SerializeField] Color spherColor = Color.red;
     [SerializeField] float sphereRad = .5f;
 
     #region private Vars
     bool otherPlayerAlreadySpawned;
+    Dictionary<int, GameObject> poolOfCars = new Dictionary<int, GameObject>();
     #endregion
 
     private void Awake()
@@ -76,7 +73,8 @@ public class CarNPCSpawner : MonoBehaviour
                 if (splineAnimate != null)
                 {
                     splineAnimate.MaxSpeed = carSpeed;
-                    splineAnimate.Container = splinePath;
+                    int randomPath = Random.Range(0,splinePaths.Length);
+                    splineAnimate.Container = splinePaths[randomPath];
                 }
 
                 if (dataManager != null)
@@ -94,6 +92,7 @@ public class CarNPCSpawner : MonoBehaviour
 
     IEnumerator SpawnCarsRandomly()
     {
+        yield return new WaitForSeconds(3);
         if (!otherPlayerAlreadySpawned) //make sure to not spawn when the other player is already spawning
         {
             while (true)
@@ -133,7 +132,7 @@ public class CarNPCSpawner : MonoBehaviour
 
         if (splineAnimate != null)
         {
-            splineAnimate.Container = splinePath;
+            splineAnimate.Container = splinePaths[0];
             splineAnimate.enabled = false;
         }
 
@@ -152,7 +151,7 @@ public class CarNPCSpawner : MonoBehaviour
 
     public void DisableNPCCar(int id, bool val)
     {
-        poolOfCars[id].SetActive(!val);
+        poolOfCars[id].SetActive(false);
     }
     #endregion
 
