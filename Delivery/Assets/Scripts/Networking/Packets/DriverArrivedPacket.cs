@@ -29,9 +29,4 @@ public class DriverArrivedPacket : BasePacket
         EndDeserialize();
         return this;
     }
-
-    public override void Dispose()
-    {
-        base.Dispose();
-    }
 }
