@@ -8,6 +8,7 @@ public class DriverCollisionHandler : MonoBehaviour
     public static DriverCollisionHandler instance;
 
     public UnityEvent OnDriverCollided;
+    public UnityEvent OnDriverCollidedOnDirt;
 
     private void Awake()
     {
@@ -21,12 +22,24 @@ public class DriverCollisionHandler : MonoBehaviour
         }
     }
 
-
-    //TODO: When collided, the map will go next randomly
-
-    public void TriggerRandomMapRotation(bool value)
+    public void TriggerRandomMapRotation(bool hasCollided, PlayerData playerData)
     {
-        if (!value) return;
+        if (playerData.teamNumber != Client.instance.playerData.teamNumber) { return; }
+
+        if (hasCollided)
+        {
+            OnDriverCollided.Invoke();
+        }
+    }
+
+    public void EnableDirtScreen(PlayerData playerData)
+    {
+        if (playerData.teamNumber != Client.instance.playerData.teamNumber) { return; }
+        OnDriverCollidedOnDirt.Invoke();
+    }
+
+    public void TriggerRandomMapRotation()
+    {
         OnDriverCollided.Invoke();
     }
 }

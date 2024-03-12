@@ -459,8 +459,8 @@ GameObject:
   - component: {fileID: 2604312682744779118}
   - component: {fileID: 5886850068703137160}
   - component: {fileID: 1202231505573366581}
-  - component: {fileID: 254011497349280196}
-  - component: {fileID: 7253284317607461306}
+  - component: {fileID: 4813071483149639665}
+  - component: {fileID: 7363260625371650347}
   m_Layer: 6
   m_Name: SM_Veh_Car_Medium_01
   m_TagString: NPC
@@ -589,7 +589,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &254011497349280196
+--- !u!114 &4813071483149639665
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -603,7 +603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Target: {fileID: 0}
   m_PlayOnAwake: 1
-  m_LoopMode: 0
+  m_LoopMode: 1
   m_Method: 1
   m_Duration: 1
   m_MaxSpeed: 10
@@ -612,7 +612,7 @@ MonoBehaviour:
   m_ObjectForwardAxis: 2
   m_ObjectUpAxis: 1
   m_StartOffset: 0
---- !u!114 &7253284317607461306
+--- !u!114 &7363260625371650347
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -621,16 +621,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6962344505280485993}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d94617b20583bfb4fb788c58bc9e3672, type: 3}
+  m_Script: {fileID: 11500000, guid: 72121187160d0bc4fa5420da01c0c075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visionPoint: {fileID: 6861386861106295276}
-  visionRadius: 6.42
-  castDistance: 9.23
-  npcLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  enableDebug: 1
+  id: 0
 --- !u!1 &7301357831573802791
 GameObject:
   m_ObjectHideFlags: 0

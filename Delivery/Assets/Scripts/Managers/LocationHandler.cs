@@ -10,6 +10,9 @@ public class LocationHandler : MonoBehaviour
 {
     public static LocationHandler instance;
 
+    #region Private Vars
+    Client client;
+    #endregion
     private void Awake()
     {
         if(instance == null)
@@ -19,6 +22,7 @@ public class LocationHandler : MonoBehaviour
         {
             Destroy(this);
         }
+        client = Client.instance;
     }
 
     [SerializeField] GameObject[] deliveryLocations;
@@ -42,13 +46,15 @@ public class LocationHandler : MonoBehaviour
         }    
     }
 
-    #region Setters
-    public void SetDeliveryLocation(string nameOfBuilding)
+    #region Network Receivers
+    public void SetDeliveryLocation(PlayerData playerData, string buildingName)
     {
-        Debug.Log(nameOfBuilding);
+        if (playerData.teamNumber != client.playerData.teamNumber) return;
+
+        Debug.Log(buildingName);
         for (int i = 0; i < deliveryLocations.Length; i++)
         {
-            if(deliveryLocations[i].name == nameOfBuilding)
+            if(deliveryLocations[i].name == buildingName)
             {
                 chosenLocation = deliveryLocations[i];
                 Debug.Log("location found");

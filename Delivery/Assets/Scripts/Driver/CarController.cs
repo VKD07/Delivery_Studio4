@@ -5,24 +5,24 @@ using UnityEngine;
 
 namespace Driver
 {
+    #region Structs and Enums
+    public enum Axel
+    {
+        Front,
+        Rear
+    }
+
+    [Serializable]
+    public struct Wheel
+    {
+        public GameObject wheelModel;
+        public WheelCollider wheelCollider;
+        public Axel axel;
+    }
+    #endregion
+
     public class CarController : MonoBehaviour
     {
-        #region Structs and Enums
-        public enum Axel
-        {
-            Front,
-            Rear
-        }
-
-        [Serializable]
-        public struct Wheel
-        {
-            public GameObject wheelModel;
-            public WheelCollider wheelCollider;
-            public Axel axel;
-        }
-        #endregion
-
         [Header("=== CAR CONTROLS ===")]
         [SerializeField] DriverControls driverControls;
 
@@ -41,15 +41,23 @@ namespace Driver
         [Header("=== STEERING WHEEL ===")]
         [SerializeField] Transform steeringWheel;
         [SerializeField] float steeringSensitivity = 80f;
-        [SerializeField] float steeringRestoreTime = 10f;
-        Quaternion initRot;
+        [SerializeField] float steeringSpeed = 10f;
+        [SerializeField] float maxSteeringAngle = 10f;
+        float currentSteerAngle;
 
         Rigidbody rb => GetComponent<Rigidbody>();
+
+        #region Getters
+        public Wheel[] GetWheels => wheelList.ToArray();
+        public float GetMoveInput => moveInput;
+        public float GetSteerInput => steerInput;
+        public float GetTurnSensitivity => turnSensitivity;
+        public float GetMaxSteerAngle => maxSteeringAngle;
+        #endregion
 
         private void Start()
         {
             rb.centerOfMass = centerOfMass;
-            initRot = steeringWheel.localRotation;
         }
         private void Update()
         {
@@ -92,14 +100,11 @@ namespace Driver
 
         void SteeringWheel()
         {
-            if (steerInput > 0 || steerInput < 0)
-            {
-                steeringWheel.Rotate(new Vector3(0, steerInput * steeringSensitivity * Time.deltaTime, 0));
-            }
-            else
-            {
-                steeringWheel.localRotation = Quaternion.Lerp(steeringWheel.localRotation, initRot, 5 * Time.deltaTime);
-            }
+            float targetSteerAngle = steerInput * steeringSensitivity * maxSteeringAngle;
+
+            currentSteerAngle = Mathf.Lerp(currentSteerAngle, targetSteerAngle, Time.deltaTime * steeringSpeed);
+
+            steeringWheel.localRotation = Quaternion.Euler(0, currentSteerAngle, 0);
         }
 
         void Break()

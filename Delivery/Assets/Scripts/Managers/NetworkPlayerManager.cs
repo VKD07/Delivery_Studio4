@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // Spawn other player on the map
@@ -12,6 +13,17 @@ public class NetworkPlayerManager : MonoBehaviour
     [SerializeField] GameObject enemyPlayerPrefab;
     EnemyManager enemyManager;
 
+    public bool hasSpawned { get; private set; }
+    public int enemySpawnIndex { get; private set; }
+
+    #region 
+    Client thisClient;
+    #endregion
+
+    #region Getter
+    public EnemyManager GetEnemyManager => enemyManager;
+    #endregion
+
     private void Awake()
     {
         if (instance == null)
@@ -22,18 +34,25 @@ public class NetworkPlayerManager : MonoBehaviour
         {
             Destroy(this);
         }
+        thisClient = Client.instance;
     }
 
-
-    public void SpawnEnemyPlayer(Vector3 spawnPoint, Quaternion rotation)
+    #region Spawn and Pos
+    public void SpawnEnemyPlayer(PlayerData playerData, Vector3 spawnPos, int spawnIndex)
     {
-        GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnPoint, rotation);
+        Debug.Log("Location Received");
+
+        if (playerData.teamNumber == thisClient.playerData.teamNumber) return;
+        GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnPos, Quaternion.identity);
         enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
+        enemySpawnIndex = spawnIndex;
     }
 
-    public void UpdateEnemyTransform(Vector3 position, Quaternion rotation)
+    public void SetEnemyProperties(PlayerData playerData, Vector3 pos, Quaternion rot, float wheelSpeed, Quaternion flWheelHolderRot, Quaternion frWheelHolderRot)
     {
-        enemyManager?.UpdatePosition(position);
-        enemyManager?.UpdateRotation(rotation);
+        hasSpawned = true;
+        if (playerData.teamNumber == thisClient.playerData.teamNumber) return;
+        enemyManager?.ReceivePropertiesFromNetwork(pos, rot, wheelSpeed, flWheelHolderRot, frWheelHolderRot);
     }
+    #endregion
 }
