@@ -109,6 +109,7 @@ public class Client : MonoBehaviour
             {
                 byte[] buffer = new byte[clientSocket.Available];
                 clientSocket.Receive(buffer);
+                BasePacket.Reset();
                 //do events and delegates instead. let Message txt update when message is being received.
                 //onMessageReceived.Invoke(Encoding.ASCII.GetString(buffer));
                 //if (!BasePacket.DataRemainingInBuffer(buffer.Length)) return;

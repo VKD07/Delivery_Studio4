@@ -112,6 +112,11 @@ public class BasePacket : IDisposable
         return false;
     }
 
+    public static void Reset()
+    {
+        currentBufferPosition = 0;
+    }
+
     public virtual void Dispose()
     {
         sms?.Dispose();
