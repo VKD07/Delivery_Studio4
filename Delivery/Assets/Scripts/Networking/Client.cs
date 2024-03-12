@@ -110,83 +110,87 @@ public class Client : MonoBehaviour
                 byte[] buffer = new byte[clientSocket.Available];
                 clientSocket.Receive(buffer);
                 BasePacket.Reset();
-                //do events and delegates instead. let Message txt update when message is being received.
-                //onMessageReceived.Invoke(Encoding.ASCII.GetString(buffer));
-                //if (!BasePacket.DataRemainingInBuffer(buffer.Length)) return;
-                while (BasePacket.DataRemainingInBuffer(buffer.Length))
+
+                ThreadManager.ExecuteOnMainThread(() =>
                 {
-                    //reading the packet type enum from the buffer
-                    //BasePacket basePacket = new BasePacket().Deserialize(buffer);
-                    using (BasePacket basePacket = new BasePacket().Deserialize(buffer))
+                    //do events and delegates instead. let Message txt update when message is being received.
+                    //onMessageReceived.Invoke(Encoding.ASCII.GetString(buffer));
+                    //if (!BasePacket.DataRemainingInBuffer(buffer.Length)) return;
+                    while (BasePacket.DataRemainingInBuffer(buffer.Length))
                     {
-                        switch (basePacket.packetType)
+                        //reading the packet type enum from the buffer
+                        //BasePacket basePacket = new BasePacket().Deserialize(buffer);
+                        using (BasePacket basePacket = new BasePacket().Deserialize(buffer))
                         {
-                            #region lobby packets
-                            case PacketType.HasJoinedLobby:
-                                onLobbyJoined(new JoinServerPacket().Deserialize(buffer));
-                                break;
+                            switch (basePacket.packetType)
+                            {
+                                #region lobby packets
+                                case PacketType.HasJoinedLobby:
+                                    onLobbyJoined(new JoinServerPacket().Deserialize(buffer));
+                                    break;
 
-                            case PacketType.TeamAndRole:
-                                onPlayerTeamAndRole(new TeamAndRolePacket().Deserialize(buffer));
-                                break;
+                                case PacketType.TeamAndRole:
+                                    onPlayerTeamAndRole(new TeamAndRolePacket().Deserialize(buffer));
+                                    break;
 
-                            case PacketType.ChangeTeam:
-                                onChangeTeam(new ChangeTeamPacket().Deserialize(buffer));
-                                break;
+                                case PacketType.ChangeTeam:
+                                    onChangeTeam(new ChangeTeamPacket().Deserialize(buffer));
+                                    break;
 
-                            case PacketType.StartGame:
-                                onGameStart(new GameStartPacket().Deserialize(buffer));
-                                break;
-                            #endregion
-
-                            #region NPC Car Packets
-                            case PacketType.SpawnNPCCar:
-                                onNPCCarSpawn(new InstantiateNPCCarPacket().Deserialize(buffer));
-                                break;
-
-                            case PacketType.NPCCarTransform:
-                                onNPCTransform(new CarNPCTransformPacket().Deserialize(buffer));
-                                break;
-
-                            case PacketType.DisableNPCCar:
-                                OnDisableNPCCar(new DisableNPCCarPacket().Deserialize(buffer));
-                                break;
-                            #endregion
-
-                            #region GamePlay Packets
-                            case PacketType.DeliveryLocation:
-                                //if packet is delivery locations
-                                //Extract the buffer data and set the delivery location from this data
-                                try { onDeliveryAddress(new DeliveryLocationPacket().Deserialize(buffer)); } catch (Exception) { }
-                                break;
-
-                            case PacketType.DriverArrived:
-                                onDriverArrived(new DriverArrivedPacket().Deserialize(buffer));
-                                break;
-
-                            case PacketType.DriverHasCollided:
-                                try { onDriverCollision(new DriverCollidedPacket().Deserialize(buffer)); } catch (Exception) { }
-                                break;
-
-                            case PacketType.SpawnEnemy:
-                                try { onEnemySpawn(new SpawnEnemyPacket().Deserialize(buffer)); } catch (Exception) { }
-                                break;
-
-                            case PacketType.UpdateEnemyProperties:
-                                try { onMove(new EnemyPropertiesPacket().Deserialize(buffer)); } catch (Exception) { }
-                                break;
-
-                            case PacketType.DirtScreen:
-                                try { onDirtPacket(new DirtScreenPacket().Deserialize(buffer)); } catch (Exception) { }
-                                break;
-
-                            case PacketType.Timer:
-                                try { onTimerPacket(new TimerPacket().Deserialize(buffer)); } catch (Exception) { }
-                                break;
+                                case PacketType.StartGame:
+                                    onGameStart(new GameStartPacket().Deserialize(buffer));
+                                    break;
                                 #endregion
+
+                                #region NPC Car Packets
+                                case PacketType.SpawnNPCCar:
+                                    onNPCCarSpawn(new InstantiateNPCCarPacket().Deserialize(buffer));
+                                    break;
+
+                                case PacketType.NPCCarTransform:
+                                    onNPCTransform(new CarNPCTransformPacket().Deserialize(buffer));
+                                    break;
+
+                                case PacketType.DisableNPCCar:
+                                    OnDisableNPCCar(new DisableNPCCarPacket().Deserialize(buffer));
+                                    break;
+                                #endregion
+
+                                #region GamePlay Packets
+                                case PacketType.DeliveryLocation:
+                                    //if packet is delivery locations
+                                    //Extract the buffer data and set the delivery location from this data
+                                    try { onDeliveryAddress(new DeliveryLocationPacket().Deserialize(buffer)); } catch (Exception) { }
+                                    break;
+
+                                case PacketType.DriverArrived:
+                                    onDriverArrived(new DriverArrivedPacket().Deserialize(buffer));
+                                    break;
+
+                                case PacketType.DriverHasCollided:
+                                    try { onDriverCollision(new DriverCollidedPacket().Deserialize(buffer)); } catch (Exception) { }
+                                    break;
+
+                                case PacketType.SpawnEnemy:
+                                    try { onEnemySpawn(new SpawnEnemyPacket().Deserialize(buffer)); } catch (Exception) { }
+                                    break;
+
+                                case PacketType.UpdateEnemyProperties:
+                                    try { onMove(new EnemyPropertiesPacket().Deserialize(buffer)); } catch (Exception) { }
+                                    break;
+
+                                case PacketType.DirtScreen:
+                                    try { onDirtPacket(new DirtScreenPacket().Deserialize(buffer)); } catch (Exception) { }
+                                    break;
+
+                                case PacketType.Timer:
+                                    try { onTimerPacket(new TimerPacket().Deserialize(buffer)); } catch (Exception) { }
+                                    break;
+                                    #endregion
+                            }
                         }
                     }
-                }
+                });
             }
             catch (SocketException ex)
             {
