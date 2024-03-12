@@ -8,6 +8,7 @@ public class DriverCollisionHandler : MonoBehaviour
     public static DriverCollisionHandler instance;
 
     public UnityEvent OnDriverCollided;
+    public UnityEvent OnDriverCollidedOnDirt;
 
     private void Awake()
     {
@@ -21,14 +22,6 @@ public class DriverCollisionHandler : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            TriggerRandomMapRotation();
-        }
-    }
-
     public void TriggerRandomMapRotation(bool hasCollided, PlayerData playerData)
     {
         if (playerData.teamNumber != Client.instance.playerData.teamNumber) { return; }
@@ -37,6 +30,12 @@ public class DriverCollisionHandler : MonoBehaviour
         {
             OnDriverCollided.Invoke();
         }
+    }
+
+    public void EnableDirtScreen(PlayerData playerData)
+    {
+        if (playerData.teamNumber != Client.instance.playerData.teamNumber) { return; }
+        OnDriverCollidedOnDirt.Invoke();
     }
 
     public void TriggerRandomMapRotation()

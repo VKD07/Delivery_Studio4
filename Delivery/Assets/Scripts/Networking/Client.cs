@@ -55,6 +55,8 @@ public class Client : MonoBehaviour
     public delegate void OnMove(EnemyPropertiesPacket packet);
     public event OnMove onMove;
 
+    public delegate void OnDirtPacket(DirtScreenPacket packet);
+    public event OnDirtPacket onDirtPacket;
     #endregion
 
     public PlayerData playerData;
@@ -168,6 +170,10 @@ public class Client : MonoBehaviour
 
                             case PacketType.UpdateEnemyProperties:
                                 try { onMove(new EnemyPropertiesPacket().Deserialize(buffer)); } catch (Exception) { }
+                                break;
+
+                            case PacketType.DirtScreen:
+                                try { onDirtPacket(new DirtScreenPacket().Deserialize(buffer)); } catch (Exception) { }
                                 break;
                                 #endregion
                         }

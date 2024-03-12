@@ -32,6 +32,7 @@ public class NetworkReceiver : MonoBehaviour
         client.onMove += SetEnemyProperties;
 
         client.onDriverCollision += TriggerRandomMapRotation;
+        client.onDirtPacket += EnableDirtScreen;
 
         client.onDriverArrived += DeclareWinner;
 
@@ -55,6 +56,7 @@ public class NetworkReceiver : MonoBehaviour
         client.onMove -= SetEnemyProperties;
 
         client.onDriverCollision -= TriggerRandomMapRotation;
+        client.onDirtPacket -= EnableDirtScreen;
 
         client.onDriverArrived -= DeclareWinner;
 
@@ -106,6 +108,11 @@ public class NetworkReceiver : MonoBehaviour
     public void TriggerRandomMapRotation(DriverCollidedPacket packet)
     {
         DriverCollisionHandler.instance?.TriggerRandomMapRotation(packet.hasCollided, packet.playerData);
+    }
+
+    public void EnableDirtScreen(DirtScreenPacket packet)
+    {
+        DriverCollisionHandler.instance?.EnableDirtScreen(packet.playerData);
     }
     #endregion
 

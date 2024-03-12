@@ -7,27 +7,28 @@ using UnityEngine;
 public enum PacketType
 {
     None = 0,
-    Message = 1,
+    Message,
 
     //Game play packets
-    DeliveryLocation = 2,
-    DriverArrived = 3,
-    DriverHasCollided = 4,
+    DeliveryLocation,
+    DriverArrived,
+    DriverHasCollided,
+    DirtScreen,
 
     //Sending PlayerPos
-    SpawnEnemy = 5,
-    UpdateEnemyProperties = 6,
+    SpawnEnemy,
+    UpdateEnemyProperties,
 
     //Lobby Packet
-    HasJoinedLobby = 7,
-    TeamAndRole = 8,
-    ChangeTeam = 9,
-    StartGame = 10,
+    HasJoinedLobby,
+    TeamAndRole,
+    ChangeTeam,
+    StartGame,
 
     //NPC Car Packet
-    SpawnNPCCar = 11,
-    NPCCarTransform = 12,
-    DisableNPCCar = 13,
+    SpawnNPCCar,
+    NPCCarTransform,
+    DisableNPCCar
 }
 
 public class BasePacket : IDisposable

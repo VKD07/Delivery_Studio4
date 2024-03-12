@@ -45,7 +45,14 @@ public class NetworkSender : MonoBehaviour
         {
             client.SendPacket(packet.Serialize());
         }
-        Debug.Log("Driver has collided something");
+    }
+
+    public void SendDirtPacket()
+    {
+        using (DirtScreenPacket packet = new DirtScreenPacket(client.playerData))
+        {
+            client.SendPacket(packet.Serialize());
+        }
     }
 
     public void SendNetworkDriverArrived()
@@ -68,7 +75,6 @@ public class NetworkSender : MonoBehaviour
     #endregion
 
     #region LobbySentPackets
-
     public void SendLobbyJoinPacket()
     {
         using (JoinServerPacket packet = new JoinServerPacket(client.playerData))
