@@ -30,6 +30,7 @@ public class NetworkReceiver : MonoBehaviour
         client.onDeliveryAddress += SetDeliveryLocation;
         client.onEnemySpawn += SpawnEnemyPlayer;
         client.onMove += SetEnemyProperties;
+        client.onTimerPacket += SetCurrentTimer;
 
         client.onDriverCollision += TriggerRandomMapRotation;
         client.onDirtPacket += EnableDirtScreen;
@@ -54,6 +55,7 @@ public class NetworkReceiver : MonoBehaviour
         client.onDeliveryAddress -= SetDeliveryLocation;
         client.onEnemySpawn -= SpawnEnemyPlayer;
         client.onMove -= SetEnemyProperties;
+        client.onTimerPacket -= SetCurrentTimer;
 
         client.onDriverCollision -= TriggerRandomMapRotation;
         client.onDirtPacket -= EnableDirtScreen;
@@ -101,6 +103,11 @@ public class NetworkReceiver : MonoBehaviour
     void SetEnemyProperties(EnemyPropertiesPacket packet)
     {
         NetworkPlayerManager.instance?.SetEnemyProperties(packet.playerData, packet.pos, packet.rot, packet.wheelSpeed, packet.flWheelHolderRot, packet.frWheelHolderRot);
+    }
+
+    public void SetCurrentTimer(TimerPacket packet)
+    {
+        TimerManager.instance?.UpdateTimer(packet.currentTime, packet.playerData);
     }
     #endregion
 

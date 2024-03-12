@@ -14,6 +14,7 @@ public enum PacketType
     DriverArrived,
     DriverHasCollided,
     DirtScreen,
+    Timer,
 
     //Sending PlayerPos
     SpawnEnemy,

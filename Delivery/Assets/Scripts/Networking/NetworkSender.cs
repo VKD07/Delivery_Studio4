@@ -72,6 +72,14 @@ public class NetworkSender : MonoBehaviour
             client.SendPacket(packet.Serialize());
         }
     }
+
+    public void SendCurrentTimer(string currentTime)
+    {
+        using(TimerPacket packet = new TimerPacket(currentTime, client.playerData))
+        {
+            client.SendPacket(packet.Serialize());
+        }
+    }
     #endregion
 
     #region LobbySentPackets

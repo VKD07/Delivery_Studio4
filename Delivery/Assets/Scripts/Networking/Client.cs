@@ -57,6 +57,9 @@ public class Client : MonoBehaviour
 
     public delegate void OnDirtPacket(DirtScreenPacket packet);
     public event OnDirtPacket onDirtPacket;
+
+    public delegate void OnTimerPacket(TimerPacket packet);
+    public event OnTimerPacket onTimerPacket;
     #endregion
 
     public PlayerData playerData;
@@ -174,6 +177,10 @@ public class Client : MonoBehaviour
 
                             case PacketType.DirtScreen:
                                 try { onDirtPacket(new DirtScreenPacket().Deserialize(buffer)); } catch (Exception) { }
+                                break;
+
+                            case PacketType.Timer:
+                                try { onTimerPacket(new TimerPacket().Deserialize(buffer)); } catch (Exception) { }
                                 break;
                                 #endregion
                         }
