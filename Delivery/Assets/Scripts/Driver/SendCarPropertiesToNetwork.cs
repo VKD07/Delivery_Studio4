@@ -16,7 +16,8 @@ public class SendCarPropertiesToNetwork : MonoBehaviour
 
     private void SendPropertiesToNetwork()
     {
-        NetworkSender.instance?.SendCarProperties(transform.position, transform.rotation,carAnimation.GetWheelSpeed,
-                                                        flWheelHolder.localRotation, frWheelHolder.localRotation);
+        //NetworkSender.instance?.SendCarProperties(transform.position, transform.rotation,carAnimation.GetWheelSpeed,
+        //                                                flWheelHolder.localRotation, frWheelHolder.localRotation);
+        SendPackets.SendCarProperties(transform.position, transform.rotation, carAnimation.GetWheelSpeed, flWheelHolder.localRotation, frWheelHolder.localRotation);
     }
 }

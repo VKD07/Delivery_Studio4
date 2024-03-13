@@ -17,7 +17,7 @@ public class NetworkPlayerManager : MonoBehaviour
     public int enemySpawnIndex { get; private set; }
 
     #region 
-    Client thisClient;
+    ClientManager thisClient;
     #endregion
 
     #region Getter
@@ -34,7 +34,7 @@ public class NetworkPlayerManager : MonoBehaviour
         {
             Destroy(this);
         }
-        thisClient = Client.instance;
+        thisClient = ClientManager.instance;
     }
 
     #region Spawn and Pos
@@ -50,8 +50,33 @@ public class NetworkPlayerManager : MonoBehaviour
 
     public void SetEnemyProperties(PlayerData playerData, Vector3 pos, Quaternion rot, float wheelSpeed, Quaternion flWheelHolderRot, Quaternion frWheelHolderRot)
     {
+        Debug.Log("Properties Received");
+
         hasSpawned = true;
         if (playerData.teamNumber == thisClient.playerData.teamNumber) return;
+        enemyManager?.ReceivePropertiesFromNetwork(pos, rot, wheelSpeed, flWheelHolderRot, frWheelHolderRot);
+    }
+    #endregion
+
+    #region UpdatedVersion
+
+    public void SpawnEnemyPlayer(Vector3 spawnPos)
+    {
+        Debug.Log("Location Received");
+        GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnPos, Quaternion.identity);
+        enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
+    }
+
+    public void SpawnEnemyPlayer(Vector3 spawnPos, int spawnIndex)
+    {
+        Debug.Log("Location Received");
+        GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnPos, Quaternion.identity);
+        enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
+        enemySpawnIndex = spawnIndex;
+    }
+    public void SetEnemyProperties(Vector3 pos, Quaternion rot, float wheelSpeed, Quaternion flWheelHolderRot, Quaternion frWheelHolderRot)
+    {
+        hasSpawned = true;
         enemyManager?.ReceivePropertiesFromNetwork(pos, rot, wheelSpeed, flWheelHolderRot, frWheelHolderRot);
     }
     #endregion

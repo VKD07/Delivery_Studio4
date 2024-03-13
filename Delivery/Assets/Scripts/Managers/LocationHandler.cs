@@ -11,7 +11,7 @@ public class LocationHandler : MonoBehaviour
     public static LocationHandler instance;
 
     #region Private Vars
-    Client client;
+    ClientManager client;
     #endregion
     private void Awake()
     {
@@ -22,7 +22,7 @@ public class LocationHandler : MonoBehaviour
         {
             Destroy(this);
         }
-        client = Client.instance;
+        client = ClientManager.instance;
     }
 
     [SerializeField] GameObject[] deliveryLocations;

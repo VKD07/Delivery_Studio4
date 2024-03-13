@@ -31,7 +31,6 @@ public class DriverSpawnerManager : MonoBehaviour
                 randomIndex = Random.Range(0, spawnPoints.Length);
             }
         }
-
         InstantiateAndSendToNetwork();
     }
 
@@ -40,6 +39,8 @@ public class DriverSpawnerManager : MonoBehaviour
         GameObject driver = Instantiate(localDriver, spawnPoints[randomIndex].position, Quaternion.Euler(spawnPoints[randomIndex].forward));
         driver.transform.forward = spawnPoints[randomIndex].forward;
 
-        NetworkSender.instance?.SendSpawnEnemyPacket(transform.position, randomIndex);
+        SendPackets.SpawnCar(transform.position, randomIndex);
+
+        //NetworkSender.instance?.SendSpawnEnemyPacket(transform.position, randomIndex);
     }
 }

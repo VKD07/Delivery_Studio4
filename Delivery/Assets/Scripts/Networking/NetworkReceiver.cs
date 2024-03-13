@@ -70,22 +70,22 @@ public class NetworkReceiver : MonoBehaviour
     #region LobbyReceivers
     void UpdatePlayerListAndSendNameToNetwork(JoinServerPacket packet)
     {
-        PlayerLobbyManager.instance?.UpdatePlayerListAndSendNameToNetwork(packet.playerData);
+        //PlayerLobbyManager.instance?.UpdatePlayerListAndSendNameToNetwork(packet.playerData);
     }
 
     void UpdateLobbyUIManager(TeamAndRolePacket packet)
     {
-        LobbyUIManager.instance?.UpdateLobbyUIManager(packet.playerData);
+        //LobbyUIManager.instance?.UpdateLobbyUIManager(packet.playerData);
     }
 
     void UpdateChangedRolesFromNetwork(ChangeTeamPacket packet)
     {
-        LobbyUIManager.instance?.UpdateChangedRolesFromNetwork(packet.playerData);
+        //LobbyUIManager.instance?.UpdateChangedRolesFromNetwork(packet.playerData);
     }
 
     void ReceivePacketIfGameHasStarted(GameStartPacket packet)
     {
-        LobbyUIManager.instance?.ReceivePacketIfGameHasStarted(packet.gameHasStarted);
+        //LobbyUIManager.instance?.ReceivePacketIfGameHasStarted(packet.gameHasStarted);
     }
     #endregion
 
