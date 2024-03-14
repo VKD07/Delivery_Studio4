@@ -21,6 +21,7 @@ public class SendPackets : MonoBehaviour
         }
     }
 
+    #region Lobby Packets
     public static void SendJoinLobbyPacket(string playerName)
     {
         using (Packet packet = new Packet((int)ClientPackets.joinLobby))
@@ -71,6 +72,9 @@ public class SendPackets : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Driver Packets
     public static void SpawnCar(Vector3 pos, int randomIndex)
     {
         using (Packet packet = new Packet((int)ClientPackets.spawnCar))
@@ -100,6 +104,53 @@ public class SendPackets : MonoBehaviour
         }
     }
 
+    public static void SendDriverCollision()
+    {
+        using (Packet packet = new Packet((int)ClientPackets.driverCollided))
+        {
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendDirtCollision()
+    {
+        using (Packet packet = new Packet((int)ClientPackets.dirtCollision))
+        {
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendDriverArrived(int teamNumber)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.driverArrived))
+        {
+            packet.Write(teamNumber);
+            SendTCPData(packet);
+        }
+    }
+    #endregion
+
+    #region Navigator Packets
+    public static void SendDeliveryLocation(string chosenBuilding)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.deliveryAddress))
+        {
+            packet.Write(chosenBuilding);
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendTimer(string timer)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.timer))
+        {
+            packet.Write(timer);
+            SendTCPData(packet);
+        }
+    }
+    #endregion
+
+    #region NPC Car Packets
     public static void SendNPCCars(int randomCarIndex, int id, bool val)
     {
         using (Packet packet = new Packet((int)ClientPackets.npcSpawn))
@@ -131,4 +182,5 @@ public class SendPackets : MonoBehaviour
             SendTCPData(packet);
         }
     }
+    #endregion
 }

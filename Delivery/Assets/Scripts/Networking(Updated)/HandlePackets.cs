@@ -19,6 +19,7 @@ public class HandlePackets : MonoBehaviour
         SendPackets.WelcomeReceived();
     }
 
+    #region Lobby Packets
     public static void ReceiveJoinLobby(Packet packet)
     {
         PlayerLobbyManager.instance?.UpdatePlayerListAndSendNameToNetwork(packet.ReadString());
@@ -39,6 +40,9 @@ public class HandlePackets : MonoBehaviour
         LobbyUIManager.instance?.ReceivePacketIfGameHasStarted();
     }
 
+    #endregion
+
+    #region Driver Packets
     public static void ReceiveOtherPlayerCarProperties(Packet packet)
     {
         Vector3 carPos = packet.ReadVector3();
@@ -55,6 +59,36 @@ public class HandlePackets : MonoBehaviour
         Vector3 spawnPos = packet.ReadVector3();
         NetworkPlayerManager.instance?.SpawnEnemyPlayer(spawnPos, spawnIndex);
     }
+
+
+    public static void ReceiveDeliveryLocation(Packet packet)
+    {
+        LocationHandler.instance?.SetDeliveryLocation(packet.ReadString());
+    }
+
+    public static void ReceiveTimer(Packet packet)
+    {
+        TimerManager.instance?.UpdateTimer(packet.ReadString());
+    }
+    #endregion
+
+    #region Navigator Packets
+    public static void ReceiveDriverCollision(Packet packet)
+    {
+        DriverCollisionHandler.instance?.TriggerRandomMapRotation();
+    }
+    public static void ReceiveDirtCollision(Packet packet)
+    {
+        DriverCollisionHandler.instance?.EnableDirtScreen();
+    }
+
+    public static void ReceiveDriverArrived(Packet packet)
+    {
+        WinManager.instance?.DeclareWinner(packet.ReadInt());
+    }
+    #endregion
+
+    #region NPC Car Packets
 
     public static void ReceiveSpawnedNPCCar(Packet packet)
     {
@@ -76,6 +110,7 @@ public class HandlePackets : MonoBehaviour
     {
         int id = packet.ReadInt();
         bool disable = packet.ReadBool();
-        CarNPCSpawner.instance?.DisableNPCCar(id,disable);
+        CarNPCSpawner.instance?.DisableNPCCar(id, disable);
     }
+    #endregion
 }

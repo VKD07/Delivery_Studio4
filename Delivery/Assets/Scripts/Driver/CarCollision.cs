@@ -6,6 +6,7 @@ public class CarCollision : MonoBehaviour
 {
     private void OnCollisionEnter(Collision collision)
     {
-        NetworkSender.instance?.SendCollisionPacket();
+        //NetworkSender.instance?.SendCollisionPacket();
+        SendPackets.SendDriverCollision();
     }
 }

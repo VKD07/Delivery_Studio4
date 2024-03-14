@@ -19,7 +19,9 @@ public class MudSplashManager : MonoBehaviour
     public void EnableMudSplash()
     {
         StartCoroutine(ScaleSprites());
-        NetworkSender.instance?.SendDirtPacket();
+        //NetworkSender.instance?.SendDirtPacket();
+        SendPackets.SendDirtCollision();
+        
     }
 
     private IEnumerator ScaleSprites()

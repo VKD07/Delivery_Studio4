@@ -12,8 +12,16 @@ public enum ServerPackets
     teamAndRole,
     teamChange,
     startGame,
+
     spawnCar,
     carProperties,
+    driverCollided,
+    dirtCollision,
+    driverArrived,
+
+    deliveryAddress,
+    timer,
+
     npcSpawn,
     npcTransform,
     npcDisable,
@@ -28,8 +36,16 @@ public enum ClientPackets
     teamChange,
     startGame,
     playerData,
+
     spawnCar,
     carProperties,
+    driverCollided,
+    dirtCollision,
+    driverArrived,
+
+    deliveryAddress,
+    timer,
+
     npcSpawn,
     npcTransform,
     npcDisable,

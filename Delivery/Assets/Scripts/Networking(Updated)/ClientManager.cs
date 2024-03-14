@@ -46,7 +46,7 @@ public class ClientManager : MonoBehaviour
     {
         InitializeClientData();
         playerData = new PlayerData(userName, 0, GameRole.None);
-        if(playerData != null)
+        if (playerData != null)
         {
             Debug.Log(playerData.name);
         }
@@ -68,6 +68,12 @@ public class ClientManager : MonoBehaviour
 
             {(int)ServerPackets.spawnCar, HandlePackets.ReceiveSpawnedCar},
             {(int)ServerPackets.carProperties, HandlePackets.ReceiveOtherPlayerCarProperties},
+            {(int)ServerPackets.driverCollided, HandlePackets.ReceiveDriverCollision},
+            {(int)ServerPackets.dirtCollision, HandlePackets.ReceiveDirtCollision},
+            {(int)ServerPackets.timer, HandlePackets.ReceiveTimer},
+
+            {(int)ServerPackets.deliveryAddress, HandlePackets.ReceiveDeliveryLocation},
+            {(int)ServerPackets.driverArrived, HandlePackets.ReceiveDriverArrived},
 
             {(int)ServerPackets.npcSpawn, HandlePackets.ReceiveSpawnedNPCCar},
             {(int)ServerPackets.npcTransform, HandlePackets.ReceiveNPCCarTransform},

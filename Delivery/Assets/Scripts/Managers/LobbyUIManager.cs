@@ -217,8 +217,6 @@ public class LobbyUIManager : MonoBehaviour
 
     public void StartGame()
     {
-        SendPackets.SendPlayerData(thisClient.playerData.name, thisClient.playerData.teamNumber, (int)thisClient.playerData.role);
-
         switch (thisClient.playerData.role)
         {
             case GameRole.Driver:
@@ -296,6 +294,7 @@ public class LobbyUIManager : MonoBehaviour
 
     public void ReceivePacketIfGameHasStarted()
     {
+        SendPackets.SendPlayerData(thisClient.playerData.name, thisClient.playerData.teamNumber, (int)thisClient.playerData.role);
         switch (thisClient.playerData.role)
         {
             case GameRole.Driver:
