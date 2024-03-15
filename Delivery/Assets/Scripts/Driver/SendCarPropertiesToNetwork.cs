@@ -18,6 +18,12 @@ public class SendCarPropertiesToNetwork : MonoBehaviour
     {
         //NetworkSender.instance?.SendCarProperties(transform.position, transform.rotation,carAnimation.GetWheelSpeed,
         //                                                flWheelHolder.localRotation, frWheelHolder.localRotation);
-        SendPackets.SendCarProperties(transform.position, transform.rotation, carAnimation.GetWheelSpeed, flWheelHolder.localRotation, frWheelHolder.localRotation);
+        try
+        {
+            SendPackets.SendCarProperties(transform.position, transform.rotation, carAnimation.GetWheelSpeed, flWheelHolder.localRotation, frWheelHolder.localRotation);
+        }
+        catch (System.Exception)
+        {
+        }
     }
 }
