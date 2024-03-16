@@ -136,7 +136,7 @@ public class LobbyUIManager : MonoBehaviour
     private void Update()
     {
         EnableGameReady();
-        CheckAndEnableRoleBtns();
+        //CheckAndEnableRoleBtns();
     }
 
     private void EnableGameReady()

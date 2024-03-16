@@ -7,6 +7,7 @@ public class SendPackets : MonoBehaviour
 {
     private static void SendTCPData(Packet packet)
     {
+        packet.WriteLength();
         ClientManager.instance?.tcp.SendData(packet);
     }
 
