@@ -12,6 +12,7 @@ public class CarMalfunction : MonoBehaviour
     [Header("=== SMOKE AND SYMBOLS ===")]
     [SerializeField] ParticleSystem smokeParticle;
     [SerializeField] Image malfunctionSymbol;
+    [SerializeField] float symbolBlinkSpeed = 2f;
 
     [Space(1)]
     [SerializeField] UnityEvent onCarBroken;
@@ -21,6 +22,7 @@ public class CarMalfunction : MonoBehaviour
     CarTroubleShooting chosenMalfunction;
     int crashCount;
     float currentTime;
+    bool isBroken;
     #endregion
 
     private void Update()
@@ -32,6 +34,7 @@ public class CarMalfunction : MonoBehaviour
     {
         if (chosenMalfunction == null) { return; }
 
+        EnableBlinkingSymbol();
         if (chosenMalfunction.CheckifCarIsFixed() && currentTime < chosenMalfunction.timeToHold)
         {
             currentTime += Time.deltaTime;
@@ -41,8 +44,8 @@ public class CarMalfunction : MonoBehaviour
             chosenMalfunction = null;
             malfunctionSymbol.enabled = false;
             smokeParticle.Stop();
-
             onFixCar.Invoke();
+            isBroken = false;
         }
         else
         {
@@ -52,15 +55,19 @@ public class CarMalfunction : MonoBehaviour
 
     public void TriggerCarMalfunction()
     {
-        if (crashCount < numberOfCrashesToTrigger - 1)
+        if (!isBroken)
         {
-            crashCount++;
-        }
-        else
-        {
-            crashCount = 0;
-            onCarBroken.Invoke();
-            ChooseRandomMalfunction();
+            isBroken = true;
+            if (crashCount < numberOfCrashesToTrigger - 1)
+            {
+                crashCount++;
+            }
+            else
+            {
+                crashCount = 0;
+                onCarBroken.Invoke();
+                ChooseRandomMalfunction();
+            }
         }
     }
 
@@ -77,12 +84,18 @@ public class CarMalfunction : MonoBehaviour
     {
         smokeParticle.Play();
         var smokeParticleMain = smokeParticle.main;
-        smokeParticleMain.startColor = chosenMalfunction.GetSmokeColor();
+        smokeParticleMain.startColor = chosenMalfunction.GetSmokeColor;
     }
 
     void EnableSymbol()
     {
         malfunctionSymbol.enabled = true;
-        malfunctionSymbol.sprite = chosenMalfunction.getSpriteSymbol();
+        malfunctionSymbol.sprite = chosenMalfunction.getSpriteSymbol;
+    }
+
+    void EnableBlinkingSymbol()
+    {
+        float alpha = Mathf.Lerp(0, 1, Mathf.Sin(Time.time * symbolBlinkSpeed));
+        malfunctionSymbol.color = new Color(malfunctionSymbol.color.r, malfunctionSymbol.color.g, malfunctionSymbol.color.b, alpha);
     }
 }

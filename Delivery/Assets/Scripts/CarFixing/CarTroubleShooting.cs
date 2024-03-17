@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CarTroubleshoot", menuName = "CarMalfunction/Create new problem")]
@@ -10,20 +11,13 @@ public class CarTroubleShooting : ScriptableObject
     [SerializeField] Color colorOfSmoke;
     [SerializeField] Sprite symbolToShow;
 
-    public Color GetSmokeColor()
-    {
-        return colorOfSmoke;
-    }
-
-    public Sprite getSpriteSymbol()
-    {
-        return symbolToShow;
-    }
+    public Color GetSmokeColor => colorOfSmoke;
+    public Sprite getSpriteSymbol => symbolToShow;
+    public int numOfKeysToPress => keysToPressforFix.Length;
 
     public bool CheckifCarIsFixed()
     {
         bool isFixed = true;
-
         for (int i = 0; i < keysToPressforFix.Length; i++)
         {
             if (!Input.GetKey(keysToPressforFix[i]))

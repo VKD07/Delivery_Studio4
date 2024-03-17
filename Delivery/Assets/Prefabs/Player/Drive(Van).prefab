@@ -11670,7 +11670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 925cc20e9d52c0d478c56cad8a7037e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfCrashesToTrigger: 4
+  numberOfCrashesToTrigger: 3
   malfunctions:
   - {fileID: 11400000, guid: 6889bb4fa0340054d8a8dfc2b7a3c3d2, type: 2}
   - {fileID: 11400000, guid: 702e6603e906b274ab6c52d9785ec6a6, type: 2}
@@ -11678,6 +11678,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8a7b2598f98febc44a4bfbea9eeaa3cb, type: 2}
   smokeParticle: {fileID: 6072554684867006230}
   malfunctionSymbol: {fileID: 2043402278895020958}
+  symbolBlinkSpeed: 3
   onCarBroken:
     m_PersistentCalls:
       m_Calls:
