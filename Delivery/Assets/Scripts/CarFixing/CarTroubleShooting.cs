@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,28 @@ public class CarTroubleShooting : ScriptableObject
     [SerializeField] KeyCode[] keysToPressforFix;
     [SerializeField] public float timeToHold;
     [SerializeField] Color colorOfSmoke;
+    [SerializeField] SmokeColor colorName;
     [SerializeField] Sprite symbolToShow;
-    [SerializeField, TextArea] string instructionsTxt;
 
     public Color GetSmokeColor => colorOfSmoke;
     public Sprite getSpriteSymbol => symbolToShow;
     public int numOfKeysToPress => keysToPressforFix.Length;
-    public string GetInstructionsTxt => instructionsTxt;
+    public string GetInstructionsTxt()
+    {
+        string instructions = $"If {colorName} smoke \nHold ";
+
+        for (int i = 0; i < keysToPressforFix.Length; i++)
+        {
+            instructions += keysToPressforFix[i].ToString();
+
+            if (i < keysToPressforFix.Length - 1)
+            {
+                instructions += " + ";
+            }
+        }
+        instructions += $" for {timeToHold} seconds";
+        return instructions;
+    }
 
     public bool CheckifCarIsFixed()
     {
@@ -42,4 +58,12 @@ public class CarTroubleShooting : ScriptableObject
 
         return isFixed;
     }
+}
+
+[Serializable]
+public enum SmokeColor
+{
+    White,
+    Black,
+    Gray,
 }

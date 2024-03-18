@@ -25,7 +25,7 @@ public class CarManualInitializer : MonoBehaviour
             Image symbol = troubleShootUI.transform.Find("CarSymbol_Img").GetComponent<Image>();
             prevImage = carTroubleShootings[i].getSpriteSymbol;
             symbol.sprite = carTroubleShootings[i].getSpriteSymbol;
-            troubleShootUI.GetComponentInChildren<TextMeshProUGUI>().text = carTroubleShootings[i].GetInstructionsTxt;
+            troubleShootUI.GetComponentInChildren<TextMeshProUGUI>().text = carTroubleShootings[i].GetInstructionsTxt();
         }
     }
 }

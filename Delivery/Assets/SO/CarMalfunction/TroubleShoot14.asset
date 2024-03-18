@@ -15,4 +15,6 @@ MonoBehaviour:
   keysToPressforFix: 2000000061000000
   timeToHold: 3
   colorOfSmoke: {r: 0, g: 0, b: 0, a: 1}
+  colorName: 1
   symbolToShow: {fileID: -1950385786, guid: d8e26b7e289371441b8a70797ed7e2d1, type: 3}
+  instructionsTxt: 
