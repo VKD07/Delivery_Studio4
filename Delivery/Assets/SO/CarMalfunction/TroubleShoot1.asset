@@ -16,3 +16,4 @@ MonoBehaviour:
   timeToHold: 3
   colorOfSmoke: {r: 1, g: 1, b: 1, a: 1}
   symbolToShow: {fileID: -501305982, guid: cdea6c0255bce0241bcdc09b2602fb5d, type: 3}
+  instructionsTxt: If white smoke hold A + D for 3 seconds.

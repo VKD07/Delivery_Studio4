@@ -11672,10 +11672,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfCrashesToTrigger: 3
   malfunctions:
-  - {fileID: 11400000, guid: 6889bb4fa0340054d8a8dfc2b7a3c3d2, type: 2}
+  - {fileID: 11400000, guid: 94c8bbbad5269e4499593e03392e8031, type: 2}
   - {fileID: 11400000, guid: 702e6603e906b274ab6c52d9785ec6a6, type: 2}
   - {fileID: 11400000, guid: a402fbd4780b0af4780c0b6eb602a295, type: 2}
   - {fileID: 11400000, guid: 8a7b2598f98febc44a4bfbea9eeaa3cb, type: 2}
+  - {fileID: 11400000, guid: 6750f03d31528c7408bc73c2a551fc76, type: 2}
+  - {fileID: 11400000, guid: 18db56796bdb2c742ba0e0a7df88b412, type: 2}
+  - {fileID: 11400000, guid: 8292300fa6791bd4cb579183eaac92f2, type: 2}
+  - {fileID: 11400000, guid: 27b9db2e7968c9f43ac851fd283627b1, type: 2}
+  - {fileID: 11400000, guid: fd912660fc3a6d74fb0a5f4ca8fc864a, type: 2}
+  - {fileID: 11400000, guid: 9a84ed857aa450144bff906eef77ef41, type: 2}
+  - {fileID: 11400000, guid: f1a0a5da9e0ad0a428b80bfc5cb05d25, type: 2}
+  - {fileID: 11400000, guid: 9e0d73c49783519498d2356e32093609, type: 2}
+  - {fileID: 11400000, guid: 3dd5438f73b3ee8469264d3a6c60d141, type: 2}
+  - {fileID: 11400000, guid: 29a4d71735709764d8f37f6f4215f5fe, type: 2}
+  - {fileID: 11400000, guid: 187d0d83b04d39f4a94f84a6f38ae29f, type: 2}
+  - {fileID: 11400000, guid: baa18595a95b55f48871d2edb83ececf, type: 2}
+  - {fileID: 11400000, guid: dd0d69f380ae0b04eb85ce77239155d1, type: 2}
+  - {fileID: 11400000, guid: 32bba00e696a8e8448a08faf804efe60, type: 2}
+  - {fileID: 11400000, guid: 10f65858dd4d677458784d3e723586a6, type: 2}
+  - {fileID: 11400000, guid: ccaf02957619a874b8d7c9d16b4f6edd, type: 2}
+  - {fileID: 11400000, guid: 6afcd8a7e05dff84381d18bf9911ec13, type: 2}
+  - {fileID: 11400000, guid: 1a701635a95045c489ded4cf3c840f8e, type: 2}
+  - {fileID: 11400000, guid: 1eb45bbd6f1bb934887e9e894dc3d09c, type: 2}
+  - {fileID: 11400000, guid: 4052ea6cb83b1e644a64e17b99f89d97, type: 2}
+  - {fileID: 11400000, guid: ce5de1b9cf9b5c948a39cabaa226d4f9, type: 2}
   smokeParticle: {fileID: 6072554684867006230}
   malfunctionSymbol: {fileID: 2043402278895020958}
   symbolBlinkSpeed: 3

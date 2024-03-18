@@ -41,6 +41,7 @@ public class CarMalfunction : MonoBehaviour
         }
         else if (chosenMalfunction.CheckifCarIsFixed() && currentTime >= chosenMalfunction.timeToHold)
         {
+            crashCount = 0;
             chosenMalfunction = null;
             malfunctionSymbol.enabled = false;
             smokeParticle.Stop();
@@ -55,19 +56,19 @@ public class CarMalfunction : MonoBehaviour
 
     public void TriggerCarMalfunction()
     {
-        if (!isBroken)
+        if (crashCount >= numberOfCrashesToTrigger-1)
         {
-            isBroken = true;
-            if (crashCount < numberOfCrashesToTrigger - 1)
+            if (!isBroken)
             {
-                crashCount++;
-            }
-            else
-            {
+                isBroken = true;
                 crashCount = 0;
                 onCarBroken.Invoke();
                 ChooseRandomMalfunction();
             }
+        }
+        else
+        {
+            crashCount++;
         }
     }
 

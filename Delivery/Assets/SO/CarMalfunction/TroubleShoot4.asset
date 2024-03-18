@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9e3d8c8dc4595240b88220635503a69, type: 3}
   m_Name: TroubleShoot4
   m_EditorClassIdentifier: 
-  keysToPressforFix: 770000006100000073000000
+  keysToPressforFix: 7700000073000000
   timeToHold: 3
-  colorOfSmoke: {r: 1, g: 1, b: 1, a: 1}
-  symbolToShow: {fileID: -1721292291, guid: 50779d682d2736042bb494b2b46b13dc, type: 3}
+  colorOfSmoke: {r: 0, g: 0, b: 0, a: 1}
+  symbolToShow: {fileID: -2047546430, guid: 82824d2e68c71d448a3ff21efe8844c6, type: 3}

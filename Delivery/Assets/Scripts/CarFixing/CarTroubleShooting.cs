@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -10,22 +11,35 @@ public class CarTroubleShooting : ScriptableObject
     [SerializeField] public float timeToHold;
     [SerializeField] Color colorOfSmoke;
     [SerializeField] Sprite symbolToShow;
+    [SerializeField, TextArea] string instructionsTxt;
 
     public Color GetSmokeColor => colorOfSmoke;
     public Sprite getSpriteSymbol => symbolToShow;
     public int numOfKeysToPress => keysToPressforFix.Length;
+    public string GetInstructionsTxt => instructionsTxt;
 
     public bool CheckifCarIsFixed()
     {
         bool isFixed = true;
-        for (int i = 0; i < keysToPressforFix.Length; i++)
+
+        foreach (KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
         {
-            if (!Input.GetKey(keysToPressforFix[i]))
+            if (!keysToPressforFix.Contains(keyCode) && Input.GetKey(keyCode))
             {
                 isFixed = false;
                 break;
             }
         }
+
+        foreach (KeyCode key in keysToPressforFix)
+        {
+            if (!Input.GetKey(key))
+            {
+                isFixed = false;
+                break;
+            }
+        }
+
         return isFixed;
     }
 }
