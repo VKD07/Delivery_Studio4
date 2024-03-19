@@ -70,6 +70,20 @@ public class HandlePackets : MonoBehaviour
     {
         TimerManager.instance?.UpdateTimer(packet.ReadString());
     }
+
+    public static void ReceiveChosenPackage(Packet packet)
+    {
+        string packageName = packet.ReadString();
+        int packageIndex = packet.ReadInt();
+        int tagIndex = packet.ReadInt();
+
+        CustomerDialougeManager.instance?.EnableAndSetCustomerDialouge(packageName, packageIndex, tagIndex);
+    }
+
+    public static void ReceiveWinPacket(Packet packet)
+    {
+        WinManager.instance?.DeclareWinner(packet.ReadInt());
+    }
     #endregion
 
     #region Navigator Packets
@@ -84,7 +98,7 @@ public class HandlePackets : MonoBehaviour
 
     public static void ReceiveDriverArrived(Packet packet)
     {
-        WinManager.instance?.DeclareWinner(packet.ReadInt());
+        NavCustomerPackage.instance?.EnablePackageUI();
     }
     #endregion
 

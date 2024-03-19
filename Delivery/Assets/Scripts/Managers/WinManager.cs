@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WinManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class WinManager : MonoBehaviour
     [SerializeField] GameObject WinPanel;
     [SerializeField] TextMeshProUGUI winnerTxt;
     [SerializeField] TextMeshProUGUI totalTimeTxt;
+
+    [SerializeField] UnityEvent OnWin;
 
     #region private var
     ClientManager thisClient;
@@ -34,6 +37,7 @@ public class WinManager : MonoBehaviour
         TimerManager.instance?.StopTimer();
         totalTimeTxt.text = TimerManager.instance?.GetCurrentTime;
         Time.timeScale = 0f;
+        OnWin.Invoke();
     }
 
     public void DeclareWinner(bool value)
@@ -44,6 +48,7 @@ public class WinManager : MonoBehaviour
         winnerTxt.SetText($"TEAM {thisClient.playerData.teamNumber} WINS!");
         WinPanel.SetActive(true);
         Time.timeScale = 0f;
+        OnWin.Invoke();
     }
 
     //public void DeclareWinner(bool hasArrived, PlayerData playerData)

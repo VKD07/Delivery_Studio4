@@ -30,10 +30,15 @@ public class DriverPlacement : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            //NetworkSender.instance?.SendNetworkDriverArrived();
             SendPackets.SendDriverArrived(ClientManager.instance.playerData.teamNumber);
-            //Client.instance.SendPacket(new DriverArrivedPacket(true).Serialize());
-            WinManager.instance?.DeclareWinner(true);
+
+            DriverSpawnerManager.instance.DisableSpawnedDriver();
+            CustomerDialougeManager.instance.EnableCustomer();
+
+            ////NetworkSender.instance?.SendNetworkDriverArrived();
+            //SendPackets.SendDriverArrived(ClientManager.instance.playerData.teamNumber);
+            ////Client.instance.SendPacket(new DriverArrivedPacket(true).Serialize());
+            //WinManager.instance?.DeclareWinner(true);
         }
     }
 }

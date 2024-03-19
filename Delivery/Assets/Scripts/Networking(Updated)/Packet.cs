@@ -21,6 +21,8 @@ public enum ServerPackets
 
     deliveryAddress,
     timer,
+    chosenPackage,
+    win,
 
     npcSpawn,
     npcTransform,
@@ -45,6 +47,8 @@ public enum ClientPackets
 
     deliveryAddress,
     timer,
+    chosenPackage,
+    win,
 
     npcSpawn,
     npcTransform,

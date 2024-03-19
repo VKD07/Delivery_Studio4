@@ -124,7 +124,6 @@ public class SendPackets : MonoBehaviour
     {
         using (Packet packet = new Packet((int)ClientPackets.driverArrived))
         {
-            packet.Write(teamNumber);
             SendTCPData(packet);
         }
     }
@@ -145,6 +144,26 @@ public class SendPackets : MonoBehaviour
         using (Packet packet = new Packet((int)ClientPackets.timer))
         {
             packet.Write(timer);
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendChosenPackageProperties(string packageName, int packageIndex, int tagIndex)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.chosenPackage))
+        {
+            packet.Write(packageName);
+            packet.Write(packageIndex);
+            packet.Write(tagIndex);
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendWinPacket(int teamNumber)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.win))
+        {
+            packet.Write(teamNumber);
             SendTCPData(packet);
         }
     }

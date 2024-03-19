@@ -74,6 +74,8 @@ public class ClientManager : MonoBehaviour
 
             {(int)ServerPackets.deliveryAddress, HandlePackets.ReceiveDeliveryLocation},
             {(int)ServerPackets.driverArrived, HandlePackets.ReceiveDriverArrived},
+            {(int)ServerPackets.chosenPackage, HandlePackets.ReceiveChosenPackage},
+            {(int)ServerPackets.win, HandlePackets.ReceiveWinPacket},
 
             {(int)ServerPackets.npcSpawn, HandlePackets.ReceiveSpawnedNPCCar},
             {(int)ServerPackets.npcTransform, HandlePackets.ReceiveNPCCarTransform},
