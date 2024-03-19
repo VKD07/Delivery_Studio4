@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1106.2758, y: 0}
+  m_AnchoredPosition: {x: 1106.2758, y: -12}
   m_SizeDelta: {x: 378.622, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8020285368307831021
@@ -65,9 +65,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'If White Smoke
-
-    Hold A + S for 3 seconds'
+  m_text: "If White smoke \nHold W + A + S for 3 seconds\n If Black smoke \nHold
+    Space + S for 3 seconds\n If Gray smoke \nHold Space + D for 4 seconds"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -130,7 +129,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -0.9309082, w: 0}
+  m_margin: {x: 0, y: 0, z: -187.54013, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -170,8 +169,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 32.515, y: -35.075}
-  m_SizeDelta: {x: 4157.679, y: 1460.115}
+  m_AnchoredPosition: {x: 502.55698, y: -35.075}
+  m_SizeDelta: {x: 5097.76, y: 1460.115}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6769263680754577398
 CanvasRenderer:

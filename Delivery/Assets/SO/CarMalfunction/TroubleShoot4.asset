@@ -17,4 +17,7 @@ MonoBehaviour:
   colorOfSmoke: {r: 0, g: 0, b: 0, a: 1}
   colorName: 1
   symbolToShow: {fileID: -2047546430, guid: 82824d2e68c71d448a3ff21efe8844c6, type: 3}
-  instructionsTxt: 
+  instructionsTxt: 'If White smoke hold W + A for 3 seconds.
+
+    If Black smoke
+    hold W+ S for 3 seconds.'

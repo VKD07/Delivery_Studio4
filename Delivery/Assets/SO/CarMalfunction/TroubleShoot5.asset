@@ -15,4 +15,9 @@ MonoBehaviour:
   keysToPressforFix: 770000006100000073000000
   timeToHold: 3
   colorOfSmoke: {r: 1, g: 1, b: 1, a: 1}
+  colorName: 0
   symbolToShow: {fileID: -1721292291, guid: 50779d682d2736042bb494b2b46b13dc, type: 3}
+  instructionsTxt: 'If White smoke hold W + A + S for 3 seconds.
+
+    If Black smoke
+    hold SPACE + S for 3 seconds.'

@@ -17,22 +17,8 @@ public class CarTroubleShooting : ScriptableObject
     public Color GetSmokeColor => colorOfSmoke;
     public Sprite getSpriteSymbol => symbolToShow;
     public int numOfKeysToPress => keysToPressforFix.Length;
-    public string GetInstructionsTxt()
-    {
-        string instructions = $"If {colorName} smoke \nHold ";
-
-        for (int i = 0; i < keysToPressforFix.Length; i++)
-        {
-            instructions += keysToPressforFix[i].ToString();
-
-            if (i < keysToPressforFix.Length - 1)
-            {
-                instructions += " + ";
-            }
-        }
-        instructions += $" for {timeToHold} seconds";
-        return instructions;
-    }
+    public KeyCode[] GetKeyCodes => keysToPressforFix; 
+    public string GetSmokeColorEnum => colorName.ToString();
 
     public bool CheckifCarIsFixed()
     {
