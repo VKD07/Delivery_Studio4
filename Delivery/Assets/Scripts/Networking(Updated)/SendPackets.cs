@@ -75,11 +75,12 @@ public class SendPackets : MonoBehaviour
     #endregion
 
     #region Driver Packets
-    public static void SpawnCar(Vector3 pos, int randomIndex)
+    public static void SpawnCar(Vector3 pos, int startLocIndex, int pointIndex)
     {
         using (Packet packet = new Packet((int)ClientPackets.spawnCar))
         {
-            packet.Write(randomIndex);
+            packet.Write(startLocIndex);
+            packet.Write(pointIndex);
             packet.Write(pos);
             SendTCPData(packet);
         }

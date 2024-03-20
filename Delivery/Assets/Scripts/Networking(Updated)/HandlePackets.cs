@@ -55,9 +55,10 @@ public class HandlePackets : MonoBehaviour
 
     public static void ReceiveSpawnedCar(Packet packet)
     {
-        int spawnIndex = packet.ReadInt();
+        int startLocaIndex = packet.ReadInt();
+        int pointIndex = packet.ReadInt();
         Vector3 spawnPos = packet.ReadVector3();
-        NetworkPlayerManager.instance?.SpawnEnemyPlayer(spawnPos, spawnIndex);
+        NetworkPlayerManager.instance?.SpawnEnemyPlayer(spawnPos, startLocaIndex, pointIndex);
     }
 
 
