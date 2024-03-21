@@ -33,6 +33,12 @@ public class CustomerDialougeManager : MonoBehaviour
 
     public void EnableCustomer()
     {
+        StartCoroutine(ShowCustomerDialouge());
+    }
+
+    IEnumerator ShowCustomerDialouge()
+    {
+        yield return new WaitForSeconds(2f);
         customerDialougePanel.SetActive(true);
     }
 
