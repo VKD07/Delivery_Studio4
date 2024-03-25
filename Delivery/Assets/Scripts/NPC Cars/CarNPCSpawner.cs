@@ -68,7 +68,7 @@ public class CarNPCSpawner : MonoBehaviour
 
                 spawnedCar.transform.forward = transform.forward;
                 SplineAnimate splineAnimate = spawnedCar.GetComponent<SplineAnimate>();
-                CarDataManager dataManager = spawnedCar.GetComponent<CarDataManager>();
+                NPCCarManager dataManager = spawnedCar.GetComponent<NPCCarManager>();
 
                 if (splineAnimate != null)
                 {
@@ -147,7 +147,7 @@ public class CarNPCSpawner : MonoBehaviour
         {
             poolOfCars[id].SetActive(true);
         }
-        poolOfCars[id].GetComponent<CarDataManager>().UpdateTransform(pos, rot);
+        poolOfCars[id].GetComponent<NPCCarManager>().UpdateTransform(pos, rot);
     }
 
     public void DisableNPCCar(int id, bool val)

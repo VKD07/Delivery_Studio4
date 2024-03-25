@@ -28,7 +28,7 @@ public class TrafficAwareness : MonoBehaviour
 
     #region Required Components 
     public SplineAnimate spline => GetComponent<SplineAnimate>();
-    public CarDataManager carDataManager => GetComponent<CarDataManager>();
+    public NPCCarManager carDataManager => GetComponent<NPCCarManager>();
     #endregion
     void Update()
     {

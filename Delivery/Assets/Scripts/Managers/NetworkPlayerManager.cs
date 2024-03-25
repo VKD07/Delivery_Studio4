@@ -69,12 +69,13 @@ public class NetworkPlayerManager : MonoBehaviour
         enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
     }
 
-    public void SpawnEnemyPlayer(Vector3 spawnPos, int startLocIndex, int pointIndex)
+    public void SpawnEnemyPlayer(Vector3 spawnPos, int startLocIndex, int pointIndex, string userName)
     {
         Debug.Log("Location Received");
         
         GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnPos, Quaternion.identity);
         enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
+        enemyManager.SetEnemyUserName(userName);
         enemyStartLocIndex = startLocIndex;
         enemySpawnPointIndex = pointIndex;
     }

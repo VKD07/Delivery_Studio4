@@ -58,7 +58,8 @@ public class HandlePackets : MonoBehaviour
         int startLocaIndex = packet.ReadInt();
         int pointIndex = packet.ReadInt();
         Vector3 spawnPos = packet.ReadVector3();
-        NetworkPlayerManager.instance?.SpawnEnemyPlayer(spawnPos, startLocaIndex, pointIndex);
+        string userName = packet.ReadString();
+        NetworkPlayerManager.instance?.SpawnEnemyPlayer(spawnPos, startLocaIndex, pointIndex, userName);
     }
 
 

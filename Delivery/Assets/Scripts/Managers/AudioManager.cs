@@ -9,7 +9,6 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance { get; private set; }
 
     [SerializeField] AudioSource musicSource, sfxSource;
-    public List<AudioSource> spawnedSounds;
 
     [Header("=== AUDIO LIBRARY ===")]
     public Sound[] sounds;
@@ -25,7 +24,6 @@ public class AudioManager : MonoBehaviour
             Destroy(this);
         }
     }
-
     
 
     public void PlaySound(string name)

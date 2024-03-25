@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    [Header("Car Animation")]
+    [Header("=== CAR USERNAME ===")]
+    [SerializeField] TextMeshProUGUI userName;
+
+    [Header("=== CAR ANIMATION ===")]
     [SerializeField] Transform flWheelHolder, frWheelHolder;
     [SerializeField] Transform[] wheels;
     [SerializeField] float wheelRotationMultiplier;
@@ -26,6 +30,11 @@ public class EnemyManager : MonoBehaviour
 
         flWheelHolder.localRotation = flWheelRot;
         frWheelHolder.localRotation = frWheelRot;
+    }
+
+    public void SetEnemyUserName(string userName)
+    {
+        this.userName.text = userName;
     }
     #endregion
 }
