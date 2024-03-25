@@ -6,14 +6,15 @@ using UnityEngine;
 public class CustomerAnim : MonoBehaviour
 {
     [Header("== LIST OF ANIMATIONS")]
-    [SerializeField] string[] IDLES;
-    [SerializeField] string RIGHTPACKAGE;
+    public string IDLE;
+    public string WRONGITEM;
+    public string RIGHTPACKAGE;
     string currentAnim;
     public Animator anim => GetComponent<Animator>();
     
     public void SwitchAnim(string animName)
     {
-        if (currentAnim == animName) return;
+        //if (currentAnim == animName) return;
         currentAnim = animName;
         anim.Play(animName);
     }

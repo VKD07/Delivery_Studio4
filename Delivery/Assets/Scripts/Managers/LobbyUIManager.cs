@@ -243,7 +243,6 @@ public class LobbyUIManager : MonoBehaviour
                 if (role == GameRole.Driver)
                 {
                     SetPlayerRoleAndTeam(teamNum, role, t1_chooseDriverBtn.gameObject, t1_driverName.gameObject, name, false);
-                    Debug.Log(name);
                 }
                 else if (role == GameRole.Navigator)
                 {

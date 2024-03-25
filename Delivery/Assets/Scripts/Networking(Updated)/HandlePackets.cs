@@ -96,10 +96,13 @@ public class HandlePackets : MonoBehaviour
     {
         DriverCollisionHandler.instance?.EnableDirtScreen();
     }
-
     public static void ReceiveDriverArrived(Packet packet)
     {
         NavCustomerPackage.instance?.EnablePackageUI();
+    }
+    public static void ReceiveIncorrectPackage(Packet packet)
+    {
+        CustomerDialougeManager.instance?.EnableAngryCustomer();
     }
     #endregion
 

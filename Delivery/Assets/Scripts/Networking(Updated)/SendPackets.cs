@@ -168,6 +168,14 @@ public class SendPackets : MonoBehaviour
             SendTCPData(packet);
         }
     }
+
+    public static void SendPackageMistake()
+    {
+        using (Packet packet = new Packet((int)ClientPackets.wrongPackage))
+        {
+            SendTCPData(packet);
+        }
+    }
     #endregion
 
     #region NPC Car Packets

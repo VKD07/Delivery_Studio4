@@ -23,6 +23,7 @@ public enum ServerPackets
     timer,
     chosenPackage,
     win,
+    wrongPackage,
 
     npcSpawn,
     npcTransform,
@@ -49,6 +50,7 @@ public enum ClientPackets
     timer,
     chosenPackage,
     win,
+    wrongPackage,
 
     npcSpawn,
     npcTransform,

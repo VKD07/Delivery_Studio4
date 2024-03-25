@@ -76,6 +76,7 @@ public class ClientManager : MonoBehaviour
             {(int)ServerPackets.driverArrived, HandlePackets.ReceiveDriverArrived},
             {(int)ServerPackets.chosenPackage, HandlePackets.ReceiveChosenPackage},
             {(int)ServerPackets.win, HandlePackets.ReceiveWinPacket},
+            {(int)ServerPackets.wrongPackage, HandlePackets.ReceiveIncorrectPackage},
 
             {(int)ServerPackets.npcSpawn, HandlePackets.ReceiveSpawnedNPCCar},
             {(int)ServerPackets.npcTransform, HandlePackets.ReceiveNPCCarTransform},

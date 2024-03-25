@@ -2108,9 +2108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8cfda133228d8c4689deb0c1d66c447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IDLES:
-  - idle
-  - idleBored
+  IDLE: Idle
+  WRONGITEM: WrongItem
   RIGHTPACKAGE: Happy
 --- !u!95 &543759786837362250
 Animator:

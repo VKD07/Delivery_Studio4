@@ -36,8 +36,8 @@ public class TargetLocation : MonoBehaviour
         {
             ShowCustomer();
             other.gameObject.transform.parent.gameObject.SetActive(false);
-            SendPackets.SendDriverArrived(ClientManager.instance.playerData.teamNumber);
 
+            SendPackets.SendDriverArrived(ClientManager.instance.playerData.teamNumber);
             DriverSpawnerManager.instance.DisableSpawnedDriver();
             CustomerDialougeManager.instance.EnableCustomer();
 
