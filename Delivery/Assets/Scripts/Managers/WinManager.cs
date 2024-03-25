@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WinManager : MonoBehaviour
 {
@@ -11,8 +12,10 @@ public class WinManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI winnerTxt;
     [SerializeField] TextMeshProUGUI totalTimeTxt;
 
+    [SerializeField] UnityEvent OnWin;
+
     #region private var
-    Client thisClient;
+    ClientManager thisClient;
     #endregion
     private void Awake()
     {
@@ -24,17 +27,17 @@ public class WinManager : MonoBehaviour
         {
             Destroy(this);
         }
-        thisClient = Client.instance;
+        thisClient = ClientManager.instance;
     }
 
-    public void DeclareWinner(bool hasArrived, PlayerData playerData)
+    public void DeclareWinner(int teamNumber)
     {
-        if (!hasArrived) return;
-        winnerTxt.SetText($"TEAM {playerData.teamNumber} WINS!");
+        winnerTxt.SetText($"TEAM {teamNumber} WINS!");
         WinPanel.SetActive(true);
         TimerManager.instance?.StopTimer();
         totalTimeTxt.text = TimerManager.instance?.GetCurrentTime;
         Time.timeScale = 0f;
+        OnWin.Invoke();
     }
 
     public void DeclareWinner(bool value)
@@ -45,5 +48,16 @@ public class WinManager : MonoBehaviour
         winnerTxt.SetText($"TEAM {thisClient.playerData.teamNumber} WINS!");
         WinPanel.SetActive(true);
         Time.timeScale = 0f;
+        OnWin.Invoke();
     }
+
+    //public void DeclareWinner(bool hasArrived, PlayerData playerData)
+    //{
+    //    if (!hasArrived) return;
+    //    winnerTxt.SetText($"TEAM {playerData.teamNumber} WINS!");
+    //    WinPanel.SetActive(true);
+    //    TimerManager.instance?.StopTimer();
+    //    totalTimeTxt.text = TimerManager.instance?.GetCurrentTime;
+    //    Time.timeScale = 0f;
+    //}
 }

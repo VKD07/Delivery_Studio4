@@ -24,7 +24,8 @@ public class CarDataManager : MonoBehaviour
 
     private void SendCurrentTransformToNetwork()
     {
-        NetworkSender.instance?.SendNPCCarTransform(id, trans.position, trans.rotation);
+        //NetworkSender.instance?.SendNPCCarTransform(id, trans.position, trans.rotation);
+        SendPackets.SendNPCCarTransform(id, trans.position, trans.rotation);
     }
 
     private void ResetRoute()
@@ -35,7 +36,9 @@ public class CarDataManager : MonoBehaviour
             {
                 if (spline.ElapsedTime >= 32)
                 {
-                    NetworkSender.instance?.DisableNPCar(id);
+                    //NetworkSender.instance?.DisableNPCar(id);
+                    SendPackets.DisableNPCCar(id);
+                    SendPackets.DisableNPCCar(id);
                     spline.Restart(true);
                     gameObject.SetActive(false);
                 }

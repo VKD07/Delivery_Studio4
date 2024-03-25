@@ -44,6 +44,7 @@ namespace Driver
         [SerializeField] float steeringSpeed = 10f;
         [SerializeField] float maxSteeringAngle = 10f;
         float currentSteerAngle;
+        public bool isBroken { get; set; }
 
         Rigidbody rb => GetComponent<Rigidbody>();
 
@@ -80,6 +81,7 @@ namespace Driver
 
         void Move()
         {
+            if (isBroken) return;
             for (int i = 0; i < wheelList.Count; i++)
             {
                 wheelList[i].wheelCollider.motorTorque = moveInput * 600 * maxAccel * Time.deltaTime;
@@ -88,6 +90,7 @@ namespace Driver
 
         void Steer()
         {
+            if (isBroken) return;
             for (int i = 0; i < wheelList.Count; i++)
             {
                 if (wheelList[i].axel == Axel.Front)

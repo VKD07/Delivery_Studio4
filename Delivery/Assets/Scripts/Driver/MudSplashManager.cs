@@ -14,12 +14,18 @@ public class MudSplashManager : MonoBehaviour
     [SerializeField] float dissolveSpeed = .1f;
     [SerializeField] Material mudSplashMat;
 
+    bool isEnabled;
     float targetScale = 0.09004044f;
 
     public void EnableMudSplash()
     {
-        StartCoroutine(ScaleSprites());
-        NetworkSender.instance?.SendDirtPacket();
+        if(!isEnabled)
+        {
+            isEnabled = true;
+            StartCoroutine(ScaleSprites());
+            //NetworkSender.instance?.SendDirtPacket();
+            SendPackets.SendDirtCollision();
+        }
     }
 
     private IEnumerator ScaleSprites()
@@ -53,5 +59,6 @@ public class MudSplashManager : MonoBehaviour
             mudSplashMat.SetFloat("_DissolveAmount", dissolveTime);
             yield return null;
         }
+        isEnabled = false;
     }
 }

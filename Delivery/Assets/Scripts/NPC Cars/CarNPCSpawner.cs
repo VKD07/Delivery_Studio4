@@ -84,7 +84,8 @@ public class CarNPCSpawner : MonoBehaviour
 
                 spawnedCar.SetActive(false);
                 poolOfCars.Add(i, spawnedCar);
-                NetworkSender.instance?.InstantiateNPCCar(randomCarIndex, i, true);
+                SendPackets.SendNPCCars(randomCarIndex, i, true);
+                //NetworkSender.instance?.InstantiateNPCCar(randomCarIndex, i, true);
             }
         }
     }

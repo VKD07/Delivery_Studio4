@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -43,7 +44,7 @@ public class LobbyUIManager : MonoBehaviour
     public PlayerLobbyManager playerLobbyManager => GetComponent<PlayerLobbyManager>();
 
     #region private vars
-    Client thisClient;
+    ClientManager thisClient;
     GameObject btnRolePressed;
     GameObject txtChanged;
     #endregion
@@ -89,7 +90,7 @@ public class LobbyUIManager : MonoBehaviour
             Destroy(this);
         }
 
-        thisClient = FindObjectOfType<Client>();
+        thisClient = FindObjectOfType<ClientManager>();
 
         //Team 1 Driver Button
         t1_chooseDriverBtn = t1_driverPanel.GetComponentInChildren<Button>();
@@ -125,7 +126,7 @@ public class LobbyUIManager : MonoBehaviour
         t2_chosenNavigatorBtn.onClick.AddListener(() => SetPlayerRoleAndTeam(2, GameRole.Navigator, t2_chosenNavigatorBtn.gameObject,
                                                                                t2_navigatorName.gameObject, thisClient.playerData.name, true));
 
-        cancelButton.onClick.AddListener(() => ChangeTeam(btnRolePressed, txtChanged, thisClient.playerData, true));
+        cancelButton.onClick.AddListener(() => ChangeTeam(btnRolePressed, txtChanged, thisClient.playerData.name, true));
 
         startGameBtn.onClick.AddListener(StartGame);
 
@@ -182,7 +183,8 @@ public class LobbyUIManager : MonoBehaviour
             cancelButton.gameObject.SetActive(true);
 
             //Send this update to the network
-            NetworkSender.instance?.SendRoleAndTeamPacket();
+            SendPackets.SendTeamAndRole(teamNum, (int)role, thisClient.playerData.name);
+            //NetworkSender.instance?.SendRoleAndTeamPacket();
 
             //Recording what player chosed so that we can disable it when he wants to change team
             btnRolePressed = roleBtn;
@@ -195,7 +197,7 @@ public class LobbyUIManager : MonoBehaviour
         RemoveNameFromUnAssignedPlayerList(playerName);
     }
 
-    void ChangeTeam(GameObject btnRole, GameObject textToDisable, PlayerData playerData, bool updateData)
+    void ChangeTeam(GameObject btnRole, GameObject textToDisable, string playerName, bool updateData)
     {
         if (updateData)
         {
@@ -203,16 +205,17 @@ public class LobbyUIManager : MonoBehaviour
             cancelButton.gameObject.SetActive(false);
 
             //Update the network that you have chosen to change team
-            NetworkSender.instance?.SendChangeTeamPacket();
+            //NetworkSender.instance?.SendChangeTeamPacket();
+            SendPackets.SendTeamChange(thisClient.playerData.teamNumber, (int)thisClient.playerData.role, thisClient.playerData.name);
         }
 
-        SetNameToPlayerList(playerData.name);
+        SetNameToPlayerList(playerName);
         btnRole.SetActive(true);
         textToDisable.SetActive(false);
         textToDisable.GetComponent<TextMeshProUGUI>().SetText("");
     }
 
-    void StartGame()
+    public void StartGame()
     {
         switch (thisClient.playerData.role)
         {
@@ -225,72 +228,73 @@ public class LobbyUIManager : MonoBehaviour
                 break;
         }
         //Send To network you started the game
-        NetworkSender.instance?.SendStartGamePacket();
+        SendPackets.SendStartGamePacket();
+        //NetworkSender.instance?.SendStartGamePacket();
     }
     #endregion
 
     #region Network Receivers
 
-    public void UpdateLobbyUIManager(PlayerData playerData)
+    public void UpdateLobbyUIManager(int teamNum, GameRole role, string name)
     {
-        switch (playerData.teamNumber)
+        switch (teamNum)
         {
             case 1:
-                if (playerData.role == GameRole.Driver)
+                if (role == GameRole.Driver)
                 {
-                    SetPlayerRoleAndTeam(playerData.teamNumber, playerData.role, t1_chooseDriverBtn.gameObject, t1_driverName.gameObject, playerData.name, false);
+                    SetPlayerRoleAndTeam(teamNum, role, t1_chooseDriverBtn.gameObject, t1_driverName.gameObject, name, false);
+                    Debug.Log(name);
                 }
-                else if (playerData.role == GameRole.Navigator)
+                else if (role == GameRole.Navigator)
                 {
-                    SetPlayerRoleAndTeam(playerData.teamNumber, playerData.role, t1_chosenNavigatorBtn.gameObject, t1_navigatorName.gameObject, playerData.name, false);
+                    SetPlayerRoleAndTeam(teamNum, role, t1_chosenNavigatorBtn.gameObject, t1_navigatorName.gameObject, name, false);
                 }
                 break;
 
             case 2:
-                if (playerData.role == GameRole.Driver)
+                if (role == GameRole.Driver)
                 {
-                    SetPlayerRoleAndTeam(playerData.teamNumber, playerData.role, t2_chooseDriverBtn.gameObject, t2_driverName.gameObject, playerData.name, false);
+                    SetPlayerRoleAndTeam(teamNum, role, t2_chooseDriverBtn.gameObject, t2_driverName.gameObject, name, false);
                 }
-                else if (playerData.role == GameRole.Navigator)
+                else if (role == GameRole.Navigator)
                 {
-                    SetPlayerRoleAndTeam(playerData.teamNumber, playerData.role, t2_chosenNavigatorBtn.gameObject, t2_navigatorName.gameObject, playerData.name, false);
+                    SetPlayerRoleAndTeam(teamNum, role, t2_chosenNavigatorBtn.gameObject, t2_navigatorName.gameObject, name, false);
                 }
                 break;
         }
     }
 
-    public void UpdateChangedRolesFromNetwork(PlayerData playerData)
+    public void UpdateChangedRolesFromNetwork(int teamNum, GameRole role, string playerName)
     {
-        switch (playerData.teamNumber)
+        switch (teamNum)
         {
             case 1:
-                if (playerData.role == GameRole.Driver)
+                if (role == GameRole.Driver)
                 {
-                    ChangeTeam(t1_chooseDriverBtn.gameObject, t1_driverName.gameObject, playerData, false);
+                    ChangeTeam(t1_chooseDriverBtn.gameObject, t1_driverName.gameObject, playerName, false);
                 }
-                else if (playerData.role == GameRole.Navigator)
+                else if (role == GameRole.Navigator)
                 {
-                    ChangeTeam(t1_chosenNavigatorBtn.gameObject, t1_navigatorName.gameObject, playerData, false);
+                    ChangeTeam(t1_chosenNavigatorBtn.gameObject, t1_navigatorName.gameObject, playerName, false);
                 }
                 break;
 
             case 2:
-                if (playerData.role == GameRole.Driver)
+                if (role == GameRole.Driver)
                 {
-                    ChangeTeam(t2_chooseDriverBtn.gameObject, t2_driverName.gameObject, playerData, false);
+                    ChangeTeam(t2_chooseDriverBtn.gameObject, t2_driverName.gameObject, playerName, false);
                 }
-                else if (playerData.role == GameRole.Navigator)
+                else if (role == GameRole.Navigator)
                 {
-                    ChangeTeam(t2_chosenNavigatorBtn.gameObject, t2_navigatorName.gameObject, playerData, false);
+                    ChangeTeam(t2_chosenNavigatorBtn.gameObject, t2_navigatorName.gameObject, playerName, false);
                 }
                 break;
         }
     }
 
-    public void ReceivePacketIfGameHasStarted(bool hasStarted)
+    public void ReceivePacketIfGameHasStarted()
     {
-        if (!hasStarted) { return; }
-
+        SendPackets.SendPlayerData(thisClient.playerData.name, thisClient.playerData.teamNumber, (int)thisClient.playerData.role);
         switch (thisClient.playerData.role)
         {
             case GameRole.Driver:
@@ -301,6 +305,23 @@ public class LobbyUIManager : MonoBehaviour
                 SceneManager.LoadScene(navigatorScene);
                 break;
         }
+
+        //Send your data for the server to stre
     }
+    //public void ReceivePacketIfGameHasStarted(bool hasStarted)
+    //{
+    //    if (!hasStarted) { return; }
+
+    //    switch (thisClient.playerData.role)
+    //    {
+    //        case GameRole.Driver:
+    //            SceneManager.LoadScene(driverScene);
+    //            break;
+
+    //        case GameRole.Navigator:
+    //            SceneManager.LoadScene(navigatorScene);
+    //            break;
+    //    }
+    //}
     #endregion
 }

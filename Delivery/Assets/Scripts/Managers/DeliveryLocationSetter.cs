@@ -39,7 +39,8 @@ public class DeliveryLocationSetter : MonoBehaviour
     IEnumerator SendDeliveryLocationToDriverPartner()
     {
         yield return new WaitForSeconds(2);
-        NetworkSender.instance?.SendDeliveryLocationToDriver(chosenBuilding);
+        //NetworkSender.instance?.SendDeliveryLocationToDriver(chosenBuilding);
+        SendPackets.SendDeliveryLocation(chosenBuilding);
     }
 
     void ChooseDeliveryLocation()
