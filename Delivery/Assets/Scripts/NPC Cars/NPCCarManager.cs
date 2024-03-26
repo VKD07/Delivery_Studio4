@@ -8,16 +8,19 @@ using UnityEngine.Splines;
 public class NPCCarManager : MonoBehaviour
 {
     public int id;
+    [SerializeField] float maxTimeToReset = 32f;
 
     [Header("=== WHEEL ROTATION")]
     [SerializeField] Transform[] wheels;
-    [SerializeField] float wheelSpeed = 10f;
+    [SerializeField] float wheelSpeed = 300f;
+
     public SplineAnimate spline => GetComponent<SplineAnimate>();
     Transform trans;
 
     private void Awake()
     {
         trans = transform;
+        spline.AnimationMethod = SplineAnimate.Method.Speed;
     }
 
     private void Update()
@@ -48,7 +51,7 @@ public class NPCCarManager : MonoBehaviour
         {
             if (spline != null && spline.enabled)
             {
-                if (spline.ElapsedTime >= 32)
+                if (spline.ElapsedTime >= maxTimeToReset)
                 {
                     //NetworkSender.instance?.DisableNPCar(id);
                     SendPackets.DisableNPCCar(id);
