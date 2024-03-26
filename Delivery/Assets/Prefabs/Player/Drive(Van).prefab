@@ -11797,6 +11797,7 @@ GameObject:
   - component: {fileID: 1651254728663159153}
   - component: {fileID: 1609528799383315067}
   - component: {fileID: 7205269954824614394}
+  - component: {fileID: 4199933622545711383}
   m_Layer: 0
   m_Name: Drive(Van)
   m_TagString: Player
@@ -12107,6 +12108,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shakeIntensity: 0.022
   shakeTime: 0.3
+--- !u!114 &4199933622545711383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7576017552198331012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c74c537c70b2523418147c5668d7000d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  driverControls: {fileID: 11400000, guid: f361457be67d16b4ba650e3541ad61a1, type: 2}
+  recordInterval: 10
 --- !u!1 &7595114364619261282
 GameObject:
   m_ObjectHideFlags: 0

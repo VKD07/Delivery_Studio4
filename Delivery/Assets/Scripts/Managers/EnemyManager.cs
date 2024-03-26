@@ -22,12 +22,10 @@ public class EnemyManager : MonoBehaviour
     {
         transform.position = position;
         transform.rotation = rot;
-
         for (int i = 0; i < wheels.Length; i++)
         {
             wheels[i].Rotate(wheelSpeed, 0f, 0f);
         }
-
         flWheelHolder.localRotation = flWheelRot;
         frWheelHolder.localRotation = frWheelRot;
     }

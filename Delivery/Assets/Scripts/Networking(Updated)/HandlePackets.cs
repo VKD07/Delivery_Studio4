@@ -47,10 +47,17 @@ public class HandlePackets : MonoBehaviour
     {
         Vector3 carPos = packet.ReadVector3();
         Quaternion carRot = packet.ReadQuaternion();
-        float wheelSpeed = packet.ReadInt();
+        float wheelSpeed = packet.ReadFloat();
         Quaternion flWheelRot = packet.ReadQuaternion();
         Quaternion frWheelRot = packet.ReadQuaternion();
         NetworkPlayerManager.instance?.SetEnemyProperties(carPos, carRot, wheelSpeed, flWheelRot, frWheelRot);
+    }
+
+    public static void ReceiveOtherPlayerAudio(Packet packet)
+    {
+        float volume = packet.ReadFloat();
+        float pitch = packet.ReadFloat();
+        NetworkPlayerManager.instance?.SetEnemyAudioProperties(volume, pitch);
     }
 
     public static void ReceiveSpawnedCar(Packet packet)

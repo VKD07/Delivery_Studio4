@@ -71,6 +71,7 @@ public class ClientManager : MonoBehaviour
             {(int)ServerPackets.driverCollided, HandlePackets.ReceiveDriverCollision},
             {(int)ServerPackets.dirtCollision, HandlePackets.ReceiveDirtCollision},
             {(int)ServerPackets.timer, HandlePackets.ReceiveTimer},
+            {(int)ServerPackets.carAudio, HandlePackets.ReceiveOtherPlayerAudio},
 
             {(int)ServerPackets.deliveryAddress, HandlePackets.ReceiveDeliveryLocation},
             {(int)ServerPackets.driverArrived, HandlePackets.ReceiveDriverArrived},

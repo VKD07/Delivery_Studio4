@@ -27,6 +27,9 @@ public class CarAudioManager : MonoBehaviour
     CarMalfunction carMalfunction => GetComponent<CarMalfunction>();
     CarEngineShake engineShake => GetComponent<CarEngineShake>();
 
+
+    public AudioSource GetCarEngineSource => carEngineSource;
+
     private void Start()
     {
         carEngineInitVolume = carEngineSource.volume;

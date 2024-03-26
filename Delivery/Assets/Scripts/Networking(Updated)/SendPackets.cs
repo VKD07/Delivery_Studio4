@@ -106,6 +106,16 @@ public class SendPackets : MonoBehaviour
         }
     }
 
+    public static void SendAudioProperties(float volume, float pitch)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.carAudio))
+        {
+            packet.Write(volume);
+            packet.Write(pitch);
+            SendTCPData(packet);
+        }
+    }
+
     public static void SendDriverCollision()
     {
         using (Packet packet = new Packet((int)ClientPackets.driverCollided))
