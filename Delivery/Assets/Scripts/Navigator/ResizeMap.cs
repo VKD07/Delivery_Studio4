@@ -13,7 +13,7 @@ public class ResizeMap : MonoBehaviour
     [Header("=== RESIZE SETTING ===")]
     [Range(0, 1)]
     [SerializeField] float resizeStrength = 1f;
-    [Range(1, 2)]
+    [Range(1, 5)]
     [SerializeField] float mapMaxScaleLimit = 1.6f;
     [Range(.5f, 1)]
     [SerializeField] float mapMinScaleLimit = .5f;

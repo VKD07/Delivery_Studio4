@@ -41,6 +41,8 @@ public class CarAnimation : MonoBehaviour
 
     private void WheelRotations()
     {
+        wheelSpeed = rb.velocity.magnitude * direction;
+
         for (int i = 0; i < wheels.Length; i++)
         {
             switch (carController.GetMoveInput)
@@ -64,13 +66,12 @@ public class CarAnimation : MonoBehaviour
                     frontWheelHolders[j].localRotation = Quaternion.Euler(0, currentWheelAngle, 0);
                 }
 
-                wheels[i].wheelModel.transform.Rotate(rb.velocity.magnitude * direction, 0f, 0f);
+                wheels[i].wheelModel.transform.Rotate(wheelSpeed, 0f, 0f);
             }
             else
             {
-                wheels[i].wheelModel.transform.Rotate(rb.velocity.magnitude * direction, 0f, 0f);
+                wheels[i].wheelModel.transform.Rotate(wheelSpeed, 0f, 0f);
             }
         }
-        wheelSpeed = rb.velocity.magnitude * direction;
     }
 }

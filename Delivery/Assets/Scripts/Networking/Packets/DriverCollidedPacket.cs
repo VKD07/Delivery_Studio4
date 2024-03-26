@@ -28,6 +28,4 @@ public class DriverCollidedPacket : BasePacket
         EndDeserialize();
         return this;
     }
-
-    public override void Dispose() => base.Dispose();
 }

@@ -119,6 +119,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 384630cca8a6464428e487a46521b200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideGlow: 0
+  customerPlacement: {fileID: 4012884669510931962}
+  customerPrefab: {fileID: 4867568113947178886, guid: e7df2e59fd31afc428ab608e56aa2716,
+    type: 3}
 --- !u!1001 &4760436539160607094
 PrefabInstance:
   m_ObjectHideFlags: 0

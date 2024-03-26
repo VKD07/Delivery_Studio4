@@ -42,23 +42,29 @@ public class TimerManager : MonoBehaviour
     #region Network Sender
     private void TimerCounting()
     {
-        if (timerActive && Client.instance?.playerData.role == GameRole.Navigator)
+        if (timerActive && ClientManager.instance?.playerData.role == GameRole.Navigator)
         {
             currentTime = currentTime + Time.deltaTime;
             TimeSpan time = TimeSpan.FromSeconds(currentTime);
             currentTimeTxt.text = time.ToString(@"hh\:mm\:ss");
-            NetworkSender.instance?.SendCurrentTimer(currentTimeTxt.text);
+
+            //NetworkSender.instance?.SendCurrentTimer(currentTimeTxt.text);
+            SendPackets.SendTimer(currentTimeTxt.text);
         }
     }
 
     #endregion
 
     #region Network Receiver
-    public void UpdateTimer(string timer, PlayerData playerData)
+    public void UpdateTimer(string timer)
     {
-        if (playerData.teamNumber != Client.instance?.playerData.teamNumber) return;
         currentTimeTxt.text = timer;
     }
+    //public void UpdateTimer(string timer, PlayerData playerData)
+    //{
+    //    if (playerData.teamNumber != Client.instance?.playerData.teamNumber) return;
+    //    currentTimeTxt.text = timer;
+    //}
     #endregion
 
     public void StartTimer()

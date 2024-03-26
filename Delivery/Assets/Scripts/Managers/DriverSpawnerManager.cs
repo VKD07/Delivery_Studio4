@@ -1,15 +1,38 @@
+using Driver;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(NetworkPlayerManager))]
 public class DriverSpawnerManager : MonoBehaviour
 {
+    public static DriverSpawnerManager instance;
+
     [SerializeField] GameObject localDriver;
-    [SerializeField] Transform[] spawnPoints;
+
+    [Header("=== SPAWN POINTS ===")]
+    [SerializeField, NonReorderable] SpawnPoints[] spawners;
+    GameObject spawnedDriver;
+    int startLocationIndex;
+    int pointIndex;
+
+    [Header("=== DEBUGGING ===")]
+    [SerializeField] bool showDebug = true;
+    [SerializeField] float sphereRadius = .5f;
 
     public NetworkPlayerManager networkEnemyManager => GetComponent<NetworkPlayerManager>();
-    int randomIndex;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(this);
+        }
+    }
+
     private void Start()
     {
         StartCoroutine(RandomizeSpawnPos());
@@ -21,25 +44,68 @@ public class DriverSpawnerManager : MonoBehaviour
         //Other player wont be in thesame spawn point
         int randomTime = Random.Range(0, 4);
         yield return new WaitForSeconds(randomTime);
-        //if enemy exists then make sure to get its index position so that it wont be thesame as you
-        randomIndex = Random.Range(0, spawnPoints.Length);
 
-        if (networkEnemyManager.hasSpawned)
+
+        if (!networkEnemyManager.hasSpawned)
         {
-            while (randomIndex == networkEnemyManager.enemySpawnIndex)
+            startLocationIndex = Random.Range(0, spawners.Length);
+            pointIndex = Random.Range(0, spawners[startLocationIndex].points.Length);
+            InstantiateAndSendToNetwork(startLocationIndex);
+        }
+        //if enemy exists then make sure to get its index position so that it wont be thesame as you
+        else
+        {
+            pointIndex = Random.Range(0, spawners[networkEnemyManager.enemyStartLocIndex].points.Length);
+            while (pointIndex == networkEnemyManager.enemySpawnPointIndex)
             {
-                randomIndex = Random.Range(0, spawnPoints.Length);
+                pointIndex = Random.Range(0, spawners[networkEnemyManager.enemyStartLocIndex].points.Length);
+            }
+            InstantiateAndSendToNetwork(networkEnemyManager.enemyStartLocIndex);
+        }
+    }
+
+    private void InstantiateAndSendToNetwork(int startLocationIndex)
+    {
+        GameObject driver = Instantiate(localDriver, spawners[startLocationIndex].points[pointIndex].position, Quaternion.Euler(spawners[startLocationIndex].points[pointIndex].forward));
+        driver.transform.forward = spawners[startLocationIndex].points[pointIndex].forward;
+        spawnedDriver = driver;
+
+        try
+        {
+            SendPackets.SpawnCar(driver.transform.position, startLocationIndex, pointIndex, ClientManager.instance?.playerData.name);
+        }
+        catch (System.Exception)
+        {
+        }
+        //NetworkSender.instance?.SendSpawnEnemyPacket(transform.position, randomIndex);
+    }
+
+    public void DisableSpawnedDriver()
+    {
+        if (spawnedDriver == null) return;
+        spawnedDriver.GetComponent<CarController>().enabled = false;
+        spawnedDriver.GetComponent<SendCarPropertiesToNetwork>().enabled = false;
+        spawnedDriver.GetComponent<CarMalfunction>().enabled = false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!showDebug) return;
+
+        Gizmos.color = Color.green;
+
+        for (int i = 0; i < spawners.Length; i++)
+        {
+            for (int j = 0; j < spawners[i].points.Length; j++)
+            {
+                Gizmos.DrawSphere(spawners[i].points[j].position, sphereRadius);
             }
         }
-
-        InstantiateAndSendToNetwork();
     }
+}
 
-    private void InstantiateAndSendToNetwork()
-    {
-        GameObject driver = Instantiate(localDriver, spawnPoints[randomIndex].position, Quaternion.Euler(spawnPoints[randomIndex].forward));
-        driver.transform.forward = spawnPoints[randomIndex].forward;
-
-        NetworkSender.instance?.SendSpawnEnemyPacket(transform.position, randomIndex);
-    }
+[System.Serializable]
+public class SpawnPoints
+{
+    public Transform[] points;
 }

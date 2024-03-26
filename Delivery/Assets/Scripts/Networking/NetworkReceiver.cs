@@ -70,63 +70,63 @@ public class NetworkReceiver : MonoBehaviour
     #region LobbyReceivers
     void UpdatePlayerListAndSendNameToNetwork(JoinServerPacket packet)
     {
-        PlayerLobbyManager.instance?.UpdatePlayerListAndSendNameToNetwork(packet.playerData);
+        //PlayerLobbyManager.instance?.UpdatePlayerListAndSendNameToNetwork(packet.playerData);
     }
 
     void UpdateLobbyUIManager(TeamAndRolePacket packet)
     {
-        LobbyUIManager.instance?.UpdateLobbyUIManager(packet.playerData);
+        //LobbyUIManager.instance?.UpdateLobbyUIManager(packet.playerData);
     }
 
     void UpdateChangedRolesFromNetwork(ChangeTeamPacket packet)
     {
-        LobbyUIManager.instance?.UpdateChangedRolesFromNetwork(packet.playerData);
+        //LobbyUIManager.instance?.UpdateChangedRolesFromNetwork(packet.playerData);
     }
 
     void ReceivePacketIfGameHasStarted(GameStartPacket packet)
     {
-        LobbyUIManager.instance?.ReceivePacketIfGameHasStarted(packet.gameHasStarted);
+        //LobbyUIManager.instance?.ReceivePacketIfGameHasStarted(packet.gameHasStarted);
     }
     #endregion
 
     #region Driver Receivers
     void SetDeliveryLocation(DeliveryLocationPacket packet)
     {
-        LocationHandler.instance?.SetDeliveryLocation(packet.playerData, packet.buildingName);
+        //LocationHandler.instance?.SetDeliveryLocation(packet.playerData, packet.buildingName);
     }
 
     void SpawnEnemyPlayer(SpawnEnemyPacket packet)
     {
-        NetworkPlayerManager.instance?.SpawnEnemyPlayer(packet.playerData, packet.pos, packet.spawnIndex);
+        //NetworkPlayerManager.instance?.SpawnEnemyPlayer(packet.playerData, packet.pos, packet.spawnIndex);
     }
 
     void SetEnemyProperties(EnemyPropertiesPacket packet)
     {
-        NetworkPlayerManager.instance?.SetEnemyProperties(packet.playerData, packet.pos, packet.rot, packet.wheelSpeed, packet.flWheelHolderRot, packet.frWheelHolderRot);
+        //NetworkPlayerManager.instance?.SetEnemyProperties(packet.playerData, packet.pos, packet.rot, packet.wheelSpeed, packet.flWheelHolderRot, packet.frWheelHolderRot);
     }
 
     public void SetCurrentTimer(TimerPacket packet)
     {
-        TimerManager.instance?.UpdateTimer(packet.currentTime, packet.playerData);
+        //TimerManager.instance?.UpdateTimer(packet.currentTime, packet.playerData);
     }
     #endregion
 
     #region Navigator Receivers
     public void TriggerRandomMapRotation(DriverCollidedPacket packet)
     {
-        DriverCollisionHandler.instance?.TriggerRandomMapRotation(packet.hasCollided, packet.playerData);
+        //DriverCollisionHandler.instance?.TriggerRandomMapRotation(packet.hasCollided, packet.playerData);
     }
 
     public void EnableDirtScreen(DirtScreenPacket packet)
     {
-        DriverCollisionHandler.instance?.EnableDirtScreen(packet.playerData);
+        //DriverCollisionHandler.instance?.EnableDirtScreen(packet.playerData);
     }
     #endregion
 
     #region Win Receivers
     public void DeclareWinner(DriverArrivedPacket packet)
     {
-        WinManager.instance?.DeclareWinner(packet.hasArrived, packet.playerData);
+        //WinManager.instance?.DeclareWinner(packet.hasArrived, packet.playerData);
     }
     #endregion
 

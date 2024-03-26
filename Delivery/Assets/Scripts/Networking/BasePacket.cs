@@ -117,11 +117,34 @@ public class BasePacket : IDisposable
         currentBufferPosition = 0;
     }
 
-    public virtual void Dispose()
+    bool disposedValue = false;
+
+    public void Dispose()
     {
-        sms?.Dispose();
-        binaryWriter?.Dispose();
-        dms?.Dispose();
-        binaryReader?.Dispose();
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                sms?.Dispose();
+                binaryWriter?.Dispose();
+                binaryReader?.Dispose();
+                bool disposedSuccessfully = (sms == null && binaryWriter == null && binaryReader == null);
+                if (disposedSuccessfully)
+                {
+                    Console.WriteLine("Objects were successfully disposed.");
+                }
+                else
+                {
+                    Console.WriteLine("Dispose failed for one or more objects.");
+                }
+            }
+            disposedValue = true;
+        }
     }
 }

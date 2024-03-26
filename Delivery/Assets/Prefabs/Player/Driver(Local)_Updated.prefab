@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 9074540147190266938}
   - component: {fileID: 3389446475602190508}
   - component: {fileID: 102272423413389205}
+  - component: {fileID: 3334404154473318812}
   m_Layer: 0
   m_Name: Driver(Local)_Updated
   m_TagString: Player
@@ -328,6 +329,19 @@ MonoBehaviour:
   dissolveDelay: 5
   dissolveSpeed: 0.1
   mudSplashMat: {fileID: 2100000, guid: 9012332a2e27d0f4e881f38b954ec3fb, type: 2}
+--- !u!114 &3334404154473318812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409392073825104259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 925cc20e9d52c0d478c56cad8a7037e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfCrashesToTrigger: 4
 --- !u!1 &1412860167807045940
 GameObject:
   m_ObjectHideFlags: 0
@@ -6766,7 +6780,7 @@ GameObject:
   - component: {fileID: 5791294332369304952}
   - component: {fileID: 6941374909684658518}
   - component: {fileID: 3932994981904286862}
-  - component: {fileID: 6512339016039000399}
+  - component: {fileID: 1702142667525650417}
   m_Layer: 0
   m_Name: CarModel
   m_TagString: Player
@@ -6839,7 +6853,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6512339016039000399
+--- !u!64 &1702142667525650417
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -7,6 +7,10 @@ public class DriverCollisionHandler : MonoBehaviour
 {
     public static DriverCollisionHandler instance;
 
+    [Header("=== CAMERA SHAKE SETTINGS ===")]
+    [SerializeField] float shakeIntensity = .3f;
+    [SerializeField] float shakeTime = .3f;
+
     public UnityEvent OnDriverCollided;
     public UnityEvent OnDriverCollidedOnDirt;
 
@@ -22,24 +26,14 @@ public class DriverCollisionHandler : MonoBehaviour
         }
     }
 
-    public void TriggerRandomMapRotation(bool hasCollided, PlayerData playerData)
-    {
-        if (playerData.teamNumber != Client.instance.playerData.teamNumber) { return; }
-
-        if (hasCollided)
-        {
-            OnDriverCollided.Invoke();
-        }
-    }
-
-    public void EnableDirtScreen(PlayerData playerData)
-    {
-        if (playerData.teamNumber != Client.instance.playerData.teamNumber) { return; }
-        OnDriverCollidedOnDirt.Invoke();
-    }
-
     public void TriggerRandomMapRotation()
     {
+        CinemachineShake.instance?.ShakeCamera(shakeIntensity, shakeTime);
         OnDriverCollided.Invoke();
+    }
+
+    public void EnableDirtScreen()
+    {
+        OnDriverCollidedOnDirt.Invoke();
     }
 }

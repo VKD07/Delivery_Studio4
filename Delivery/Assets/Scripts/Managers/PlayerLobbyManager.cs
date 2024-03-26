@@ -8,7 +8,7 @@ public class PlayerLobbyManager : MonoBehaviour
     public static PlayerLobbyManager instance;
     public List<string> listOfPlayerNames = new List<string>();
     public LobbyUIManager lobbyUIManager => GetComponent<LobbyUIManager>();
-    Client thisClient;
+    ClientManager thisClient;
     private void Awake()
     {
         if (instance == null)
@@ -20,17 +20,30 @@ public class PlayerLobbyManager : MonoBehaviour
             Destroy(this);
         }
 
-        thisClient = FindFirstObjectByType<Client>();
+    }
+
+    private void Start()
+    {
+        thisClient = ClientManager.instance;
     }
     public void SendJoinLobbyPacket()
     {
         AddPlayerToTheList(thisClient.playerData.name);
-        NetworkSender.instance?.SendLobbyJoinPacket();
+        SendPackets.SendJoinLobbyPacket(thisClient.playerData.name);
+        //NetworkSender.instance?.SendLobbyJoinPacket();
     }
 
-    public void UpdatePlayerListAndSendNameToNetwork(PlayerData playerData)
+    public IEnumerator SendJoinLobbyPacket(float time)
     {
-        AddPlayerToTheList(playerData.name);
+        yield return new WaitForSeconds(time);
+        AddPlayerToTheList(thisClient.playerData.name);
+        SendPackets.SendJoinLobbyPacket(thisClient.playerData.name);
+        //NetworkSender.instance?.SendLobbyJoinPacket();
+    }
+
+    public void UpdatePlayerListAndSendNameToNetwork(string name)
+    {
+        AddPlayerToTheList(name);
     }
 
     void AddPlayerToTheList(string playerName)
