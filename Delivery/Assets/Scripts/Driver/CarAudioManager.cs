@@ -80,17 +80,23 @@ public class CarAudioManager : MonoBehaviour
             if (Input.GetKey(driverControls.breakKey))
             {
                 if (carScreechSource.isPlaying) return;
+                SendPackets.SendCarScreechingAudio(true);
                 carScreechSource.Play();
             }
             else if (Input.GetKeyUp(driverControls.breakKey))
             {
-                carScreechSource.Stop();
+                if (carScreechSource.isPlaying)
+                {
+                    SendPackets.SendCarScreechingAudio(false);
+                    carScreechSource.Stop();
+                }
             }
 
             if (wheelHolder.localEulerAngles.y > 20 && wheelHolder.localEulerAngles.y < 300 ||
                 wheelHolder.localEulerAngles.y >= 330 && wheelHolder.localEulerAngles.y < 340)
             {
                 if (carScreechSource.isPlaying) return;
+                SendPackets.SendCarScreechingAudio(true);
                 carScreechSource.Play();
             }
         }
@@ -102,7 +108,11 @@ public class CarAudioManager : MonoBehaviour
 
         if (rb.velocity.magnitude <= 1)
         {
-            carScreechSource.Stop();
+            if (carScreechSource.isPlaying)
+            {
+                SendPackets.SendCarScreechingAudio(false);
+                carScreechSource.Stop();
+            }
         }
     }
 

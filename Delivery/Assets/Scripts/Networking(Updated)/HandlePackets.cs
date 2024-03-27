@@ -53,13 +53,6 @@ public class HandlePackets : MonoBehaviour
         NetworkPlayerManager.instance?.SetEnemyProperties(carPos, carRot, wheelSpeed, flWheelRot, frWheelRot);
     }
 
-    public static void ReceiveOtherPlayerAudio(Packet packet)
-    {
-        float volume = packet.ReadFloat();
-        float pitch = packet.ReadFloat();
-        NetworkPlayerManager.instance?.SetEnemyAudioProperties(volume, pitch);
-    }
-
     public static void ReceiveSpawnedCar(Packet packet)
     {
         int startLocaIndex = packet.ReadInt();
@@ -69,6 +62,10 @@ public class HandlePackets : MonoBehaviour
         NetworkPlayerManager.instance?.SpawnEnemyPlayer(spawnPos, startLocaIndex, pointIndex, userName);
     }
 
+    public static void ReceiveCarMalfunction(Packet packet)
+    {
+        NetworkPlayerManager.instance?.SetSmokeVFX(packet.ReadBool());
+    }
 
     public static void ReceiveDeliveryLocation(Packet packet)
     {
@@ -93,6 +90,18 @@ public class HandlePackets : MonoBehaviour
     {
         WinManager.instance?.DeclareWinner(packet.ReadInt());
     }
+
+    public static void ReceiveOtherPlayerAudio(Packet packet)
+    {
+        float pitch = packet.ReadFloat();
+        NetworkPlayerManager.instance?.SetEnemyAudioProperties(pitch);
+    }
+
+    public static void ReceiveCarScreechingAudio(Packet packet)
+    {
+        NetworkPlayerManager.instance?.PlayCarScreechingAudio(packet.ReadBool());
+    }
+
     #endregion
 
     #region Navigator Packets

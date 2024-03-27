@@ -22,7 +22,7 @@ public class SendCarPropertiesToNetwork : MonoBehaviour
         try
         {
             SendPackets.SendCarProperties(transform.position, transform.rotation, carAnimation.GetWheelSpeed, flWheelHolder.localRotation, frWheelHolder.localRotation);
-            SendPackets.SendAudioProperties(carAudioManager.GetCarEngineSource.volume, carAudioManager.GetCarEngineSource.pitch);
+            SendPackets.SendAudioProperties(carAudioManager.GetCarEngineSource.pitch);
         }
         catch (System.Exception)
         {

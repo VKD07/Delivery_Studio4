@@ -19,6 +19,8 @@ public enum ServerPackets
     dirtCollision,
     driverArrived,
     carAudio,
+    screechingAudio,
+    carMalfunction,
 
     deliveryAddress,
     timer,
@@ -47,6 +49,8 @@ public enum ClientPackets
     dirtCollision,
     driverArrived,
     carAudio,
+    screechingAudio,
+    carMalfunction,
 
     deliveryAddress,
     timer,

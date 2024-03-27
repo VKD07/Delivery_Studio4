@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class SendPackets : MonoBehaviour
 {
@@ -106,20 +107,19 @@ public class SendPackets : MonoBehaviour
         }
     }
 
-    public static void SendAudioProperties(float volume, float pitch)
-    {
-        using (Packet packet = new Packet((int)ClientPackets.carAudio))
-        {
-            packet.Write(volume);
-            packet.Write(pitch);
-            SendTCPData(packet);
-        }
-    }
-
     public static void SendDriverCollision()
     {
         using (Packet packet = new Packet((int)ClientPackets.driverCollided))
         {
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendCarMalfunction(bool val)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.carMalfunction))
+        {
+            packet.Write(val);
             SendTCPData(packet);
         }
     }
@@ -136,6 +136,24 @@ public class SendPackets : MonoBehaviour
     {
         using (Packet packet = new Packet((int)ClientPackets.driverArrived))
         {
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendAudioProperties(float pitch)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.carAudio))
+        {
+            packet.Write(pitch);
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendCarScreechingAudio(bool val)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.screechingAudio))
+        {
+            packet.Write(val);
             SendTCPData(packet);
         }
     }
