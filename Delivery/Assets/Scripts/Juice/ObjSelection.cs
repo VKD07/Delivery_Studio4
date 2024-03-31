@@ -61,16 +61,20 @@ public class ObjSelection : MonoBehaviour, MouseSelection
 
     public void TriggerHoverEffect()
     {
+        if (!this.enabled) return;
         resizeObj = true;
     }
 
 
     public void TriggerClickEffect()
     {
+        if(!this.enabled) return;
         OnClick.Invoke();
-
-
         ResizeClickEffect();
+    }
+
+    public void TriggerMouseHoldEffect()
+    {
     }
 }
 

@@ -28,6 +28,11 @@ public class MouseSelectionManager : MonoBehaviour
             {
                 selectedObj.TriggerClickEffect();
             }
+
+            if(selectedObj != null && Input.GetMouseButton(0))
+            {
+                selectedObj.TriggerMouseHoldEffect();
+            }
         }
     }
 }
