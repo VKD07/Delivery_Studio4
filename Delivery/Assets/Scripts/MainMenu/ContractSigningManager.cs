@@ -35,6 +35,7 @@ public class ContractSigningManager : MonoBehaviour
     bool contractIsActive;
 
     MainMenuUIManager menuUIManager => GetComponent<MainMenuUIManager>();
+    MenuObjectsManager menuObjs => GetComponent<MenuObjectsManager>();
     private void Awake()
     {
         clipBoardMaterial.SetTexture("_BaseMap", clipBoardDefaultTex);
@@ -52,6 +53,7 @@ public class ContractSigningManager : MonoBehaviour
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         InteractWithPen();
         WriteLines();
+        ResetSignatureAfterUserNameInput();
     }
 
     #region Signature Writing
@@ -100,8 +102,9 @@ public class ContractSigningManager : MonoBehaviour
 
                 if (menuUIManager.userNameInput.text.Length <= 0)
                 {
+                    ResetSignature();
                     menuUIManager.placeHolderTxt.text = "Name is required here!";
-                   menuUIManager.placeHolderTxt.color = Color.red;
+                    menuUIManager.placeHolderTxt.color = Color.red;
                 }
                 else
                 {
@@ -110,6 +113,15 @@ public class ContractSigningManager : MonoBehaviour
                 allowedToWrite = false;
                 pen = null;
             }
+        }
+    }
+
+    void ResetSignatureAfterUserNameInput()
+    {
+        if(!allowedToWrite && menuUIManager.userNameInput.text.Length > 0 && !menuUIManager.userNameInput.isFocused
+            && lineRenderer.positionCount > 1 && !menuUIManager.confirmationPanel.activeSelf)
+        {
+            ResetSignature();
         }
     }
 
@@ -123,7 +135,7 @@ public class ContractSigningManager : MonoBehaviour
     public void SetPlayerUserName()
     {
         SetActiveContract(false);
-        lineRenderer.gameObject.SetActive(false);
+        ResetSignature();
     }
     #endregion
 
@@ -140,6 +152,7 @@ public class ContractSigningManager : MonoBehaviour
     {
         if (val)
         {
+            if (lineRenderer.positionCount > 2) { return; }
             contractIsActive = true;
             clipBoardAnimator.SetBool("EnableContract", true);
             clipBoardMaterial.SetTexture("_BaseMap", clipBoardContractTex);
@@ -155,8 +168,10 @@ public class ContractSigningManager : MonoBehaviour
 
     IEnumerator EnableContractTxtDelay(float delayTime)
     {
-        yield return new WaitForSeconds(delayTime);
         menuUIManager.SetActiveContractPanel();
+        yield return new WaitForSeconds(delayTime);
+        menuUIManager.SetActiveContractPanelWithDelay();
+
     }
     #endregion
 }

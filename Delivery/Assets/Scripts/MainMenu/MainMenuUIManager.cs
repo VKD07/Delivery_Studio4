@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class MainMenuUIManager : MonoBehaviour
 {
-    [SerializeField] GameObject titlePanel, mainMenuPanel, newUserPanel, contractPanel;
+    [SerializeField] GameObject titlePanel, mainMenuPanel, newUserPanel, contractPanel, lobbySelectionPanel;
 
     [Header("=== NEW USER PANEL ===")]
     [SerializeField] Button yesBtn;
@@ -22,11 +22,19 @@ public class MainMenuUIManager : MonoBehaviour
 
     [Space(2)]
     [Header("=== USERNAME CONFIRMATION ===")]
-    [SerializeField] GameObject confirmationPanel;
+    [SerializeField] public GameObject confirmationPanel;
     [SerializeField] Button confirmBtn, noConfirmBtn;
     [SerializeField] UnityEvent confirmBtnClick;
     [SerializeField] UnityEvent noConfirmBtnClick;
 
+    [Space(2)]
+    [Header("=== LOBBY SELECTION ===")]
+    [SerializeField] Button duoBtn;
+    [SerializeField] Button btn4v4;
+    [SerializeField] Button warmUpBtn;
+    [SerializeField] UnityEvent OnDuoClick;
+    [SerializeField] UnityEvent On4V4Click;
+    [SerializeField] UnityEvent OnWarmUpClick;
 
     void Awake()
     {
@@ -42,6 +50,9 @@ public class MainMenuUIManager : MonoBehaviour
         confirmBtn.onClick.AddListener(ConfirmUserNameBtn);
         noConfirmBtn.onClick.AddListener(NotConfirmedUserNameBtn);
 
+        duoBtn.onClick.AddListener(() => OnDuoClick.Invoke());
+        btn4v4.onClick.AddListener(() => On4V4Click.Invoke());
+        warmUpBtn.onClick.AddListener(() => OnWarmUpClick.Invoke());
     }
 
     private void Update()
@@ -58,7 +69,7 @@ public class MainMenuUIManager : MonoBehaviour
         }
     }
 
-    #region BtnListeners Func
+    #region BtnListener Confirmation Func
     void NewUserBtn()
     {
         OnYesClick.Invoke();
@@ -86,7 +97,11 @@ public class MainMenuUIManager : MonoBehaviour
 
     #endregion
 
-    #region Setters Func
+    #region LobbySelection Btn Func
+    
+    #endregion
+
+    #region UI Setters Func
     public void SetActiveTitlePanel(bool val)
     {
         if (!val)
@@ -126,7 +141,21 @@ public class MainMenuUIManager : MonoBehaviour
         titlePanel.SetActive(false);
         mainMenuPanel.SetActive(false);
         newUserPanel.SetActive(false);
+    }
+
+    public void SetActiveContractPanelWithDelay()
+    {
         contractPanel.SetActive(true);
+    }
+
+    public void SetActiveLobbySelectionPanel(bool val)
+    {
+        lobbySelectionPanel.SetActive(val);
+    }
+
+    public void SetActiveMainMenuPanel(bool val)
+    {
+        mainMenuPanel.SetActive(val);
     }
 
     public void SetActiveUserNameConfirmationPanel(bool val)

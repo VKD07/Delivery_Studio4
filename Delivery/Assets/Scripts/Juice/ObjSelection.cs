@@ -15,8 +15,12 @@ public class ObjSelection : MonoBehaviour, MouseSelection
     Vector3 initObjSize;
 
     [Space(4)]
+    [Header("On Hover Event")]
     [SerializeField] UnityEvent OnHover;
     [SerializeField] UnityEvent UnHover;
+
+    [Header("On Click Event")]
+    [SerializeField] UnityEvent OnClick;
 
     private void Awake()
     {
@@ -63,6 +67,9 @@ public class ObjSelection : MonoBehaviour, MouseSelection
 
     public void TriggerClickEffect()
     {
+        OnClick.Invoke();
+
+
         ResizeClickEffect();
     }
 }
