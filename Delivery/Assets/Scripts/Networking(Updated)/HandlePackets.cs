@@ -22,7 +22,22 @@ public class HandlePackets : MonoBehaviour
     #region Lobby Packets
     public static void ReceiveJoinLobby(Packet packet)
     {
-        PlayerLobbyManager.instance?.UpdatePlayerListAndSendNameToNetwork(packet.ReadString());
+        LobbyManager.instance?.UpdatePlayerListAndSendNameToNetwork(packet.ReadString());
+        //PlayerLobbyManager.instance?.UpdatePlayerListAndSendNameToNetwork(packet.ReadString());
+    }
+
+    public static void ReceiveLobbyRequest(Packet packet)
+    {
+        LobbyMode modeReceived = (LobbyMode)packet.ReadInt();
+
+        switch(modeReceived)
+        {
+            case LobbyMode.Duo:
+                LobbyManager.instance?.EnableDuoLobby();
+                break;
+        }
+
+        LobbyManager.instance?.SendJoinLobbyPacket();
     }
 
     public static void ReceiveTeamAndRole(Packet packet)

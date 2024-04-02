@@ -134,6 +134,7 @@ public class ContractSigningManager : MonoBehaviour
 
     public void SetPlayerUserName()
     {
+        ClientManager.instance?.SetPlayerName(menuUIManager.userNameInput.text);
         SetActiveContract(false);
         ResetSignature();
     }

@@ -9,6 +9,7 @@ public enum ServerPackets
 {
     welcome = 1,
     joinLobby,
+    lobbyRequest,
     teamAndRole,
     teamChange,
     startGame,
@@ -38,6 +39,7 @@ public enum ClientPackets
 {
     welcome = 1,
     joinLobby,
+    lobbyRequest,
     teamAndRole,
     teamChange,
     startGame,
