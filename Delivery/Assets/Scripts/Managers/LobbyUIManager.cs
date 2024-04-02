@@ -115,7 +115,6 @@ public class LobbyUIManager : MonoBehaviour
 
     private void Start()
     {
-
         t1_chooseDriverBtn.onClick.AddListener(() => SetPlayerRoleAndTeam(1, GameRole.Driver, t1_chooseDriverBtn.gameObject,
                                                                        t1_driverName.gameObject, thisClient.playerData.name, true));
         t1_chosenNavigatorBtn.onClick.AddListener(() => SetPlayerRoleAndTeam(1, GameRole.Navigator, t1_chosenNavigatorBtn.gameObject,
@@ -183,8 +182,7 @@ public class LobbyUIManager : MonoBehaviour
             cancelButton.gameObject.SetActive(true);
 
             //Send this update to the network
-            SendPackets.SendTeamAndRole(teamNum, (int)role, thisClient.playerData.name);
-            //NetworkSender.instance?.SendRoleAndTeamPacket();
+            //SendPackets.SendTeamAndRole(teamNum, (int)role, thisClient.playerData.name);
 
             //Recording what player chosed so that we can disable it when he wants to change team
             btnRolePressed = roleBtn;
@@ -205,8 +203,7 @@ public class LobbyUIManager : MonoBehaviour
             cancelButton.gameObject.SetActive(false);
 
             //Update the network that you have chosen to change team
-            //NetworkSender.instance?.SendChangeTeamPacket();
-            SendPackets.SendTeamChange(thisClient.playerData.teamNumber, (int)thisClient.playerData.role, thisClient.playerData.name);
+            //SendPackets.SendTeamChange(thisClient.playerData.teamNumber, (int)thisClient.playerData.role, thisClient.playerData.name);
         }
 
         SetNameToPlayerList(playerName);

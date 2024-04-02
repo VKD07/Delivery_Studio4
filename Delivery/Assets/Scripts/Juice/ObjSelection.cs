@@ -20,7 +20,7 @@ public class ObjSelection : MonoBehaviour, MouseSelection
     [SerializeField] UnityEvent UnHover;
 
     [Header("On Click Event")]
-    [SerializeField] UnityEvent OnClick;
+    public UnityEvent OnClick;
 
     private void Awake()
     {
@@ -68,8 +68,8 @@ public class ObjSelection : MonoBehaviour, MouseSelection
 
     public void TriggerClickEffect()
     {
-        if(!this.enabled) return;
-        OnClick.Invoke();
+        if (!this.enabled) return;
+        OnClick?.Invoke();
         ResizeClickEffect();
     }
 

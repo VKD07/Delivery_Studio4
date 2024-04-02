@@ -30,7 +30,7 @@ public class HandlePackets : MonoBehaviour
     {
         LobbyMode modeReceived = (LobbyMode)packet.ReadInt();
 
-        switch(modeReceived)
+        switch (modeReceived)
         {
             case LobbyMode.Duo:
                 LobbyManager.instance?.EnableDuoLobby();
@@ -42,12 +42,12 @@ public class HandlePackets : MonoBehaviour
 
     public static void ReceiveTeamAndRole(Packet packet)
     {
-        LobbyUIManager.instance?.UpdateLobbyUIManager(packet.ReadInt(), (GameRole)packet.ReadInt(), packet.ReadString());
+        LobbyManager.instance?.UpdateLobbyUIManager(packet.ReadInt(), (GameRole)packet.ReadInt(), packet.ReadString(), (LobbyMode)packet.ReadInt());
     }
 
     public static void ReceiveChangeTeam(Packet packet)
     {
-        LobbyUIManager.instance?.UpdateChangedRolesFromNetwork(packet.ReadInt(), (GameRole)packet.ReadInt(), packet.ReadString());
+        LobbyManager.instance?.UpdateChangedRolesFromNetwork(packet.ReadInt(), (GameRole)packet.ReadInt(), packet.ReadString(), (LobbyMode)packet.ReadInt());
     }
 
     public static void ReceiveStartGame(Packet packet)
