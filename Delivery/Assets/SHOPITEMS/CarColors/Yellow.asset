@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97abc2ab43047a34ca77a120c7d67371, type: 3}
+  m_Name: Yellow
+  m_EditorClassIdentifier: 
+  itemColor: {r: 0.82745105, g: 0.75294125, b: 0.35686275, a: 1}
+  itemPrice: 7
+  itemTexture: {fileID: 2800000, guid: f64c9a344359d5d49afdf1b52d796b18, type: 3}

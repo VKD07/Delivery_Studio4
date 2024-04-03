@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class SendPackets : MonoBehaviour
 {
@@ -31,24 +32,35 @@ public class SendPackets : MonoBehaviour
         }
     }
 
-    public static void SendTeamAndRole(int teamNum, int gameRole, string playerName)
+    public static void SendLobbyModeRequest(LobbyMode mode)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.lobbyRequest))
+        {
+            packet.Write((int)mode);
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendTeamAndRole(int teamNum, int gameRole, string playerName, int lobbyMode)
     {
         using (Packet packet = new Packet((int)ClientPackets.teamAndRole))
         {
             packet.Write(teamNum);
             packet.Write(gameRole);
             packet.Write(playerName);
+            packet.Write(lobbyMode);
             SendTCPData(packet);
         }
     }
 
-    public static void SendTeamChange(int teamNum, int gameRole, string playerName)
+    public static void SendTeamChange(int teamNum, int gameRole, string playerName, int lobbyMode)
     {
         using (Packet packet = new Packet((int)ClientPackets.teamChange))
         {
             packet.Write(teamNum);
             packet.Write(gameRole);
             packet.Write(playerName);
+            packet.Write(lobbyMode);
             SendTCPData(packet);
         }
     }
@@ -106,20 +118,19 @@ public class SendPackets : MonoBehaviour
         }
     }
 
-    public static void SendAudioProperties(float volume, float pitch)
-    {
-        using (Packet packet = new Packet((int)ClientPackets.carAudio))
-        {
-            packet.Write(volume);
-            packet.Write(pitch);
-            SendTCPData(packet);
-        }
-    }
-
     public static void SendDriverCollision()
     {
         using (Packet packet = new Packet((int)ClientPackets.driverCollided))
         {
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendCarMalfunction(bool val)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.carMalfunction))
+        {
+            packet.Write(val);
             SendTCPData(packet);
         }
     }
@@ -136,6 +147,24 @@ public class SendPackets : MonoBehaviour
     {
         using (Packet packet = new Packet((int)ClientPackets.driverArrived))
         {
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendAudioProperties(float pitch)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.carAudio))
+        {
+            packet.Write(pitch);
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendCarScreechingAudio(bool val)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.screechingAudio))
+        {
+            packet.Write(val);
             SendTCPData(packet);
         }
     }

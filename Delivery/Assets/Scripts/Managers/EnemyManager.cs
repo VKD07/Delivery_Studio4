@@ -13,6 +13,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] Transform[] wheels;
     [SerializeField] float wheelRotationMultiplier;
 
+    [Header("=== CAR VFX ===")]
+    [SerializeField] ParticleSystem smokeVfx;
+
     #region RequiredComponents
     public Rigidbody rb => GetComponent<Rigidbody>();
     #endregion
@@ -34,5 +37,17 @@ public class EnemyManager : MonoBehaviour
     {
         this.userName.text = userName;
     }
-    #endregion
+
+    public void SetSmokeVFX(bool value)
+    {
+        if (value)
+        {
+            smokeVfx.Play();
+        }
+        else
+        {
+            smokeVfx.Stop();
+        }
+    }
 }
+#endregion

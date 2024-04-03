@@ -75,7 +75,6 @@ public class NetworkPlayerManager : MonoBehaviour
     public void SpawnEnemyPlayer(Vector3 spawnPos, int startLocIndex, int pointIndex, string userName)
     {
         Debug.Log("Location Received");
-        
         GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnPos, Quaternion.identity);
         enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
         enemyAudioManager = spawnedEnemy.GetComponent<EnemyAudioManager>();
@@ -89,9 +88,19 @@ public class NetworkPlayerManager : MonoBehaviour
         enemyManager?.ReceivePropertiesFromNetwork(pos, rot, wheelSpeed, flWheelHolderRot, frWheelHolderRot);
     }
 
-    public void SetEnemyAudioProperties(float volume, float pitch)
+    public void SetEnemyAudioProperties(float pitch)
     {
-        enemyAudioManager?.SetEngineSound(volume, pitch);
+        enemyAudioManager?.SetEngineSound(pitch);
+    }
+
+    public void PlayCarScreechingAudio(bool val)
+    {
+        enemyAudioManager?.PlayCarScreeching(val);
+    }
+
+    public void SetSmokeVFX(bool val)
+    {
+        enemyManager?.SetSmokeVFX(val);
     }
     #endregion
 }

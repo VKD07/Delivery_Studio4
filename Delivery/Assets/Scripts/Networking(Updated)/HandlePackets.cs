@@ -22,22 +22,40 @@ public class HandlePackets : MonoBehaviour
     #region Lobby Packets
     public static void ReceiveJoinLobby(Packet packet)
     {
-        PlayerLobbyManager.instance?.UpdatePlayerListAndSendNameToNetwork(packet.ReadString());
+        LobbyManager.instance?.UpdatePlayerListAndSendNameToNetwork(packet.ReadString());
+        //PlayerLobbyManager.instance?.UpdatePlayerListAndSendNameToNetwork(packet.ReadString());
+    }
+
+    public static void ReceiveLobbyRequest(Packet packet)
+    {
+        LobbyMode modeReceived = (LobbyMode)packet.ReadInt();
+
+        switch (modeReceived)
+        {
+            case LobbyMode.Duo:
+                LobbyManager.instance?.EnableDuoLobby();
+                break;
+            case LobbyMode.TwoVTwo:
+                LobbyManager.instance?.EnableTwoVTwoLobby();
+                break;
+        }
+
+        LobbyManager.instance?.SendJoinLobbyPacket();
     }
 
     public static void ReceiveTeamAndRole(Packet packet)
     {
-        LobbyUIManager.instance?.UpdateLobbyUIManager(packet.ReadInt(), (GameRole)packet.ReadInt(), packet.ReadString());
+        LobbyManager.instance?.UpdateLobbyUIManager(packet.ReadInt(), (GameRole)packet.ReadInt(), packet.ReadString(), (LobbyMode)packet.ReadInt());
     }
 
     public static void ReceiveChangeTeam(Packet packet)
     {
-        LobbyUIManager.instance?.UpdateChangedRolesFromNetwork(packet.ReadInt(), (GameRole)packet.ReadInt(), packet.ReadString());
+        LobbyManager.instance?.UpdateChangedRolesFromNetwork(packet.ReadInt(), (GameRole)packet.ReadInt(), packet.ReadString(), (LobbyMode)packet.ReadInt());
     }
 
     public static void ReceiveStartGame(Packet packet)
     {
-        LobbyUIManager.instance?.ReceivePacketIfGameHasStarted();
+        LobbyManager.instance?.ReceivePacketIfGameHasStarted();
     }
 
     #endregion
@@ -53,13 +71,6 @@ public class HandlePackets : MonoBehaviour
         NetworkPlayerManager.instance?.SetEnemyProperties(carPos, carRot, wheelSpeed, flWheelRot, frWheelRot);
     }
 
-    public static void ReceiveOtherPlayerAudio(Packet packet)
-    {
-        float volume = packet.ReadFloat();
-        float pitch = packet.ReadFloat();
-        NetworkPlayerManager.instance?.SetEnemyAudioProperties(volume, pitch);
-    }
-
     public static void ReceiveSpawnedCar(Packet packet)
     {
         int startLocaIndex = packet.ReadInt();
@@ -69,6 +80,10 @@ public class HandlePackets : MonoBehaviour
         NetworkPlayerManager.instance?.SpawnEnemyPlayer(spawnPos, startLocaIndex, pointIndex, userName);
     }
 
+    public static void ReceiveCarMalfunction(Packet packet)
+    {
+        NetworkPlayerManager.instance?.SetSmokeVFX(packet.ReadBool());
+    }
 
     public static void ReceiveDeliveryLocation(Packet packet)
     {
@@ -93,6 +108,18 @@ public class HandlePackets : MonoBehaviour
     {
         WinManager.instance?.DeclareWinner(packet.ReadInt());
     }
+
+    public static void ReceiveOtherPlayerAudio(Packet packet)
+    {
+        float pitch = packet.ReadFloat();
+        NetworkPlayerManager.instance?.SetEnemyAudioProperties(pitch);
+    }
+
+    public static void ReceiveCarScreechingAudio(Packet packet)
+    {
+        NetworkPlayerManager.instance?.PlayCarScreechingAudio(packet.ReadBool());
+    }
+
     #endregion
 
     #region Navigator Packets

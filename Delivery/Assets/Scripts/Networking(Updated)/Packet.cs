@@ -9,6 +9,7 @@ public enum ServerPackets
 {
     welcome = 1,
     joinLobby,
+    lobbyRequest,
     teamAndRole,
     teamChange,
     startGame,
@@ -19,6 +20,8 @@ public enum ServerPackets
     dirtCollision,
     driverArrived,
     carAudio,
+    screechingAudio,
+    carMalfunction,
 
     deliveryAddress,
     timer,
@@ -36,6 +39,7 @@ public enum ClientPackets
 {
     welcome = 1,
     joinLobby,
+    lobbyRequest,
     teamAndRole,
     teamChange,
     startGame,
@@ -47,6 +51,8 @@ public enum ClientPackets
     dirtCollision,
     driverArrived,
     carAudio,
+    screechingAudio,
+    carMalfunction,
 
     deliveryAddress,
     timer,

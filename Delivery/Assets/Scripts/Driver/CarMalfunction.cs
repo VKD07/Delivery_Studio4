@@ -52,6 +52,7 @@ public class CarMalfunction : MonoBehaviour
             smokeParticle.Stop();
             onFixCar.Invoke();
             isBroken = false;
+            SendPackets.SendCarMalfunction(false);
         }
         else
         {
@@ -70,6 +71,7 @@ public class CarMalfunction : MonoBehaviour
                 onCarBroken.Invoke();
                 ChooseRandomMalfunction();
                 carAudioManager.EnableBrokenCar();
+                SendPackets.SendCarMalfunction(true);
             }
         }
         else
