@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Prototypes/Prototype.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 4e5e8daceeebe944683e5f2bd05c3f2e
+  - enabled: 0
     path: Assets/Scenes/Prototypes/Temp_LobbyScene.unity
     guid: bbc862e48692e74428ae8954c7b40918
   - enabled: 1

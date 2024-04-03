@@ -7,8 +7,10 @@ public class PlayerData
 {
     public string name { get; set; }
     public int teamNumber { get; set; }
-    
+
     public GameRole role { get; set; }
+
+    public LobbyMode mode { get; set; }
 
     public PlayerData(string name, int teamNumber, GameRole role)
     {
@@ -24,4 +26,13 @@ public enum GameRole
     None = 0,
     Driver,
     Navigator
+}
+
+[Serializable]
+public enum LobbyMode
+{
+    None = 0,
+    Duo,
+    TwoVTwo,
+    WarmUp
 }

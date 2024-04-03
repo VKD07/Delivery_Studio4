@@ -21,10 +21,12 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PolygonTown_01_A
-  m_Shader: {fileID: 4800000, guid: 313fcf3aebc04cf4ab4f8c5f2850be7f, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 3bb35f7f86ffc45c2aa6fc4291f787fc,
+    type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SHADING_STYLE_SKIN_AND_TEXTILES
   m_InvalidKeywords:
   - _DETAIL_MULX2
   - _METALLICGLOSSMAP
@@ -71,6 +73,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 414d49db8a9dc1b4c884ddcd07bfa01f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -97,6 +103,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AdditionalLightCutoffPoint: 0.8
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Blend: 0
@@ -111,6 +118,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
+    - _ExtraBandThickness: 0.3
     - _GlossMapScale: 1
     - _Glossiness: 0.2
     - _GlossyReflections: 1
@@ -118,22 +126,31 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OutlineWidth: 0
+    - _PaintbrushStrokesAngle: 40
+    - _PaintbrushStrokesSize: 1
     - _Parallax: 0.02
+    - _QueueControl: -1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RimStep: 0
     - _RimStepSmooth: 0
+    - _SHADING_STYLE: 0
     - _ShadowStep: 0
     - _ShadowStepSmooth: 0
+    - _ShadowsFloor: 0.25
     - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SpecularNoiseSize: 1
     - _SpecularStep: 0
     - _SpecularStepSmooth: 0
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
+    - _StrongRimStrength: 1
     - _Surface: 0
+    - _ToonCutoffPoint: 0.2
     - _UVSec: 0
+    - _UseEmission: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

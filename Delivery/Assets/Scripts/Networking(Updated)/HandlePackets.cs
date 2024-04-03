@@ -22,22 +22,40 @@ public class HandlePackets : MonoBehaviour
     #region Lobby Packets
     public static void ReceiveJoinLobby(Packet packet)
     {
-        PlayerLobbyManager.instance?.UpdatePlayerListAndSendNameToNetwork(packet.ReadString());
+        LobbyManager.instance?.UpdatePlayerListAndSendNameToNetwork(packet.ReadString());
+        //PlayerLobbyManager.instance?.UpdatePlayerListAndSendNameToNetwork(packet.ReadString());
+    }
+
+    public static void ReceiveLobbyRequest(Packet packet)
+    {
+        LobbyMode modeReceived = (LobbyMode)packet.ReadInt();
+
+        switch (modeReceived)
+        {
+            case LobbyMode.Duo:
+                LobbyManager.instance?.EnableDuoLobby();
+                break;
+            case LobbyMode.TwoVTwo:
+                LobbyManager.instance?.EnableTwoVTwoLobby();
+                break;
+        }
+
+        LobbyManager.instance?.SendJoinLobbyPacket();
     }
 
     public static void ReceiveTeamAndRole(Packet packet)
     {
-        LobbyUIManager.instance?.UpdateLobbyUIManager(packet.ReadInt(), (GameRole)packet.ReadInt(), packet.ReadString());
+        LobbyManager.instance?.UpdateLobbyUIManager(packet.ReadInt(), (GameRole)packet.ReadInt(), packet.ReadString(), (LobbyMode)packet.ReadInt());
     }
 
     public static void ReceiveChangeTeam(Packet packet)
     {
-        LobbyUIManager.instance?.UpdateChangedRolesFromNetwork(packet.ReadInt(), (GameRole)packet.ReadInt(), packet.ReadString());
+        LobbyManager.instance?.UpdateChangedRolesFromNetwork(packet.ReadInt(), (GameRole)packet.ReadInt(), packet.ReadString(), (LobbyMode)packet.ReadInt());
     }
 
     public static void ReceiveStartGame(Packet packet)
     {
-        LobbyUIManager.instance?.ReceivePacketIfGameHasStarted();
+        LobbyManager.instance?.ReceivePacketIfGameHasStarted();
     }
 
     #endregion

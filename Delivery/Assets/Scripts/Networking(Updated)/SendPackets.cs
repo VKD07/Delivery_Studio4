@@ -32,24 +32,35 @@ public class SendPackets : MonoBehaviour
         }
     }
 
-    public static void SendTeamAndRole(int teamNum, int gameRole, string playerName)
+    public static void SendLobbyModeRequest(LobbyMode mode)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.lobbyRequest))
+        {
+            packet.Write((int)mode);
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendTeamAndRole(int teamNum, int gameRole, string playerName, int lobbyMode)
     {
         using (Packet packet = new Packet((int)ClientPackets.teamAndRole))
         {
             packet.Write(teamNum);
             packet.Write(gameRole);
             packet.Write(playerName);
+            packet.Write(lobbyMode);
             SendTCPData(packet);
         }
     }
 
-    public static void SendTeamChange(int teamNum, int gameRole, string playerName)
+    public static void SendTeamChange(int teamNum, int gameRole, string playerName, int lobbyMode)
     {
         using (Packet packet = new Packet((int)ClientPackets.teamChange))
         {
             packet.Write(teamNum);
             packet.Write(gameRole);
             packet.Write(playerName);
+            packet.Write(lobbyMode);
             SendTCPData(packet);
         }
     }

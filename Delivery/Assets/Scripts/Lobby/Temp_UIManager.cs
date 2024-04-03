@@ -44,18 +44,20 @@ public class Temp_UIManager : MonoBehaviour
     //    {
     //        Debug.Log("Failed to connect to server");
     //    }
-    
+
     //}
 
     public void JoinServer()
     {
         try
         {
-            ClientManager.instance.ConnectToServer(ipAddressInput.text, playerName.text);
+            //ClientManager.instance.ConnectToServer(ipAddressInput.text, playerName.text);
+            ClientManager.instance.ConnectToServer(ipAddressInput.text);
             logInPanel.SetActive(false);
             lobbyPanel.SetActive(true);
-            StartCoroutine(playerLobbyManager.SendJoinLobbyPacket(.1f));
-           
+
+            //StartCoroutine(playerLobbyManager.SendJoinLobbyPacket(.1f));
+
         }
         catch (System.Exception)
         {
