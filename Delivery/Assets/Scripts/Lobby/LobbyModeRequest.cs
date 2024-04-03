@@ -7,6 +7,7 @@ public class LobbyModeRequest : MonoBehaviour
 {
     [SerializeField] float requestTimeLimit = 25f;
     [HideInInspector] public bool duoRequest;
+    [HideInInspector] public bool twoVTwoRequest;
     public float currentTime;
 
     LobbyManager lobbyManager => GetComponent<LobbyManager>();
@@ -19,6 +20,10 @@ public class LobbyModeRequest : MonoBehaviour
         {
             RequestDuoLobbyMode();
         }
+        else if (twoVTwoRequest)
+        {
+            Request2V2LobbyMode();
+        }
     }
 
     public void RequestDuoLobbyMode()
@@ -30,15 +35,16 @@ public class LobbyModeRequest : MonoBehaviour
 
     public void Request2V2LobbyMode()
     {
+        twoVTwoRequest = true;
         ClientManager.instance.playerData.mode = LobbyMode.TwoVTwo;
         SendPackets.SendLobbyModeRequest(ClientManager.instance.playerData.mode);
     }
 
     void Timer()
     {
-        if (!duoRequest) return;
+        if (!duoRequest && !twoVTwoRequest) return;
 
-        if(currentTime < requestTimeLimit)
+        if (currentTime < requestTimeLimit)
         {
             currentTime += Time.deltaTime;
         }
@@ -46,6 +52,7 @@ public class LobbyModeRequest : MonoBehaviour
         {
             currentTime = 0;
             duoRequest = false;
+            twoVTwoRequest = false;
             lobbyManager.DisableLobbyRequest();
         }
     }

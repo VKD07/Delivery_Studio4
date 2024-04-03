@@ -35,6 +35,9 @@ public class HandlePackets : MonoBehaviour
             case LobbyMode.Duo:
                 LobbyManager.instance?.EnableDuoLobby();
                 break;
+            case LobbyMode.TwoVTwo:
+                LobbyManager.instance?.EnableTwoVTwoLobby();
+                break;
         }
 
         LobbyManager.instance?.SendJoinLobbyPacket();
@@ -52,7 +55,7 @@ public class HandlePackets : MonoBehaviour
 
     public static void ReceiveStartGame(Packet packet)
     {
-        LobbyUIManager.instance?.ReceivePacketIfGameHasStarted();
+        LobbyManager.instance?.ReceivePacketIfGameHasStarted();
     }
 
     #endregion

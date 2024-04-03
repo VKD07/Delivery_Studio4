@@ -75,7 +75,6 @@ public class NetworkPlayerManager : MonoBehaviour
     public void SpawnEnemyPlayer(Vector3 spawnPos, int startLocIndex, int pointIndex, string userName)
     {
         Debug.Log("Location Received");
-        
         GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnPos, Quaternion.identity);
         enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
         enemyAudioManager = spawnedEnemy.GetComponent<EnemyAudioManager>();

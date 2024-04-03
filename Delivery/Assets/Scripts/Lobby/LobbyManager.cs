@@ -1,13 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(LobbyModeRequest))]
 public class LobbyManager : MonoBehaviour
 {
     public static LobbyManager instance;
+    [SerializeField] MouseSelectionManager mouseSelectionManager;
+
+    [Header("=== SCENES TO LOAD ===")]
+    [SerializeField] string driverScene;
+    [SerializeField] string navigatorScene;
+
+    [Header("=== START GAME SETTINGS ===")]
+    [SerializeField] float timeToStart = 5f;
+
+
     [Header("=== PLAYERS HANDLER ===")]
     [SerializeField] TextMeshProUGUI[] unAssignedPlayers;
     public List<string> listOfPlayerNames = new List<string>();
@@ -72,14 +84,14 @@ public class LobbyManager : MonoBehaviour
 
     private void Start()
     {
-        driver.OnClick.AddListener(() => SetPlayerRoleAndTeam(0, GameRole.Driver, driver.gameObject, driveNameTxt, thisClient.playerData.name, true));
-        navigator.OnClick.AddListener(() => SetPlayerRoleAndTeam(0, GameRole.Navigator, navigator.gameObject, navigatorNameTxt, thisClient.playerData.name, true));
+        driver.OnClick.AddListener(() => SetPlayerRoleAndTeam(1, GameRole.Driver, driver.gameObject, driveNameTxt, thisClient.playerData.name, true));
+        navigator.OnClick.AddListener(() => SetPlayerRoleAndTeam(1, GameRole.Navigator, navigator.gameObject, navigatorNameTxt, thisClient.playerData.name, true));
 
-        //t1_driver.OnClick.AddListener(() => SetPlayerRoleAndTeam(1, GameRole.Driver, t1_driver.gameObject, t1_driveNameTxt, thisClient.name, true));
-        //t1_navigator.OnClick.AddListener(() => SetPlayerRoleAndTeam(1, GameRole.Navigator, t1_navigator.gameObject, t2_navigatorNameTxt, thisClient.name, true));
+        t1_driver.OnClick.AddListener(() => SetPlayerRoleAndTeam(1, GameRole.Driver, t1_driver.gameObject, t1_driveNameTxt, thisClient.playerData.name, true));
+        t1_navigator.OnClick.AddListener(() => SetPlayerRoleAndTeam(1, GameRole.Navigator, t1_navigator.gameObject, t1_navigatorNameTxt, thisClient.playerData.name, true));
 
-        //t2_driver.OnClick.AddListener(() => SetPlayerRoleAndTeam(2, GameRole.Driver, t2_driver.gameObject, t2_driverNameTxt, thisClient.name, true));
-        //t2_navigator.OnClick.AddListener(() => SetPlayerRoleAndTeam(2, GameRole.Navigator, t2_navigator.gameObject, t2_navigatorNameTxt, thisClient.name, true));
+        t2_driver.OnClick.AddListener(() => SetPlayerRoleAndTeam(2, GameRole.Driver, t2_driver.gameObject, t2_driverNameTxt, thisClient.playerData.name, true));
+        t2_navigator.OnClick.AddListener(() => SetPlayerRoleAndTeam(2, GameRole.Navigator, t2_navigator.gameObject, t2_navigatorNameTxt, thisClient.playerData.name, true));
 
         cancelBtn.onClick.AddListener(() => ChangeTeam(btnRolePressed, txtChanged, thisClient.playerData.name, true));
         cancelBtn.gameObject.SetActive(false);
@@ -147,12 +159,20 @@ public class LobbyManager : MonoBehaviour
             //Recording what player chosed so that we can disable it when he wants to change team
             btnRolePressed = roleBtn;
             txtChanged = playerNameTxt;
+            mouseSelectionManager.enabled = false;
+
+
         }
 
         roleBtn.SetActive(false);
         playerNameTxt.SetActive(true);
         playerNameTxt.GetComponent<TextMeshProUGUI>().SetText(playerName);
         RemoveNameFromUnAssignedPlayerList(playerName);
+
+        if (CheckIfAllPlayersHaveChosen())
+        {
+            StartCoroutine(StartGame());
+        }
     }
 
     void ChangeTeam(GameObject btnRole, GameObject textToDisable, string playerName, bool updateData)
@@ -165,12 +185,15 @@ public class LobbyManager : MonoBehaviour
             //Update the network that you have chosen to change team
             //NetworkSender.instance?.SendChangeTeamPacket();
             SendPackets.SendTeamChange(thisClient.playerData.teamNumber, (int)thisClient.playerData.role, thisClient.playerData.name, (int)thisClient.playerData.mode);
+            mouseSelectionManager.enabled = true;
         }
 
         SetNameToPlayerList(playerName);
         btnRole.SetActive(true);
         textToDisable.SetActive(false);
         textToDisable.GetComponent<TextMeshProUGUI>().SetText("");
+
+        StopAllCoroutines();
     }
     #endregion
 
@@ -185,6 +208,51 @@ public class LobbyManager : MonoBehaviour
         yield return new WaitForSeconds(delayTime);
         backgroundNote.SetActive(true);
         unassignedPlayersPanel.SetActive(true);
+    }
+    #endregion
+
+    #region START GAME 
+    private bool CheckIfAllPlayersHaveChosen()
+    {
+        switch (thisClient.playerData.mode)
+        {
+            case LobbyMode.Duo:
+
+                if (driver.gameObject.activeSelf || navigator.gameObject.activeSelf)
+                {
+                    return false;
+                }
+                break;
+            case LobbyMode.TwoVTwo:
+                if (t1_driver.gameObject.activeSelf || t2_driver.gameObject.activeSelf
+                    /*|| t2_navigator.gameObject.activeSelf || t1_navigator.gameObject.activeSelf*/)
+                {
+                    return false;
+                }
+                break;
+        }
+
+        return true;
+    }
+
+    IEnumerator StartGame()
+    {
+        yield return new WaitForSeconds(timeToStart);
+
+        //SendPackets.SendStartGamePacket();
+
+        switch (thisClient.playerData.role)
+        {
+            case GameRole.Driver:
+                SceneManager.LoadScene(driverScene);
+                break;
+
+            case GameRole.Navigator:
+                SceneManager.LoadScene(navigatorScene);
+                break;
+        }
+        //Send To network you started the game
+        //NetworkSender.instance?.SendStartGamePacket();
     }
     #endregion
 
@@ -230,12 +298,36 @@ public class LobbyManager : MonoBehaviour
         EnableUnassignedPlayerPanel(1.5f);
     }
 
+    public void EnableTwoVTwoLobby()
+    {
+        if (lobbyModeRequest.twoVTwoRequest)
+        {
+            lobbyModeRequest.twoVTwoRequest = false;
+        }
+
+        twoVtwoNamePanel.SetActive(true);
+
+        mainMenuPanel.SetActive(false);
+        lobbySelectionPanel.SetActive(false);
+
+        searchingForPlayersPanel.SetActive(false);
+        lobbyCamera.SetActive(true);
+        mainMenuCamera.SetActive(false);
+        carShopCamera.SetActive(false);
+        navShopCamera.SetActive(false);
+
+        toBeDisabledNotes.SetActive(false);
+        selection4v4.SetActive(true);
+        lobbyModeRequest.ResetTimer();
+        EnableUnassignedPlayerPanel(1.5f);
+    }
+
     public void DisableLobbyRequest()
     {
-        if (lobbyModeRequest.duoRequest)
-        {
-            lobbyModeRequest.duoRequest = false;
-        }
+
+        lobbyModeRequest.duoRequest = false;
+        lobbyModeRequest.twoVTwoRequest = false;
+
         lobbyModeRequest.ResetTimer();
         lobbySelectionPanel.SetActive(true);
         searchingForPlayersPanel.SetActive(false);
@@ -324,6 +416,22 @@ public class LobbyManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void ReceivePacketIfGameHasStarted()
+    {
+        switch (thisClient.playerData.role)
+        {
+            case GameRole.Driver:
+                SceneManager.LoadScene(driverScene);
+                break;
+
+            case GameRole.Navigator:
+                SceneManager.LoadScene(navigatorScene);
+                break;
+        }
+
+        //Send your data for the server to stre
     }
     #endregion
 }
