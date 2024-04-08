@@ -18,11 +18,16 @@ public class CarMalfunction : MonoBehaviour
     [SerializeField] UnityEvent onCarBroken;
     [SerializeField] UnityEvent onFixCar;
 
+    [HideInInspector] public bool isBroken { get; private set; }
+    public float errorRemovalTime { get; private set; }
+
+
+
     #region private vars
     CarTroubleShooting chosenMalfunction;
     int crashCount;
-    float currentTime;
-    bool isBroken;
+    bool errorHasPlayed;
+    CarAudioManager carAudioManager => GetComponent<CarAudioManager>();
     #endregion
 
     private void Update()
@@ -35,11 +40,11 @@ public class CarMalfunction : MonoBehaviour
         if (chosenMalfunction == null) { return; }
 
         EnableBlinkingSymbol();
-        if (chosenMalfunction.CheckifCarIsFixed() && currentTime < chosenMalfunction.timeToHold)
+        if (chosenMalfunction.CheckifCarIsFixed() && errorRemovalTime < chosenMalfunction.timeToHold)
         {
-            currentTime += Time.deltaTime;
+            errorRemovalTime += Time.deltaTime;
         }
-        else if (chosenMalfunction.CheckifCarIsFixed() && currentTime >= chosenMalfunction.timeToHold)
+        else if (chosenMalfunction.CheckifCarIsFixed() && errorRemovalTime >= chosenMalfunction.timeToHold)
         {
             crashCount = 0;
             chosenMalfunction = null;
@@ -47,10 +52,11 @@ public class CarMalfunction : MonoBehaviour
             smokeParticle.Stop();
             onFixCar.Invoke();
             isBroken = false;
+            SendPackets.SendCarMalfunction(false);
         }
         else
         {
-            currentTime = 0;
+            errorRemovalTime = 0;
         }
     }
 
@@ -64,6 +70,8 @@ public class CarMalfunction : MonoBehaviour
                 crashCount = 0;
                 onCarBroken.Invoke();
                 ChooseRandomMalfunction();
+                carAudioManager.EnableBrokenCar();
+                SendPackets.SendCarMalfunction(true);
             }
         }
         else
@@ -98,5 +106,15 @@ public class CarMalfunction : MonoBehaviour
     {
         float alpha = Mathf.Lerp(0, 1, Mathf.Sin(Time.time * symbolBlinkSpeed));
         malfunctionSymbol.color = new Color(malfunctionSymbol.color.r, malfunctionSymbol.color.g, malfunctionSymbol.color.b, alpha);
+
+        if (alpha > .9 && !errorHasPlayed)
+        {
+            AudioManager.instance?.PlaySound("CarError");
+            errorHasPlayed = true;
+        }
+        else if(alpha <= 0)
+        {
+            errorHasPlayed = false;
+        }
     }
 }

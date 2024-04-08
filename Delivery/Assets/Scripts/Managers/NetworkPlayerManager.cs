@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 // Spawn other player on the map
 // Update the pther player position rotation on the map
@@ -18,8 +19,9 @@ public class NetworkPlayerManager : MonoBehaviour
     public int enemyStartLocIndex { get; private set; }
 
 
-    #region 
+    #region Private Vars
     ClientManager thisClient;
+    EnemyAudioManager enemyAudioManager;
     #endregion
 
     #region Getter
@@ -39,26 +41,27 @@ public class NetworkPlayerManager : MonoBehaviour
         thisClient = ClientManager.instance;
     }
 
-    #region Spawn and Pos
-    public void SpawnEnemyPlayer(PlayerData playerData, Vector3 spawnPos, int spawnIndex)
-    {
-        Debug.Log("Location Received");
+    //#region Spawn and Pos
+    //public void SpawnEnemyPlayer(PlayerData playerData, Vector3 spawnPos, int spawnIndex)
+    //{
+    //    Debug.Log("Location Received");
 
-        if (playerData.teamNumber == thisClient.playerData.teamNumber) return;
-        GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnPos, Quaternion.identity);
-        enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
-        enemySpawnPointIndex = spawnIndex;
-    }
+    //    if (playerData.teamNumber == thisClient.playerData.teamNumber) return;
+    //    GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnPos, Quaternion.identity);
+    //    enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
+    //    enemyAudioManager = spawnedEnemy.GetComponent<EnemyAudioManager>();
+    //    enemySpawnPointIndex = spawnIndex;
+    //}
 
-    public void SetEnemyProperties(PlayerData playerData, Vector3 pos, Quaternion rot, float wheelSpeed, Quaternion flWheelHolderRot, Quaternion frWheelHolderRot)
-    {
-        Debug.Log("Properties Received");
+    //public void SetEnemyProperties(PlayerData playerData, Vector3 pos, Quaternion rot, float wheelSpeed, Quaternion flWheelHolderRot, Quaternion frWheelHolderRot)
+    //{
+    //    Debug.Log("Properties Received");
 
-        hasSpawned = true;
-        if (playerData.teamNumber == thisClient.playerData.teamNumber) return;
-        enemyManager?.ReceivePropertiesFromNetwork(pos, rot, wheelSpeed, flWheelHolderRot, frWheelHolderRot);
-    }
-    #endregion
+    //    hasSpawned = true;
+    //    if (playerData.teamNumber == thisClient.playerData.teamNumber) return;
+    //    enemyManager?.ReceivePropertiesFromNetwork(pos, rot, wheelSpeed, flWheelHolderRot, frWheelHolderRot);
+    //}
+    //#endregion
 
     #region UpdatedVersion
 
@@ -69,12 +72,13 @@ public class NetworkPlayerManager : MonoBehaviour
         enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
     }
 
-    public void SpawnEnemyPlayer(Vector3 spawnPos, int startLocIndex, int pointIndex)
+    public void SpawnEnemyPlayer(Vector3 spawnPos, int startLocIndex, int pointIndex, string userName)
     {
         Debug.Log("Location Received");
-        
         GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnPos, Quaternion.identity);
         enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
+        enemyAudioManager = spawnedEnemy.GetComponent<EnemyAudioManager>();
+        enemyManager.SetEnemyUserName(userName);
         enemyStartLocIndex = startLocIndex;
         enemySpawnPointIndex = pointIndex;
     }
@@ -82,6 +86,21 @@ public class NetworkPlayerManager : MonoBehaviour
     {
         hasSpawned = true;
         enemyManager?.ReceivePropertiesFromNetwork(pos, rot, wheelSpeed, flWheelHolderRot, frWheelHolderRot);
+    }
+
+    public void SetEnemyAudioProperties(float pitch)
+    {
+        enemyAudioManager?.SetEngineSound(pitch);
+    }
+
+    public void PlayCarScreechingAudio(bool val)
+    {
+        enemyAudioManager?.PlayCarScreeching(val);
+    }
+
+    public void SetSmokeVFX(bool val)
+    {
+        enemyManager?.SetSmokeVFX(val);
     }
     #endregion
 }

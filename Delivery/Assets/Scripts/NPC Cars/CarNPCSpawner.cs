@@ -13,12 +13,11 @@ public class CarNPCSpawner : MonoBehaviour
 
     [Header("=== SPLINE ===")]
     [SerializeField, Tooltip("This spline will be applied to all spawned cars")]
-    SplineContainer [] splinePaths;
+    SplineContainer[] splinePaths;
 
     [Header("=== SPAWNING SETTINGS ===")]
     [MinMaxSlider(0, 20)]
     [SerializeField] Vector2 spawnTime;
-    [SerializeField] float carSpeed = 10;
 
     [SerializeField] int initNumOfCarsToSpawn = 3;
 
@@ -68,12 +67,11 @@ public class CarNPCSpawner : MonoBehaviour
 
                 spawnedCar.transform.forward = transform.forward;
                 SplineAnimate splineAnimate = spawnedCar.GetComponent<SplineAnimate>();
-                CarDataManager dataManager = spawnedCar.GetComponent<CarDataManager>();
+                NPCCarManager dataManager = spawnedCar.GetComponent<NPCCarManager>();
 
                 if (splineAnimate != null)
                 {
-                    splineAnimate.MaxSpeed = carSpeed;
-                    int randomPath = Random.Range(0,splinePaths.Length);
+                    int randomPath = Random.Range(0, splinePaths.Length);
                     splineAnimate.Container = splinePaths[randomPath];
                 }
 
@@ -112,8 +110,10 @@ public class CarNPCSpawner : MonoBehaviour
         {
             chosenCarIndex = Random.Range(0, poolOfCars.Count);
         }
-        poolOfCars[chosenCarIndex].GetComponent<SplineAnimate>().Restart(true);
-        poolOfCars[chosenCarIndex].GetComponent<SplineAnimate>().Play();
+        SplineAnimate splineAnimate = poolOfCars[chosenCarIndex].GetComponent<SplineAnimate>();
+
+        splineAnimate.Restart(true);
+        splineAnimate.Play();
         poolOfCars[chosenCarIndex].SetActive(true);
     }
 
@@ -147,7 +147,7 @@ public class CarNPCSpawner : MonoBehaviour
         {
             poolOfCars[id].SetActive(true);
         }
-        poolOfCars[id].GetComponent<CarDataManager>().UpdateTransform(pos, rot);
+        poolOfCars[id].GetComponent<NPCCarManager>().UpdateTransform(pos, rot);
     }
 
     public void DisableNPCCar(int id, bool val)

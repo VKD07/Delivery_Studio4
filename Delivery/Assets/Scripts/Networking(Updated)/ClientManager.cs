@@ -30,6 +30,8 @@ public class ClientManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        playerData = new PlayerData("", 0, GameRole.None);
     }
 
     private void Start()
@@ -42,16 +44,16 @@ public class ClientManager : MonoBehaviour
         Disconnect();
     }
 
-    public void ConnectToServer(string Ipaddress, string userName)
+    public void ConnectToServer(string Ipaddress)
     {
         InitializeClientData();
-        playerData = new PlayerData(userName, 0, GameRole.None);
-        if (playerData != null)
-        {
-            Debug.Log(playerData.name);
-        }
         isConnected = true;
         tcp.Connect(Ipaddress);
+    }
+
+    public void SetPlayerName(string playerName)
+    {
+        playerData.name = playerName;
     }
 
     private void InitializeClientData()
@@ -64,24 +66,28 @@ public class ClientManager : MonoBehaviour
             {(int)ServerPackets.teamAndRole, HandlePackets.ReceiveTeamAndRole},
             {(int)ServerPackets.teamChange, HandlePackets.ReceiveChangeTeam},
             {(int)ServerPackets.startGame, HandlePackets.ReceiveStartGame},
-
+            {(int)ServerPackets.lobbyRequest, HandlePackets.ReceiveLobbyRequest},
 
             {(int)ServerPackets.spawnCar, HandlePackets.ReceiveSpawnedCar},
             {(int)ServerPackets.carProperties, HandlePackets.ReceiveOtherPlayerCarProperties},
             {(int)ServerPackets.driverCollided, HandlePackets.ReceiveDriverCollision},
             {(int)ServerPackets.dirtCollision, HandlePackets.ReceiveDirtCollision},
             {(int)ServerPackets.timer, HandlePackets.ReceiveTimer},
+            {(int)ServerPackets.carMalfunction, HandlePackets.ReceiveCarMalfunction},
+
+            {(int)ServerPackets.carAudio, HandlePackets.ReceiveOtherPlayerAudio},
+            {(int)ServerPackets.screechingAudio, HandlePackets.ReceiveCarScreechingAudio},
 
             {(int)ServerPackets.deliveryAddress, HandlePackets.ReceiveDeliveryLocation},
             {(int)ServerPackets.driverArrived, HandlePackets.ReceiveDriverArrived},
             {(int)ServerPackets.chosenPackage, HandlePackets.ReceiveChosenPackage},
             {(int)ServerPackets.win, HandlePackets.ReceiveWinPacket},
+            {(int)ServerPackets.wrongPackage, HandlePackets.ReceiveIncorrectPackage},
 
             {(int)ServerPackets.npcSpawn, HandlePackets.ReceiveSpawnedNPCCar},
             {(int)ServerPackets.npcTransform, HandlePackets.ReceiveNPCCarTransform},
             {(int)ServerPackets.npcDisable, HandlePackets.ReceiveNPCToDisable},
         };
-        Debug.Log("Initialized Packets");
     }
 
     public class TCP
@@ -89,7 +95,7 @@ public class ClientManager : MonoBehaviour
         public TcpClient client;
         Packet receivedData;
         NetworkStream stream;
-        byte[] receiveBuffer;
+        byte[] receiveBuffer; 
 
         public void Connect(string ip)
         {

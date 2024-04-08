@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    [Header("Car Animation")]
+    [Header("=== CAR USERNAME ===")]
+    [SerializeField] TextMeshProUGUI userName;
+
+    [Header("=== CAR ANIMATION ===")]
     [SerializeField] Transform flWheelHolder, frWheelHolder;
     [SerializeField] Transform[] wheels;
     [SerializeField] float wheelRotationMultiplier;
+
+    [Header("=== CAR VFX ===")]
+    [SerializeField] ParticleSystem smokeVfx;
 
     #region RequiredComponents
     public Rigidbody rb => GetComponent<Rigidbody>();
@@ -18,14 +25,29 @@ public class EnemyManager : MonoBehaviour
     {
         transform.position = position;
         transform.rotation = rot;
-
         for (int i = 0; i < wheels.Length; i++)
         {
             wheels[i].Rotate(wheelSpeed, 0f, 0f);
         }
-
         flWheelHolder.localRotation = flWheelRot;
         frWheelHolder.localRotation = frWheelRot;
     }
-    #endregion
+
+    public void SetEnemyUserName(string userName)
+    {
+        this.userName.text = userName;
+    }
+
+    public void SetSmokeVFX(bool value)
+    {
+        if (value)
+        {
+            smokeVfx.Play();
+        }
+        else
+        {
+            smokeVfx.Stop();
+        }
+    }
 }
+#endregion

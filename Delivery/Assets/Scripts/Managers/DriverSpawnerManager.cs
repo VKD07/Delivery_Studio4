@@ -69,7 +69,14 @@ public class DriverSpawnerManager : MonoBehaviour
         GameObject driver = Instantiate(localDriver, spawners[startLocationIndex].points[pointIndex].position, Quaternion.Euler(spawners[startLocationIndex].points[pointIndex].forward));
         driver.transform.forward = spawners[startLocationIndex].points[pointIndex].forward;
         spawnedDriver = driver;
-        SendPackets.SpawnCar(driver.transform.position, startLocationIndex, pointIndex);
+
+        try
+        {
+            SendPackets.SpawnCar(driver.transform.position, startLocationIndex, pointIndex, ClientManager.instance?.playerData.name);
+        }
+        catch (System.Exception)
+        {
+        }
         //NetworkSender.instance?.SendSpawnEnemyPacket(transform.position, randomIndex);
     }
 

@@ -97,12 +97,12 @@ public class NetworkReceiver : MonoBehaviour
 
     void SpawnEnemyPlayer(SpawnEnemyPacket packet)
     {
-        NetworkPlayerManager.instance?.SpawnEnemyPlayer(packet.playerData, packet.pos, packet.spawnIndex);
+        //NetworkPlayerManager.instance?.SpawnEnemyPlayer(packet.playerData, packet.pos, packet.spawnIndex);
     }
 
     void SetEnemyProperties(EnemyPropertiesPacket packet)
     {
-        NetworkPlayerManager.instance?.SetEnemyProperties(packet.playerData, packet.pos, packet.rot, packet.wheelSpeed, packet.flWheelHolderRot, packet.frWheelHolderRot);
+        //NetworkPlayerManager.instance?.SetEnemyProperties(packet.playerData, packet.pos, packet.rot, packet.wheelSpeed, packet.flWheelHolderRot, packet.frWheelHolderRot);
     }
 
     public void SetCurrentTimer(TimerPacket packet)

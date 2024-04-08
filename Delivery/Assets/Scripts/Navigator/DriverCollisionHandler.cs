@@ -7,6 +7,10 @@ public class DriverCollisionHandler : MonoBehaviour
 {
     public static DriverCollisionHandler instance;
 
+    [Header("=== CAMERA SHAKE SETTINGS ===")]
+    [SerializeField] float shakeIntensity = .3f;
+    [SerializeField] float shakeTime = .3f;
+
     public UnityEvent OnDriverCollided;
     public UnityEvent OnDriverCollidedOnDirt;
 
@@ -24,6 +28,7 @@ public class DriverCollisionHandler : MonoBehaviour
 
     public void TriggerRandomMapRotation()
     {
+        CinemachineShake.instance?.ShakeCamera(shakeIntensity, shakeTime);
         OnDriverCollided.Invoke();
     }
 

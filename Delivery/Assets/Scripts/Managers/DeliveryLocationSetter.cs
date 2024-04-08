@@ -58,12 +58,13 @@ public class DeliveryLocationSetter : MonoBehaviour
     IEnumerator LerpBuildingColor()
     {
         buildingMat = deliveryLocations[chosenIndex].GetComponent<MeshRenderer>().material;
-        initColor = buildingMat.color;
+        initColor = buildingMat.GetColor("_BaseColor");
 
         while (true)
         {
             yield return null;
-            buildingMat.color = Color.Lerp(initColor, colorIndicator, Mathf.Sin(fadeSpeed * Time.time));
+            buildingMat.SetColor("_BaseColor", Color.Lerp(initColor, colorIndicator, Mathf.Sin(fadeSpeed * Time.time)));
+            //buildingMat.color = Color.Lerp(initColor, colorIndicator, Mathf.Sin(fadeSpeed * Time.time));
         }
     }
 }

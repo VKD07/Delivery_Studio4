@@ -8,6 +8,7 @@ public class SendCarPropertiesToNetwork : MonoBehaviour
     [SerializeField] Transform flWheelHolder, frWheelHolder;
 
     public CarAnimation carAnimation => GetComponent<CarAnimation>();
+    CarAudioManager carAudioManager => GetComponent<CarAudioManager>();
 
     private void Update()
     {
@@ -21,6 +22,7 @@ public class SendCarPropertiesToNetwork : MonoBehaviour
         try
         {
             SendPackets.SendCarProperties(transform.position, transform.rotation, carAnimation.GetWheelSpeed, flWheelHolder.localRotation, frWheelHolder.localRotation);
+            SendPackets.SendAudioProperties(carAudioManager.GetCarEngineSource.pitch);
         }
         catch (System.Exception)
         {

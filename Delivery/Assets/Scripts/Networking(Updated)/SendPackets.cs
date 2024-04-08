@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class SendPackets : MonoBehaviour
 {
@@ -31,24 +32,35 @@ public class SendPackets : MonoBehaviour
         }
     }
 
-    public static void SendTeamAndRole(int teamNum, int gameRole, string playerName)
+    public static void SendLobbyModeRequest(LobbyMode mode)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.lobbyRequest))
+        {
+            packet.Write((int)mode);
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendTeamAndRole(int teamNum, int gameRole, string playerName, int lobbyMode)
     {
         using (Packet packet = new Packet((int)ClientPackets.teamAndRole))
         {
             packet.Write(teamNum);
             packet.Write(gameRole);
             packet.Write(playerName);
+            packet.Write(lobbyMode);
             SendTCPData(packet);
         }
     }
 
-    public static void SendTeamChange(int teamNum, int gameRole, string playerName)
+    public static void SendTeamChange(int teamNum, int gameRole, string playerName, int lobbyMode)
     {
         using (Packet packet = new Packet((int)ClientPackets.teamChange))
         {
             packet.Write(teamNum);
             packet.Write(gameRole);
             packet.Write(playerName);
+            packet.Write(lobbyMode);
             SendTCPData(packet);
         }
     }
@@ -75,13 +87,14 @@ public class SendPackets : MonoBehaviour
     #endregion
 
     #region Driver Packets
-    public static void SpawnCar(Vector3 pos, int startLocIndex, int pointIndex)
+    public static void SpawnCar(Vector3 pos, int startLocIndex, int pointIndex, string userName)
     {
         using (Packet packet = new Packet((int)ClientPackets.spawnCar))
         {
             packet.Write(startLocIndex);
             packet.Write(pointIndex);
             packet.Write(pos);
+            packet.Write(userName);
             SendTCPData(packet);
         }
     }
@@ -113,6 +126,15 @@ public class SendPackets : MonoBehaviour
         }
     }
 
+    public static void SendCarMalfunction(bool val)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.carMalfunction))
+        {
+            packet.Write(val);
+            SendTCPData(packet);
+        }
+    }
+
     public static void SendDirtCollision()
     {
         using (Packet packet = new Packet((int)ClientPackets.dirtCollision))
@@ -125,6 +147,24 @@ public class SendPackets : MonoBehaviour
     {
         using (Packet packet = new Packet((int)ClientPackets.driverArrived))
         {
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendAudioProperties(float pitch)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.carAudio))
+        {
+            packet.Write(pitch);
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendCarScreechingAudio(bool val)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.screechingAudio))
+        {
+            packet.Write(val);
             SendTCPData(packet);
         }
     }
@@ -165,6 +205,14 @@ public class SendPackets : MonoBehaviour
         using (Packet packet = new Packet((int)ClientPackets.win))
         {
             packet.Write(teamNumber);
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendPackageMistake()
+    {
+        using (Packet packet = new Packet((int)ClientPackets.wrongPackage))
+        {
             SendTCPData(packet);
         }
     }
