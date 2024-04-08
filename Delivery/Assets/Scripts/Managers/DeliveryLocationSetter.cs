@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DeliveryLocationSetter : MonoBehaviour
 {
 
     [SerializeField] GameObject[] deliveryLocations;
     [SerializeField] string glowRingName = "GlowRing";
+    [SerializeField] float choosingLocationDelayTime = 5f;
     int chosenIndex;
 
     [Header("=== EFFECT SETTINGS ===")]
     [SerializeField] Color colorIndicator;
     [SerializeField] float fadeSpeed;
+
+    [Header("=== EVENTS ===")]
+    [SerializeField] UnityEvent onLocationSelected;
 
     #region Getters
     public string chosenBuilding { get; private set; }
@@ -24,7 +29,7 @@ public class DeliveryLocationSetter : MonoBehaviour
 
     private void Awake()
     {
-        ChooseDeliveryLocation();
+        StartCoroutine(ChooseDeliveryLocation());
     }
 
     private void Start()
@@ -38,15 +43,17 @@ public class DeliveryLocationSetter : MonoBehaviour
 
     IEnumerator SendDeliveryLocationToDriverPartner()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(choosingLocationDelayTime + 2);
         //NetworkSender.instance?.SendDeliveryLocationToDriver(chosenBuilding);
         SendPackets.SendDeliveryLocation(chosenBuilding);
     }
 
-    void ChooseDeliveryLocation()
+    IEnumerator ChooseDeliveryLocation()
     {
+        yield return new WaitForSeconds(choosingLocationDelayTime);
         chosenIndex = Random.Range(0, deliveryLocations.Length);
         chosenBuilding = deliveryLocations[chosenIndex].name;
+        onLocationSelected.Invoke();
         //sending the building name to the network
     }
 
