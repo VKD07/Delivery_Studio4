@@ -43,6 +43,8 @@ public class ObjSelection : MonoBehaviour, MouseSelection
             UnHover.Invoke();
             transform.localScale = Vector3.Lerp(transform.localScale, initObjSize, resizeSpeed * Time.deltaTime);
         }
+
+        if (GetComponent<RectTransform>() != null) return;
         resizeObj = false;
     }
 
@@ -75,6 +77,13 @@ public class ObjSelection : MonoBehaviour, MouseSelection
 
     public void TriggerMouseHoldEffect()
     {
+    }
+
+    public void DisableHoverEffect() => resizeObj = false;
+
+    private void OnDisable()
+    {
+        resizeObj = false;
     }
 }
 
