@@ -8,53 +8,32 @@ using UnityEngine.UI;
 public class CarManualBtn : MonoBehaviour
 {
     [SerializeField] Button carManualBtn, closeBtn;
-    [SerializeField] GameObject carManualUIPanel;
+    [SerializeField] GameObject carManualMainPanel;
     [SerializeField] UnityEvent OnManualEnabled;
     [SerializeField] UnityEvent OnManualDisabled;
 
-    //[Header("=== HOVER EFFECT ===")]
-    //[SerializeField] float scaleSpeed = 5f;
-    //[SerializeField] float targetScale = .2f;
-    //Vector3 initScale;
-
-    //void Awake()
-    //{
-    //    initScale = carManualBtn.gameObject.transform.localScale;
-    //}
-
     private void Start()
     {
-        carManualBtn.onClick.AddListener(() => SetActiveManualUI());
-        closeBtn.onClick.AddListener(() => SetActiveCloseBtn());
+        carManualBtn.onClick.AddListener(() => SetActiveManual());
+        closeBtn.onClick.AddListener(() => SetActiveManual());
     }
 
-    void SetActiveManualUI()
+    private void SetActiveManual()
     {
-        if (!carManualUIPanel.activeSelf)
-        {
-            OnManualEnabled.Invoke();
-            carManualUIPanel.SetActive(true);
-            carManualBtn.gameObject.SetActive(false);
-        }
-    }
-
-    void SetActiveCloseBtn()
-    {
-        if (carManualUIPanel.activeSelf)
+        if (carManualMainPanel.gameObject.activeSelf)
         {
             OnManualDisabled.Invoke();
-            carManualUIPanel.SetActive(false);
+            closeBtn.gameObject.SetActive(false);
             carManualBtn.gameObject.SetActive(true);
+            carManualMainPanel.gameObject.SetActive(false);
+        }
+        else
+        {
+            OnManualEnabled.Invoke();
+            closeBtn.gameObject.SetActive(true);
+            carManualBtn.gameObject.SetActive(false);
+            carManualMainPanel.gameObject.SetActive(true);
         }
     }
 
-    #region Event Triggers
-    public void OnPointerEnter()
-    {
-    }
-
-    public void OnPointerExit()
-    {
-    }
-    #endregion
 }

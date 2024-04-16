@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6615979575134966791
+--- !u!114 &-1509482865508375751
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PolygonOffice_Material_01_A
+  m_Name: Book
   m_Shader: {fileID: -6465566751694194690, guid: 3bb35f7f86ffc45c2aa6fc4291f787fc,
     type: 3}
   m_Parent: {fileID: 0}
@@ -28,8 +28,10 @@ Material:
   m_ValidKeywords:
   - _SHADING_STYLE_SKIN_AND_TEXTILES
   m_InvalidKeywords:
-  - _EMISSION
-  m_LightmapFlags: 2
+  - _DETAIL_MULX2
+  - _METALLICGLOSSMAP
+  - _METALLICSPECGLOSSMAP
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -40,7 +42,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 6aaaa6a3822a4f841845da9db91eb425, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3ff3041d26e84b247b1a900206562e65, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -56,19 +58,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f19d91fb55c31f3489e749e808679b35, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 0c70d3763b810b1498e306f09e346df8, type: 3}
+        m_Texture: {fileID: 2800000, guid: efa34d710ef93124aa8baa1a8e6708d0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 63070be2573ac6640a080b00e06cc159, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3ff3041d26e84b247b1a900206562e65, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 414d49db8a9dc1b4c884ddcd07bfa01f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
@@ -124,8 +126,8 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OutlineWidth: 0
-    - _PaintbrushStrokesAngle: 40
-    - _PaintbrushStrokesSize: 2.46
+    - _PaintbrushStrokesAngle: 0
+    - _PaintbrushStrokesSize: 0.01
     - _Parallax: 0.02
     - _QueueControl: -1
     - _QueueOffset: 0
@@ -133,10 +135,10 @@ Material:
     - _RimStep: 0
     - _RimStepSmooth: 0
     - _SHADING_STYLE: 0
-    - _ShadowStep: 0.331
+    - _ShadowStep: 0
     - _ShadowStepSmooth: 0
-    - _ShadowsFloor: 0.392
-    - _Smoothness: 0.38
+    - _ShadowsFloor: 0.178
+    - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SpecularNoiseSize: 1
@@ -144,9 +146,9 @@ Material:
     - _SpecularStepSmooth: 0
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
-    - _StrongRimStrength: 0.134
+    - _StrongRimStrength: 0
     - _Surface: 0
-    - _ToonCutoffPoint: 0.233
+    - _ToonCutoffPoint: 0.305
     - _UVSec: 0
     - _UseEmission: 0
     - _WorkflowMode: 1
