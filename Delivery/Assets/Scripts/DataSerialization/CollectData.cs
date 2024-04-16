@@ -1,0 +1,34 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CollectData : MonoBehaviour
+{
+    public static CollectData instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(this);
+        }
+    }
+
+    //Create all the variables of data here --------------------------
+    //Make sure it is public
+    public int crashCount;
+    public int averagePlayTime;
+    public int playerCount;
+}
+
+//    Data to collect:
+//- Cat color picked
+//- nav map Wall paper picked
+//- Average playtime 
+//- Average player count
+//- Average Car crash count
+// If app is close collect data
