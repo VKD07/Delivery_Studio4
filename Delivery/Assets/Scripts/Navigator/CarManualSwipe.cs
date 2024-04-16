@@ -104,7 +104,7 @@ public class CarManualSwipe : MonoBehaviour
     private void Swipe()
     {
         if (!enableSwipe) return;
-        xMouse = Input.GetAxis("Mouse X") * Time.deltaTime * 150f;
+        xMouse = Input.GetAxis("Mouse X") * Time.deltaTime * 300f;
         Vector3 newPos = new Vector3(xMouse, 0, 0);
         manual.transform.localPosition += newPos;
     }

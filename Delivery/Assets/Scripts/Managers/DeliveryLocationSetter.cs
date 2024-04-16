@@ -17,6 +17,7 @@ public class DeliveryLocationSetter : MonoBehaviour
 
     [Header("=== EVENTS ===")]
     [SerializeField] UnityEvent onLocationSelected;
+    bool hasChosen;
 
     #region Getters
     public string chosenBuilding { get; private set; }
@@ -32,13 +33,17 @@ public class DeliveryLocationSetter : MonoBehaviour
         StartCoroutine(ChooseDeliveryLocation());
     }
 
-    private void Start()
+    private void Update()
     {
         if (chosenBuilding == null) return;
-        EnableBuildingGlowRing();
-        StartCoroutine(LerpBuildingColor());
+        if (!hasChosen)
+        {
+            hasChosen = true;
+            EnableBuildingGlowRing();
+            StartCoroutine(LerpBuildingColor());
 
-        StartCoroutine(SendDeliveryLocationToDriverPartner());
+            StartCoroutine(SendDeliveryLocationToDriverPartner());
+        }
     }
 
     IEnumerator SendDeliveryLocationToDriverPartner()
