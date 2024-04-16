@@ -7,6 +7,7 @@ TagManager:
   - NPC
   - PlayerCamera
   - Road
+  - CarManual
   layers:
   - Default
   - TransparentFX
