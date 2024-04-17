@@ -7,6 +7,7 @@ public class HandlePackets : MonoBehaviour
 {
     //reading the packets welcome
     //Make sure to read the write order of the packets
+
     public static void Welcome(Packet packet)
     {
         string msg = packet.ReadString();
@@ -166,4 +167,46 @@ public class HandlePackets : MonoBehaviour
         CarNPCSpawner.instance?.DisableNPCCar(id, disable);
     }
     #endregion
+
+    #region Rating Packets
+
+    static List<string> playerNames = new List<string>();
+    static List<int> ratings = new List<int>();
+    static bool newData;
+
+    public static void ReceiveOverAllRating(Packet packet)
+    {
+        ClearData();
+
+        string playerName = packet.ReadString();
+        int rating = packet.ReadInt();
+
+        int index = playerNames.IndexOf(playerName);
+        if (index != -1)
+        {
+            ratings[index] = rating;
+        }
+        else
+        {
+            playerNames.Add(playerName);
+            ratings.Add(rating);
+        }
+
+        RatingUIManager.instance.ReceiveNamesAndRatings(playerNames.ToArray(), ratings.ToArray());
+    }
+
+    #endregion
+
+    /// <summary>
+    /// To Ensure that each time new game is created all the rating data is cleared
+    /// </summary>
+    static void ClearData()
+    {
+        if (!newData)
+        {
+            newData = true;
+            playerNames.Clear();
+            ratings.Clear();
+        }
+    }
 }

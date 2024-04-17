@@ -31,6 +31,11 @@ public class LocationHandler : MonoBehaviour
     GameObject chosenLocation;
     bool addressAvailable;
 
+    private void Start()
+    {
+        Debug.Log(ClientManager.instance.playerData.teamNumber);
+    }
+
     void Update()
     {
         EnableDeliveryLocation();

@@ -32,6 +32,8 @@ public enum ServerPackets
     npcSpawn,
     npcTransform,
     npcDisable,
+
+    overallRating,
 }
 
 /// <summary>Sent from client to server.</summary>
@@ -63,6 +65,8 @@ public enum ClientPackets
     npcSpawn,
     npcTransform,
     npcDisable,
+
+    partnerRating,
 }
 
 public class Packet : IDisposable

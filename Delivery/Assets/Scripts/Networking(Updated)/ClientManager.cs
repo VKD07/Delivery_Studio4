@@ -87,6 +87,8 @@ public class ClientManager : MonoBehaviour
             {(int)ServerPackets.npcSpawn, HandlePackets.ReceiveSpawnedNPCCar},
             {(int)ServerPackets.npcTransform, HandlePackets.ReceiveNPCCarTransform},
             {(int)ServerPackets.npcDisable, HandlePackets.ReceiveNPCToDisable},
+
+            {(int)ServerPackets.overallRating, HandlePackets.ReceiveOverAllRating},
         };
     }
 
