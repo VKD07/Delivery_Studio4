@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,9 +14,10 @@ public class RatingUIManager : MonoBehaviour
     [SerializeField] GameObject rateYourPartnerPanel;
     [SerializeField] GameObject overallRatingPanel;
 
-    [Header("=== TEAM 1 UI ===")]
+    [Header("=== Player Rating UI ===")]
     [SerializeField] TextMeshProUGUI[] playerNames;
     [SerializeField] GameObject[] starPanels;
+    [SerializeField] Transform [] playerRatingPanel;
 
     [Header("=== BACKGROUND ===")]
     [SerializeField] Image ratingBackground;
@@ -69,12 +71,29 @@ public class RatingUIManager : MonoBehaviour
         overallRatingPanel.SetActive(true);
     }
 
-    public void SetRating(GameObject starPanel, int rating)
+    public void SetRating(GameObject starPanel, int rating, int index)
     {
+        StartCoroutine(EaseInOutEffect(playerRatingPanel[index], 1.1768f, 1f, .5f));
+
         for (int i = 0; i < rating; i++)
         {
             starPanel.transform.GetChild(i).GetComponent<Image>().color = Color.yellow;
         }
+    }
+
+    private IEnumerator EaseInOutEffect(Transform targetTransform, float startScale, float endScale, float duration)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            float t = Mathf.SmoothStep(0f, 1f, elapsedTime / duration);
+            targetTransform.localScale = Vector3.Lerp( startScale * Vector3.one, endScale * Vector3.one, t);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        targetTransform.localScale = endScale * Vector3.one;
     }
 
     #region Network Receivers
@@ -85,7 +104,7 @@ public class RatingUIManager : MonoBehaviour
             int index = i;
 
             this.playerNames[index].text = playerNames[index];
-            SetRating(starPanels[index], starRating[index]);
+            SetRating(starPanels[index], starRating[index], index);
         }
     }
     #endregion

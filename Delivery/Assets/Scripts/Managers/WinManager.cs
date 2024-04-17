@@ -35,18 +35,13 @@ public class WinManager : MonoBehaviour
         thisClient = ClientManager.instance;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            DeclareWinner(1);
-        }
-    }
-
     public void DeclareWinner(int teamNumber)
     {
-        StartCoroutine(ShowWinnerUI(teamNumber));
         WinPanel.SetActive(true);
+        winnerTxt[0].SetText("");
+        winnerTxt[1].SetText("");
+
+        StartCoroutine(ShowWinnerUI(teamNumber));
         TimerManager.instance?.StopTimer();
         totalTimeTxt.text = TimerManager.instance?.GetCurrentTime;
         //Time.timeScale = 0f;
