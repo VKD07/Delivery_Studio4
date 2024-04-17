@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SearchService;
 using UnityEngine.UI;
 
 public class NavCustomerPackage : MonoBehaviour
@@ -14,19 +15,31 @@ public class NavCustomerPackage : MonoBehaviour
     [SerializeField] Transform customerPackageContents;
     [SerializeField] GameObject customerPackagePanel;
 
+    [Header("=== PACKAGE UI ===")]
+    [SerializeField] GameObject packageBtn;
+    [SerializeField] GameObject sendBtn;
+    [SerializeField] Image customerPackagePanelImg;
+    [SerializeField] TextMeshProUGUI panelDescription;
+    [SerializeField] Animator customerPackageAnim;
+    [SerializeField] Color wrongColor;
+    Color initColor;
+
+
     [Header("=== INCORRECT SETTINGS ===")]
     [SerializeField] float packagePanelDisableTime = 7f;
-    [SerializeField] GameObject wrongImg;
-    [SerializeField] TextMeshProUGUI descriptionTxt;
 
     [Space(1)]
     [SerializeField] UnityEvent OnEnabled;
 
     [Header("=== LIST OF PACKAGES ===")]
-    [SerializeField] List<Package> spawnedPackageList;
+    public List<Package> spawnedPackageList;
+    public List<GameObject> packagesSpawned;
     [SerializeField] GameObject chosenPackageObj;
     [SerializeField] Package chosenPackageProperties;
+    GameObject currentSelectedPckg;
     int packageNum = 0;
+
+    PackageSelectionManager packageSelection => GetComponent<PackageSelectionManager>();
 
     private void Awake()
     {
@@ -43,6 +56,10 @@ public class NavCustomerPackage : MonoBehaviour
 
     private void Start()
     {
+        sendBtn.SetActive(false);
+        sendBtn.GetComponent<Button>().onClick.AddListener(CheckIfRightPackageIsChosen);
+        initColor = customerPackagePanelImg.color;
+        packageBtn.GetComponent<Button>().onClick.AddListener(SetPackageUI);
         StartCoroutine(InitRandomCustomerPackages());
     }
 
@@ -53,12 +70,22 @@ public class NavCustomerPackage : MonoBehaviour
             yield return null;
 
             int randomPackage = Random.Range(0, packages.Length);
-            packages[randomPackage].InitPackage(customerPackageContents);
-            packages[randomPackage].spawnedPackageUI.GetComponent<Button>().onClick.AddListener(WrongPackage);
+            packages[randomPackage].InitPackage(customerPackageContents, $"Package {packageNum}");
+            packagesSpawned.Add(packages[randomPackage].spawnedPackageUI);
             spawnedPackageList.Add(packages[randomPackage]);
             packageNum++;
         }
         ChooseAPackage();
+        SetPackageBtnListeners();
+    }
+
+    void SetPackageBtnListeners()
+    {
+        for (int i = 0; i < packagesSpawned.Count; i++)
+        {
+            int index = i;
+            packagesSpawned[index].GetComponent<Button>().onClick.AddListener(() => SelectPackage(packagesSpawned[index]));
+        }
     }
 
     void ChooseAPackage()
@@ -66,15 +93,50 @@ public class NavCustomerPackage : MonoBehaviour
         int randomPackage = Random.Range(0, spawnedPackageList.Count);
         chosenPackageProperties = spawnedPackageList[randomPackage];
         chosenPackageObj = chosenPackageProperties.spawnedPackageUI;
-        chosenPackageObj.GetComponent<Button>().onClick.RemoveAllListeners();
-        chosenPackageObj.GetComponent<Button>().onClick.AddListener(RightPackageSelected);
         SendPackets.SendChosenPackageProperties(chosenPackageProperties.name, chosenPackageProperties.packageIndex, chosenPackageProperties.tagIndex);
     }
 
     #region Button Listeners
+
+    void SetPackageUI()
+    {
+        if (customerPackagePanel.activeSelf)
+        {
+            packageBtn.SetActive(false);
+            customerPackagePanel.SetActive(false);
+        }
+        else
+        {
+            packageBtn.SetActive(true);
+            customerPackagePanel.SetActive(true);
+        }
+    }
+
+    void SelectPackage(GameObject pckg)
+    {
+        currentSelectedPckg = pckg;
+    }
+
+    void CheckIfRightPackageIsChosen()
+    {
+        if(currentSelectedPckg == null) return;
+
+        if(currentSelectedPckg.name == chosenPackageObj.name)
+        {
+            RightPackageSelected();
+        }
+        else
+        {
+            WrongPackage();
+        }
+    }
+
     void WrongPackage()
     {
-        descriptionTxt.text = "INCORRECT PACKAGE!";
+        sendBtn.SetActive(false);
+        packageSelection.DisableAllSelection();
+        customerPackageAnim.SetBool("WrongPackage", true);
+        customerPackagePanelImg.color = wrongColor;
         SendPackets.SendPackageMistake();
         StartCoroutine(DisablePackageContents());
     }
@@ -82,11 +144,14 @@ public class NavCustomerPackage : MonoBehaviour
     IEnumerator DisablePackageContents()
     {
         yield return new WaitForSeconds(.1f);
-        wrongImg.SetActive(true);
+        panelDescription.gameObject.SetActive(true);
         customerPackageContents.gameObject.SetActive(false);
+
         yield return new WaitForSeconds(packagePanelDisableTime);
-        wrongImg.SetActive(false);
-        descriptionTxt.text = "CHOOSE THE RIGHT PACKAGE:";
+        panelDescription.gameObject.SetActive(false);
+        customerPackagePanelImg.color = initColor;
+        customerPackageAnim.SetBool("WrongPackage", false);
+        sendBtn.SetActive(true);
         customerPackageContents.gameObject.SetActive(true);
     }
     void RightPackageSelected()
@@ -99,7 +164,11 @@ public class NavCustomerPackage : MonoBehaviour
     #region Network Receivers
     public void EnablePackageUI()
     {
-        customerPackagePanel.SetActive(true);
+        sendBtn.SetActive(true);
+        customerPackageContents.gameObject.SetActive(true);
+        panelDescription.gameObject.SetActive(false);
+        panelDescription.color = wrongColor;
+        panelDescription.text = "WRONG PACKAGE!";
     }
     #endregion
 }

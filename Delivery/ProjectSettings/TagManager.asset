@@ -8,6 +8,7 @@ TagManager:
   - PlayerCamera
   - Road
   - CarManual
+  - Package
   layers:
   - Default
   - TransparentFX
