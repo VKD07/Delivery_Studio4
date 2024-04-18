@@ -58,6 +58,5 @@ public class RateYourPartnerManager : MonoBehaviour
             hasRated = true;
             SendPackets.SendRatingToPartner(currentRating);
         }
-        //TODO: Send Rating Packet to your partner
     }
 }

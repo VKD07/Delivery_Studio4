@@ -12,6 +12,9 @@ public class PlayerData
 
     public LobbyMode mode { get; set; }
 
+    public int winner { get; set; }
+    public string time {  get; set; }
+
     public PlayerData(string name, int teamNumber, GameRole role)
     {
         this.name = name;

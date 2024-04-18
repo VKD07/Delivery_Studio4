@@ -168,7 +168,7 @@ public class HandlePackets : MonoBehaviour
     }
     #endregion
 
-    #region Rating Packets
+    #region Rating Leaderboard Packets
 
     static List<string> playerNames = new List<string>();
     static List<int> ratings = new List<int>();
@@ -193,6 +193,13 @@ public class HandlePackets : MonoBehaviour
         }
 
         RatingUIManager.instance.ReceiveNamesAndRatings(playerNames.ToArray(), ratings.ToArray());
+    }
+
+    public static void ReceiveLeaderboard(Packet packet)
+    {
+        Debug.Log("Successfully received Leaderboard");
+        LeaderboardUIManager.instance.partnerHasSent = true;
+        LeaderboardUIManager.instance?.SetLeaderBoardUI(packet.ReadInt(), packet.ReadString(), packet.ReadString());
     }
 
     #endregion

@@ -56,9 +56,7 @@ public class ClientManager : MonoBehaviour
         playerData.name = playerName;
     }
 
-    private void InitializeClientData()
-    {
-        packetHandlers = new Dictionary<int, PacketHandler>()
+    private void InitializeClientData() => packetHandlers = new Dictionary<int, PacketHandler>()
         {
             {(int)ServerPackets.welcome, HandlePackets.Welcome},
 
@@ -89,8 +87,8 @@ public class ClientManager : MonoBehaviour
             {(int)ServerPackets.npcDisable, HandlePackets.ReceiveNPCToDisable},
 
             {(int)ServerPackets.overallRating, HandlePackets.ReceiveOverAllRating},
+            {(int)ServerPackets.SendLeadboard, HandlePackets.ReceiveLeaderboard},
         };
-    }
 
     public class TCP
     {

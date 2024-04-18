@@ -34,6 +34,7 @@ public enum ServerPackets
     npcDisable,
 
     overallRating,
+    SendLeadboard,
 }
 
 /// <summary>Sent from client to server.</summary>
@@ -67,6 +68,7 @@ public enum ClientPackets
     npcDisable,
 
     partnerRating,
+    SendTeamRecord,
 }
 
 public class Packet : IDisposable

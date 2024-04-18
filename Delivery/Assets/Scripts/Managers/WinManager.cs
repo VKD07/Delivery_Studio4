@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class WinManager : MonoBehaviour
 {
-    public static WinManager instance;  
+    public static WinManager instance;
 
     [SerializeField] GameObject WinPanel;
-    [SerializeField] GameObject ratingPanel;
-    [SerializeField] float showRatingpanelDelayTime = 10f;
     [SerializeField] Image winnerBackground;
-    [SerializeField] TextMeshProUGUI [] winnerTxt;
-    [SerializeField] TextMeshProUGUI totalTimeTxt;
+    [SerializeField] TextMeshProUGUI winnerTxt;
     [SerializeField] ParticleSystem[] conffettis;
 
     [SerializeField] UnityEvent OnWin;
+
+    [Header("=== SCENE LOADER ===")]
+    [SerializeField] string sceneName = "RatingAndLeaderboard";
+    [SerializeField] float timeToLoad = 5f;
 
     #region private var
     ClientManager thisClient;
@@ -35,16 +37,20 @@ public class WinManager : MonoBehaviour
         thisClient = ClientManager.instance;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            DeclareWinner(1);
+        }
+    }
+
     public void DeclareWinner(int teamNumber)
     {
         WinPanel.SetActive(true);
-        winnerTxt[0].SetText("");
-        winnerTxt[1].SetText("");
-
+        winnerTxt.SetText("");
         StartCoroutine(ShowWinnerUI(teamNumber));
         TimerManager.instance?.StopTimer();
-        totalTimeTxt.text = TimerManager.instance?.GetCurrentTime;
-        //Time.timeScale = 0f;
         OnWin.Invoke();
     }
 
@@ -52,32 +58,42 @@ public class WinManager : MonoBehaviour
     {
         if (!value) return;
         TimerManager.instance?.StopTimer();
-        totalTimeTxt.text = TimerManager.instance?.GetCurrentTime;
-        StartCoroutine(ShowWinnerUI(thisClient.playerData.teamNumber));
         WinPanel.SetActive(true);
-        //Time.timeScale = 0f;
         OnWin.Invoke();
+
+        StartCoroutine(ShowWinnerUI(thisClient.playerData.teamNumber));
     }
 
     IEnumerator ShowWinnerUI(int teamNumber)
     {
         EnableVFX();
+
         while(winnerBackground.fillAmount < 1)
         {
             yield return null;
             winnerBackground.fillAmount += Time.deltaTime * 5f;
         }
-        yield return new WaitForSeconds(1);
-        winnerTxt[0].SetText($"TEAM {teamNumber} WINS!");
-        winnerTxt[1].SetText($"TEAM {teamNumber} WINS!");
-        StartCoroutine(EnableRatingPanel());
-    }
 
-    IEnumerator EnableRatingPanel()
+        yield return new WaitForSeconds(.5f);
+        winnerTxt.SetText($"TEAM {teamNumber} WINS!");
+
+        try
+        {
+            ClientManager.instance.playerData.winner = teamNumber;
+            ClientManager.instance.playerData.time = TimerManager.instance?.GetCurrentTime;
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("No Client");
+        }
+    
+
+        StartCoroutine(LoadToRatingScene());
+    }
+    IEnumerator LoadToRatingScene()
     {
-        yield return new WaitForSeconds(showRatingpanelDelayTime);
-        WinPanel.SetActive(false);
-        ratingPanel.SetActive(true);
+        yield return new WaitForSeconds(timeToLoad);
+        SceneManager.LoadScene(sceneName);
     }
 
     void EnableVFX()

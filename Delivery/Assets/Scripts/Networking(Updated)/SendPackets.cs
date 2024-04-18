@@ -252,12 +252,22 @@ public class SendPackets : MonoBehaviour
     }
     #endregion
 
-    #region Winner Packets
+    #region Winner And Rating Packets
     public static void SendRatingToPartner(int rating)
     {
         using (Packet packet = new Packet((int)ClientPackets.partnerRating))
         {
             packet.Write(rating);
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendTeamRecord(string partnerName, string timer)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.SendTeamRecord))
+        {
+            packet.Write(partnerName);
+            packet.Write(timer);
             SendTCPData(packet);
         }
     }
