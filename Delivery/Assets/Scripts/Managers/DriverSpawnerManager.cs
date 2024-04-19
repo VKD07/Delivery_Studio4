@@ -67,6 +67,9 @@ public class DriverSpawnerManager : MonoBehaviour
     private void InstantiateAndSendToNetwork(int startLocationIndex)
     {
         GameObject driver = Instantiate(localDriver, spawners[startLocationIndex].points[pointIndex].position, Quaternion.Euler(spawners[startLocationIndex].points[pointIndex].forward));
+
+        ApplyCarSkin(driver);
+
         driver.transform.forward = spawners[startLocationIndex].points[pointIndex].forward;
         spawnedDriver = driver;
 
@@ -78,6 +81,14 @@ public class DriverSpawnerManager : MonoBehaviour
         {
         }
         //NetworkSender.instance?.SendSpawnEnemyPacket(transform.position, randomIndex);
+    }
+
+    private static void ApplyCarSkin(GameObject driver)
+    {
+        //Applying car skin
+        driver.GetComponentInChildren<MeshRenderer>().material.SetTexture("_BaseMap", DriverItemShopHandler.instance?.GetPlayerChosenCarColor());
+        driver.transform.Find("SM_Veh_Car_Van_Door_l").GetComponent<MeshRenderer>().material.SetTexture("_BaseMap", DriverItemShopHandler.instance?.GetPlayerChosenCarColor());
+        driver.transform.Find("SM_Veh_Car_Van_Door_r").GetComponent<MeshRenderer>().material.SetTexture("_BaseMap", DriverItemShopHandler.instance?.GetPlayerChosenCarColor());
     }
 
     public void DisableSpawnedDriver()
