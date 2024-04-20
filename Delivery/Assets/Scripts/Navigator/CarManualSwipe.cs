@@ -45,7 +45,10 @@ public class CarManualSwipe : MonoBehaviour
             {
                 if (hit.transform.tag == "CarManual")
                 {
-                    manual = hit.transform.gameObject;
+                    if(manual == null)
+                    {
+                        manual = hit.transform.gameObject;
+                    }
                     closeBtn.SetActive(false);
                     distance = Vector3.Distance(frontPagePos, carManualInitializer.pages[currentActiveContent].transform.localPosition);
                     EnableNextPage();

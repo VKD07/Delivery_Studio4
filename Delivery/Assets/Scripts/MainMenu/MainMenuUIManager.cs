@@ -22,11 +22,31 @@ public class MainMenuUIManager : MonoBehaviour
     [Header("=== PANELS AND EVENTS ===")]
     [SerializeField] SelectionPanel[] selectionPanels;
 
-
+    MenuObjectsManager menuObjectsManager => GetComponent<MenuObjectsManager>();
+    UserDataManager userDataManager => GetComponent<UserDataManager>();
+    ContractSigningManager contractSigningManager => GetComponent<ContractSigningManager>();
     void Awake()
     {
-        SetActiveTitlePanel(true);
+        //SetActiveTitlePanel(true);
         InitPanelsAndBtnEvents();
+
+        CheckIfUserAlreadyExists();
+    }
+
+    private void CheckIfUserAlreadyExists()
+    {
+        if (!userDataManager.checkIfUserExists())
+        {
+            contractSigningManager.SetActiveContract(true);
+            menuObjectsManager.SetActiveSelectionEffect(false);
+            contractSigningManager.SetActiveIDCard(false, "");
+        }
+        else
+        {
+            SetActiveNewUserPanel();
+            userNameInput.text = userDataManager.GetExistingUserName;
+            contractSigningManager.SetActiveIDCard(true, userNameInput.text);
+        }
     }
 
     private void InitPanelsAndBtnEvents()
@@ -39,12 +59,11 @@ public class MainMenuUIManager : MonoBehaviour
                 buttonAndEvents.button.onClick.AddListener(() => buttonAndEvents.btnEvent.Invoke());
             }
         }
-      
     }
 
     private void Update()
     {
-        PressAnyKey();
+        // PressAnyKey();
     }
 
     private void PressAnyKey()
@@ -117,15 +136,15 @@ public class MainMenuUIManager : MonoBehaviour
     {
         confirmationPanel.SetActive(val);
     }
-    
+
     public void SetActiveMainMenuPanelWithDelay()
     {
-        StartCoroutine(SetActiveMenuPanel());
+        StartCoroutine(SetActiveMenuPanel(1.5f));
     }
 
-    IEnumerator SetActiveMenuPanel()
+    IEnumerator SetActiveMenuPanel(float time)
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(time);
         SetActiveMainMenuPanel();
     }
     #endregion

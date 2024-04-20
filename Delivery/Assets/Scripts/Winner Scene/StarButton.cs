@@ -10,10 +10,10 @@ public class StarButton : MonoBehaviour, IPointerEnterHandler, IPointerDownHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        RatingManager.instance.currentRating = starNumber;
+        RateYourPartnerManager.instance.currentRating = starNumber;
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        RatingManager.instance.SendRating();
+        RateYourPartnerManager.instance.SendRating();
     }
 }

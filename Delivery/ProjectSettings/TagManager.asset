@@ -8,6 +8,7 @@ TagManager:
   - PlayerCamera
   - Road
   - CarManual
+  - Package
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - NPC
   - ClipBoard
   - Pen
-  - 
+  - NoPost
   - 
   - 
   - 

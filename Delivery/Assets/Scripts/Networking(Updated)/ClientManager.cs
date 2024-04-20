@@ -56,9 +56,7 @@ public class ClientManager : MonoBehaviour
         playerData.name = playerName;
     }
 
-    private void InitializeClientData()
-    {
-        packetHandlers = new Dictionary<int, PacketHandler>()
+    private void InitializeClientData() => packetHandlers = new Dictionary<int, PacketHandler>()
         {
             {(int)ServerPackets.welcome, HandlePackets.Welcome},
 
@@ -74,6 +72,7 @@ public class ClientManager : MonoBehaviour
             {(int)ServerPackets.dirtCollision, HandlePackets.ReceiveDirtCollision},
             {(int)ServerPackets.timer, HandlePackets.ReceiveTimer},
             {(int)ServerPackets.carMalfunction, HandlePackets.ReceiveCarMalfunction},
+            {(int)ServerPackets.wiper, HandlePackets.ReceiveWiper},
 
             {(int)ServerPackets.carAudio, HandlePackets.ReceiveOtherPlayerAudio},
             {(int)ServerPackets.screechingAudio, HandlePackets.ReceiveCarScreechingAudio},
@@ -87,8 +86,10 @@ public class ClientManager : MonoBehaviour
             {(int)ServerPackets.npcSpawn, HandlePackets.ReceiveSpawnedNPCCar},
             {(int)ServerPackets.npcTransform, HandlePackets.ReceiveNPCCarTransform},
             {(int)ServerPackets.npcDisable, HandlePackets.ReceiveNPCToDisable},
+
+            {(int)ServerPackets.overallRating, HandlePackets.ReceiveOverAllRating},
+            {(int)ServerPackets.SendLeadboard, HandlePackets.ReceiveLeaderboard},
         };
-    }
 
     public class TCP
     {

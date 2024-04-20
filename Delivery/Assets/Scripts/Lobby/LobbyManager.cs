@@ -160,8 +160,6 @@ public class LobbyManager : MonoBehaviour
             btnRolePressed = roleBtn;
             txtChanged = playerNameTxt;
             mouseSelectionManager.enabled = false;
-
-
         }
 
         roleBtn.SetActive(false);
@@ -420,6 +418,7 @@ public class LobbyManager : MonoBehaviour
 
     public void ReceivePacketIfGameHasStarted()
     {
+        Debug.Log(thisClient.playerData.teamNumber);
         switch (thisClient.playerData.role)
         {
             case GameRole.Driver:

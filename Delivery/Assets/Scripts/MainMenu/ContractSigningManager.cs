@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,12 @@ public class ContractSigningManager : MonoBehaviour
     [SerializeField] Texture2D clipBoardDefaultTex, clipBoardContractTex;
     [SerializeField] Animator clipBoardAnimator;
     [SerializeField] float contractTxtDelayTime = 1f;
+
+    [Header("=== TABLE ID CARD ===")]
+    [SerializeField] GameObject idCardTextPanel;
+    [SerializeField] Material idCardMaterial;
+    [SerializeField] Texture2D [] idCardTexture;
+    [SerializeField] TextMeshProUGUI playerNameTxt;
 
     [Header("=== USERNAME INPUT SETTINGS ===")]
     [SerializeField] int maxCharacterLimit;
@@ -36,11 +43,27 @@ public class ContractSigningManager : MonoBehaviour
 
     MainMenuUIManager menuUIManager => GetComponent<MainMenuUIManager>();
     MenuObjectsManager menuObjs => GetComponent<MenuObjectsManager>();
+
+    UserDataManager userDataManager => GetComponent<UserDataManager>();
     private void Awake()
     {
-        clipBoardMaterial.SetTexture("_BaseMap", clipBoardDefaultTex);
         menuUIManager.userNameInput.onValueChanged.AddListener(OnInputValueChanged);
         InitLineRenderer();
+    }
+
+    public void SetActiveIDCard(bool val, string name)
+    {
+        if (!val)
+        {
+            idCardTextPanel.SetActive(false);
+            idCardMaterial.SetTexture("_BaseMap", idCardTexture[0]);
+        }
+        else
+        {
+            idCardTextPanel.SetActive(true);
+            idCardMaterial.SetTexture("_BaseMap", idCardTexture[1]);
+        }
+        playerNameTxt.text = name;
     }
 
     private void InitLineRenderer()
@@ -118,7 +141,7 @@ public class ContractSigningManager : MonoBehaviour
 
     void ResetSignatureAfterUserNameInput()
     {
-        if(!allowedToWrite && menuUIManager.userNameInput.text.Length > 0 && !menuUIManager.userNameInput.isFocused
+        if (!allowedToWrite && menuUIManager.userNameInput.text.Length > 0 && !menuUIManager.userNameInput.isFocused
             && lineRenderer.positionCount > 1 && !menuUIManager.confirmationPanel.activeSelf)
         {
             ResetSignature();
@@ -135,6 +158,8 @@ public class ContractSigningManager : MonoBehaviour
     public void SetPlayerUserName()
     {
         ClientManager.instance?.SetPlayerName(menuUIManager.userNameInput.text);
+        userDataManager.CreateNewUserName(menuUIManager.userNameInput.text);
+        SetActiveIDCard(true, menuUIManager.userNameInput.text);
         SetActiveContract(false);
         ResetSignature();
     }

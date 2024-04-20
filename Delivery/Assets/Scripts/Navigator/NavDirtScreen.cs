@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class NavDirtScreen : MonoBehaviour
 {
+    public static NavDirtScreen instance;
+
     [SerializeField] SpriteRenderer[] dirtImageUI;
     [SerializeField] Sprite[] mudSprites;
     [SerializeField] float splashSpeed = .1f;
@@ -15,6 +17,18 @@ public class NavDirtScreen : MonoBehaviour
     [SerializeField] Material mudSplashMat;
 
     float targetScale = 14f;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(this);
+        }
+    }
 
     private void Start()
     {
@@ -52,11 +66,15 @@ public class NavDirtScreen : MonoBehaviour
             }
             dirtImageUI[i].transform.localScale = new Vector3(targetScale, targetScale, targetScale);
         }
+    }
 
-        //Dissolve Mud
-        yield return new WaitForSeconds(dissolveDelay);
-
-        float dissolveTime = 1;
+    public void ReceiveDriverWipers()
+    {
+        StartCoroutine(WiperCoroutine());
+    }
+    IEnumerator WiperCoroutine()
+    {
+        float dissolveTime = mudSplashMat.GetFloat("_DissolveAmount");
         while (dissolveTime > 0f)
         {
             dissolveTime -= Time.deltaTime * dissolveSpeed;
@@ -64,4 +82,5 @@ public class NavDirtScreen : MonoBehaviour
             yield return null;
         }
     }
+
 }

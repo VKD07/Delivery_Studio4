@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d27c6f5f8e77e149b3bb5d03e925a4b, type: 3}
   m_Name: Package2
   m_EditorClassIdentifier: 
-  packageUIprefab: {fileID: 6296484219582398848, guid: 7cf1f2704ef88bc4d84dd172af7c3c99,
+  packageUIprefab: {fileID: 7024584866633248040, guid: 7cf1f2704ef88bc4d84dd172af7c3c99,
     type: 3}
   packageShape: {fileID: -1261142325, guid: ce0583722d584b34f9fb94af96b8ddfc, type: 3}
   packageColor:

@@ -42,7 +42,7 @@ public class DriverSpawnerManager : MonoBehaviour
     {
         //One of them will spawn first, and if someone spawn first, they need to tell the other driver what spawn point he took so that 
         //Other player wont be in thesame spawn point
-        int randomTime = Random.Range(0, 4);
+        int randomTime = Random.Range(0, 2);
         yield return new WaitForSeconds(randomTime);
 
 
@@ -67,17 +67,35 @@ public class DriverSpawnerManager : MonoBehaviour
     private void InstantiateAndSendToNetwork(int startLocationIndex)
     {
         GameObject driver = Instantiate(localDriver, spawners[startLocationIndex].points[pointIndex].position, Quaternion.Euler(spawners[startLocationIndex].points[pointIndex].forward));
+
+        ApplyCarSkin(driver);
+
         driver.transform.forward = spawners[startLocationIndex].points[pointIndex].forward;
         spawnedDriver = driver;
 
         try
         {
-            SendPackets.SpawnCar(driver.transform.position, startLocationIndex, pointIndex, ClientManager.instance?.playerData.name);
+            SendPackets.SpawnCar(driver.transform.position, startLocationIndex, pointIndex, ClientManager.instance?.playerData.name, ClientManager.instance.playerData.appliedCarColoredID);
         }
         catch (System.Exception)
         {
         }
         //NetworkSender.instance?.SendSpawnEnemyPacket(transform.position, randomIndex);
+    }
+
+    private static void ApplyCarSkin(GameObject driver)
+    {
+        try
+        {
+            //Applying car skin
+            driver.GetComponentInChildren<MeshRenderer>().material.SetTexture("_BaseMap", DriverItemShopHandler.instance?.GetPlayerChosenCarColor(ClientManager.instance.playerData.appliedCarColoredID));
+            driver.transform.Find("SM_Veh_Car_Van_Door_l").GetComponent<MeshRenderer>().material.SetTexture("_BaseMap", DriverItemShopHandler.instance?.GetPlayerChosenCarColor(ClientManager.instance.playerData.appliedCarColoredID));
+            driver.transform.Find("SM_Veh_Car_Van_Door_r").GetComponent<MeshRenderer>().material.SetTexture("_BaseMap", DriverItemShopHandler.instance?.GetPlayerChosenCarColor(ClientManager.instance.playerData.appliedCarColoredID));
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("No ClientManager Found");
+        }
     }
 
     public void DisableSpawnedDriver()

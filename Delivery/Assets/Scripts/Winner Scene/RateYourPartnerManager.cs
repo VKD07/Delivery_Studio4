@@ -6,14 +6,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class RatingManager : MonoBehaviour
+public class RateYourPartnerManager : MonoBehaviour
 {
-    public static RatingManager instance;
+    public static RateYourPartnerManager instance;
 
     [SerializeField] Button[] stars;
     [SerializeField] public int currentRating { get; set; }
     bool hasRated;
 
+    RatingUIManager ratingUIManager => GetComponent<RatingUIManager>();
     private void Awake()
     {
         if (instance == null)
@@ -51,7 +52,11 @@ public class RatingManager : MonoBehaviour
 
     public void SendRating()
     {
-        hasRated = true;
-        //TODO: Send Rating Packet to your partner
+        if (!hasRated)
+        {
+            ratingUIManager.EnableOverAllRating();
+            hasRated = true;
+            SendPackets.SendRatingToPartner(currentRating);
+        }
     }
 }

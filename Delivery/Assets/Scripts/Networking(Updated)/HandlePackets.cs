@@ -7,6 +7,7 @@ public class HandlePackets : MonoBehaviour
 {
     //reading the packets welcome
     //Make sure to read the write order of the packets
+
     public static void Welcome(Packet packet)
     {
         string msg = packet.ReadString();
@@ -77,7 +78,8 @@ public class HandlePackets : MonoBehaviour
         int pointIndex = packet.ReadInt();
         Vector3 spawnPos = packet.ReadVector3();
         string userName = packet.ReadString();
-        NetworkPlayerManager.instance?.SpawnEnemyPlayer(spawnPos, startLocaIndex, pointIndex, userName);
+        int carColorID = packet.ReadInt();
+        NetworkPlayerManager.instance?.SpawnEnemyPlayer(spawnPos, startLocaIndex, pointIndex, userName, carColorID);
     }
 
     public static void ReceiveCarMalfunction(Packet packet)
@@ -118,6 +120,11 @@ public class HandlePackets : MonoBehaviour
     public static void ReceiveCarScreechingAudio(Packet packet)
     {
         NetworkPlayerManager.instance?.PlayCarScreechingAudio(packet.ReadBool());
+    }
+
+    public static void ReceiveWiper(Packet packet)
+    {
+        NavDirtScreen.instance?.ReceiveDriverWipers();
     }
 
     #endregion
@@ -166,4 +173,53 @@ public class HandlePackets : MonoBehaviour
         CarNPCSpawner.instance?.DisableNPCCar(id, disable);
     }
     #endregion
+
+    #region Rating Leaderboard Packets
+
+    static List<string> playerNames = new List<string>();
+    static List<int> ratings = new List<int>();
+    static bool newData;
+
+    public static void ReceiveOverAllRating(Packet packet)
+    {
+        ClearData();
+
+        string playerName = packet.ReadString();
+        int rating = packet.ReadInt();
+
+        int index = playerNames.IndexOf(playerName);
+        if (index != -1)
+        {
+            ratings[index] = rating;
+        }
+        else
+        {
+            playerNames.Add(playerName);
+            ratings.Add(rating);
+        }
+
+        RatingUIManager.instance.ReceiveNamesAndRatings(playerNames.ToArray(), ratings.ToArray());
+    }
+
+    public static void ReceiveLeaderboard(Packet packet)
+    {
+        Debug.Log("Successfully received Leaderboard");
+        LeaderboardUIManager.instance.partnerHasSent = true;
+        LeaderboardUIManager.instance?.SetLeaderBoardUI(packet.ReadInt(), packet.ReadString(), packet.ReadString());
+    }
+
+    #endregion
+
+    /// <summary>
+    /// To Ensure that each time new game is created all the rating data is cleared
+    /// </summary>
+    static void ClearData()
+    {
+        if (!newData)
+        {
+            newData = true;
+            playerNames.Clear();
+            ratings.Clear();
+        }
+    }
 }
