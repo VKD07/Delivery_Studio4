@@ -78,7 +78,8 @@ public class HandlePackets : MonoBehaviour
         int pointIndex = packet.ReadInt();
         Vector3 spawnPos = packet.ReadVector3();
         string userName = packet.ReadString();
-        NetworkPlayerManager.instance?.SpawnEnemyPlayer(spawnPos, startLocaIndex, pointIndex, userName);
+        int carColorID = packet.ReadInt();
+        NetworkPlayerManager.instance?.SpawnEnemyPlayer(spawnPos, startLocaIndex, pointIndex, userName, carColorID);
     }
 
     public static void ReceiveCarMalfunction(Packet packet)
@@ -119,6 +120,11 @@ public class HandlePackets : MonoBehaviour
     public static void ReceiveCarScreechingAudio(Packet packet)
     {
         NetworkPlayerManager.instance?.PlayCarScreechingAudio(packet.ReadBool());
+    }
+
+    public static void ReceiveWiper(Packet packet)
+    {
+        NavDirtScreen.instance?.ReceiveDriverWipers();
     }
 
     #endregion

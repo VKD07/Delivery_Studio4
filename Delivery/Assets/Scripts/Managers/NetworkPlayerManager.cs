@@ -72,16 +72,27 @@ public class NetworkPlayerManager : MonoBehaviour
         enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
     }
 
-    public void SpawnEnemyPlayer(Vector3 spawnPos, int startLocIndex, int pointIndex, string userName)
+    public void SpawnEnemyPlayer(Vector3 spawnPos, int startLocIndex, int pointIndex, string userName, int carColorID)
     {
         Debug.Log("Location Received");
         GameObject spawnedEnemy = Instantiate(enemyPlayerPrefab, spawnPos, Quaternion.identity);
+
+        ApplyCarSkin(carColorID, spawnedEnemy);
+
         enemyManager = spawnedEnemy.GetComponent<EnemyManager>();
         enemyAudioManager = spawnedEnemy.GetComponent<EnemyAudioManager>();
         enemyManager.SetEnemyUserName(userName);
         enemyStartLocIndex = startLocIndex;
         enemySpawnPointIndex = pointIndex;
     }
+
+    private static void ApplyCarSkin(int carColorID, GameObject spawnedEnemy)
+    {
+        spawnedEnemy.transform.Find("CarModel").GetComponent<MeshRenderer>().material.SetTexture("_BaseMap", DriverItemShopHandler.instance?.GetPlayerChosenCarColor(carColorID));
+        spawnedEnemy.transform.Find("SM_Veh_Car_Van_Door_l").GetComponent<MeshRenderer>().material.SetTexture("_BaseMap", DriverItemShopHandler.instance?.GetPlayerChosenCarColor(carColorID));
+        spawnedEnemy.transform.Find("SM_Veh_Car_Van_Door_r").GetComponent<MeshRenderer>().material.SetTexture("_BaseMap", DriverItemShopHandler.instance?.GetPlayerChosenCarColor(carColorID));
+    }
+
     public void SetEnemyProperties(Vector3 pos, Quaternion rot, float wheelSpeed, Quaternion flWheelHolderRot, Quaternion frWheelHolderRot)
     {
         hasSpawned = true;

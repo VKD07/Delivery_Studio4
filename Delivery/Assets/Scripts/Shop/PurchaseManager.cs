@@ -11,10 +11,14 @@ public class PurchaseManager : MonoBehaviour
 
     [SerializeField] Button yesBtn, noBtn;
 
+    public delegate void PurchaseConfirmationCallBack();
+    public event PurchaseConfirmationCallBack PurchaseConfirmation;
+
     int itemIDToPurchase;
     ItemType itemTypeToPurchase;
     TextMeshProUGUI btnTxt;
     Button purchaseBtn;
+    bool applyItem;
 
     private void Start()
     {
@@ -24,7 +28,7 @@ public class PurchaseManager : MonoBehaviour
 
     void YesBtn()
     {
-        switch(itemTypeToPurchase)
+        switch (itemTypeToPurchase)
         {
             case ItemType.NavWallPaper:
                 ClientManager.instance?.playerData.navItemsOwned.Add(itemIDToPurchase);
@@ -36,6 +40,8 @@ public class PurchaseManager : MonoBehaviour
         btnTxt.text = "OWNED";
         purchaseBtn.interactable = false;
         purchaseConfirmationPanel.SetActive(false);
+
+        PurchaseConfirmation.Invoke();
     }
 
     void NoBtn()
@@ -45,16 +51,20 @@ public class PurchaseManager : MonoBehaviour
         itemIDToPurchase = -1;
         itemTypeToPurchase = ItemType.None;
         purchaseBtn = null;
+        applyItem = false;
     }
 
-    public void ConfirmPurchase(int itemID, ItemType itemType, TextMeshProUGUI btnText, Button purchaseBtn)
+    public void ConfirmPurchase(int itemID, ItemType itemType, TextMeshProUGUI btnText, Button purchaseBtn, bool applyItem)
     {
         purchaseConfirmationPanel.SetActive(true);
         itemIDToPurchase = itemID;
         itemTypeToPurchase = itemType;
         this.btnTxt = btnText;
         this.purchaseBtn = purchaseBtn;
+        this.applyItem = applyItem;
     }
+
+    public bool ApplyItem() => applyItem;
 }
 
 public enum ItemType

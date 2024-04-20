@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MudSplashManager : MonoBehaviour
 {
+    public static MudSplashManager instance;
+
     [SerializeField] SpriteRenderer[] spriteRenderers;
     [SerializeField] Sprite[] mudSprites;
     [SerializeField] float splashSpeed = .1f;
@@ -16,6 +18,17 @@ public class MudSplashManager : MonoBehaviour
 
     bool isEnabled;
     float targetScale = 0.09004044f;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }else if(instance != this)
+        {
+            Destroy(this);
+        }
+    }
 
     public void EnableMudSplash()
     {
@@ -48,17 +61,25 @@ public class MudSplashManager : MonoBehaviour
             }
             spriteRenderers[i].transform.localScale = new Vector3(targetScale, targetScale, targetScale);
         }
+    }
 
-        //Dissolve Mud
-        yield return new WaitForSeconds(dissolveDelay);
+    public void WipeOffMud()
+    {
+        StartCoroutine(WipeOffMudCouroutine());
+    }
 
-        float dissolveTime = 1;
-        while (dissolveTime > 0f)
+    IEnumerator WipeOffMudCouroutine()
+    {
+        if(isEnabled)
         {
-            dissolveTime -= Time.deltaTime * dissolveSpeed;
-            mudSplashMat.SetFloat("_DissolveAmount", dissolveTime);
-            yield return null;
+            float dissolveTime = mudSplashMat.GetFloat("_DissolveAmount");
+            while (dissolveTime > 0f)
+            {
+                dissolveTime -= Time.deltaTime * dissolveSpeed;
+                mudSplashMat.SetFloat("_DissolveAmount", dissolveTime);
+                yield return null;
+            }
+            isEnabled = false;
         }
-        isEnabled = false;
     }
 }

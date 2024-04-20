@@ -87,7 +87,7 @@ public class SendPackets : MonoBehaviour
     #endregion
 
     #region Driver Packets
-    public static void SpawnCar(Vector3 pos, int startLocIndex, int pointIndex, string userName)
+    public static void SpawnCar(Vector3 pos, int startLocIndex, int pointIndex, string userName, int carColorID)
     {
         using (Packet packet = new Packet((int)ClientPackets.spawnCar))
         {
@@ -95,6 +95,7 @@ public class SendPackets : MonoBehaviour
             packet.Write(pointIndex);
             packet.Write(pos);
             packet.Write(userName);
+            packet.Write(carColorID);
             SendTCPData(packet);
         }
     }
@@ -138,6 +139,14 @@ public class SendPackets : MonoBehaviour
     public static void SendDirtCollision()
     {
         using (Packet packet = new Packet((int)ClientPackets.dirtCollision))
+        {
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendWiper()
+    {
+        using (Packet packet = new Packet((int)ClientPackets.wiper))
         {
             SendTCPData(packet);
         }

@@ -2,44 +2,51 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 public class CarColorUIShopManager : MonoBehaviour
 {
     [SerializeField] Transform colorContentParent;
     [SerializeField] Material carMaterial;
     [SerializeField] GameObject colorItemPrefab;
     [SerializeField] CarColorItem defaultColor;
-    [SerializeField] Button applyBTn;
     [SerializeField] Button closeBTN;
     [SerializeField] CarColorItem[] colorItems;
+
+    //Current Selected item
     int currentColorItemIdSelected;
+    Button currentSelectedPurchaseBtn;
+    TextMeshProUGUI currentPriceTagSelected;
+
+    [Header("APPLY BTN")]
+    [SerializeField] Button applyBtn;
+    [SerializeField] Color appliedColor;
+    Color applyInitBtnColor;
 
     PlayerData playerData;
     PurchaseManager purchaseManager => GetComponent<PurchaseManager>();
 
-    private void Awake()
+
+    private void OnEnable()
     {
-        playerData = ClientManager.instance?.playerData;
+        purchaseManager.PurchaseConfirmation += ApplyJustPurchasedItem;
+    }
+
+    private void OnDisable()
+    {
+        purchaseManager.PurchaseConfirmation -= ApplyJustPurchasedItem;
     }
 
     void Start()
     {
-        applyBTn.onClick.AddListener(ApplyCarColor);
+        applyInitBtnColor = applyBtn.GetComponent<Image>().color;
+
+        playerData = ClientManager.instance.playerData;
+        applyBtn.onClick.AddListener(ApplyCarColor);
         closeBTN.onClick.AddListener(CloseBtn);
         InstantiateAllColorContents();
-        SetCarTexture(colorItems[playerData.appliedCarColoredID].itemTexture, playerData.appliedCarColoredID);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SceneManager.LoadScene(1);
-        }
+        SetCarTexture(colorItems[playerData.appliedCarColoredID].itemTexture, playerData.appliedCarColoredID, null);
     }
 
     private void InstantiateAllColorContents()
@@ -72,10 +79,10 @@ public class CarColorUIShopManager : MonoBehaviour
             }
 
             //Set Shop items btn listeners
-            colorItem.GetComponent<Button>().onClick.AddListener(() => SetCarTexture(colorItems[index].itemTexture, colorItems[index].id));
+            colorItem.GetComponent<Button>().onClick.AddListener(() => SetCarTexture(colorItems[index].itemTexture, colorItems[index].id, colorItem));
 
             //Purchase
-            purchaseBtn.onClick.AddListener(() => purchaseManager.ConfirmPurchase(colorItems[index].id, ItemType.CarSkinColor, priceTag, purchaseBtn));
+            purchaseBtn.onClick.AddListener(() => purchaseManager.ConfirmPurchase(colorItems[index].id, ItemType.CarSkinColor, priceTag, purchaseBtn, false));
         }
     }
 
@@ -95,27 +102,66 @@ public class CarColorUIShopManager : MonoBehaviour
     }
 
 
-    void SetCarTexture(Texture2D texture, int itemID)
+    void SetCarTexture(Texture2D texture, int itemID, GameObject colorItem)
     {
+
         carMaterial.SetTexture("_BaseMap", texture);
+
         currentColorItemIdSelected = itemID;
+
+        ButtonIsApplied(false);
+
+        if (colorItem == null) return;
+        currentSelectedPurchaseBtn = colorItem.transform.Find("PurchaseBtn").GetComponent<Button>();
+        currentPriceTagSelected = colorItem.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     public void ApplyCarColor()
     {
         if (CheckIfItemIsAlreadyPurchased(currentColorItemIdSelected) || currentColorItemIdSelected == 0)
         {
+            ButtonIsApplied(true);
             playerData.appliedCarColoredID = currentColorItemIdSelected;
         }
         else
         {
-            Debug.Log("Item not owned");
+            purchaseManager.ConfirmPurchase(colorItems[currentColorItemIdSelected].id, ItemType.CarSkinColor, currentPriceTagSelected, currentSelectedPurchaseBtn, true);
+        }
+    }
+
+    void ApplyJustPurchasedItem()
+    {
+        if (purchaseManager.ApplyItem())
+        {
+            playerData.appliedCarColoredID = currentColorItemIdSelected;
+            ButtonIsApplied(true);
+        }
+    }
+
+    void ButtonIsApplied(bool val)
+    {
+        TextMeshProUGUI applyBtnTxt = applyBtn.GetComponentInChildren<TextMeshProUGUI>();
+        Image btnImg = applyBtn.GetComponent<Image>();
+
+        if (val)
+        {
+            btnImg.color = appliedColor;
+            applyBtnTxt.text = "APPLIED";
+        }
+        else
+        {
+            btnImg.color = applyInitBtnColor;
+            applyBtnTxt.text = "APPLY";
         }
     }
 
     public void CloseBtn()
     {
-        SetCarTexture(colorItems[playerData.appliedCarColoredID].itemTexture, playerData.appliedCarColoredID);
+        ButtonIsApplied(false);
+        SetCarTexture(colorItems[playerData.appliedCarColoredID].itemTexture, playerData.appliedCarColoredID, null);
+        currentColorItemIdSelected = 0;
+        currentSelectedPurchaseBtn = null;
+        currentPriceTagSelected = null;
         MainMenuCameraHandler.instance.EnableMainMenuCam();
     }
 }

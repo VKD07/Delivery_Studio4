@@ -2,29 +2,49 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
-
 public class NavShopManager : MonoBehaviour
 {
+    [SerializeField] GameObject navShopPanel;
     [SerializeField] NavWallPaperItem[] wallPaperItems;
     [SerializeField] GameObject navItemPrefab;
     [SerializeField] Transform shopParent;
     [SerializeField] Image currentWallpaper;
+    [SerializeField] Button closeBtn;
+
+    [Header("=== Applied Btn ===")]
     [SerializeField] Button applyBtn;
+    [SerializeField] Color appliedColor;
+    Color applyBtnInitColor;
 
     [Header("=== CHECK IMG ===")]
     [SerializeField] GameObject checkImg;
     [SerializeField] Vector2 checkImgAdditionalPos;
     PlayerData playerData;
+
+    //Current btn selected
     int currentWallPaperIDSelected;
+    TextMeshProUGUI currentPriceTagSelected;
+    Button currentPurchaseBTnSelected;
+
     bool defaultSelected;
     public Transform defaultItem;
 
     PurchaseManager purchaseManager => GetComponent<PurchaseManager>();
+
+    private void OnEnable()
+    {
+        purchaseManager.PurchaseConfirmation += ApplyJustPurchasedItem;
+    }
+
+    private void OnDisable()
+    {
+        purchaseManager.PurchaseConfirmation -= ApplyJustPurchasedItem;
+    }
 
     private void Start()
     {
@@ -32,6 +52,9 @@ public class NavShopManager : MonoBehaviour
         currentWallpaper.sprite = wallPaperItems[playerData.appliedWallpaperId].sprite;
         InitItemsToShop();
         applyBtn.onClick.AddListener(ApplyWallPaper);
+        closeBtn.onClick.AddListener(CloseBtn);
+
+        applyBtnInitColor = applyBtn.GetComponent<Image>().color;
     }
 
     private void InitItemsToShop()
@@ -64,10 +87,10 @@ public class NavShopManager : MonoBehaviour
 
 
             //ITEM PREVIEW
-            item.GetComponent<Button>().onClick.AddListener(() => SelectItem(wallPaperItems[index].id, item.transform, wallPaperItems[index].sprite));
+            item.GetComponent<Button>().onClick.AddListener(() => SelectItem(wallPaperItems[index].id, item.transform, wallPaperItems[index].sprite, purchaseBtn, itemPriceTxt));
 
             //PURCHASING
-            purchaseBtn.onClick.AddListener(() => purchaseManager.ConfirmPurchase(wallPaperItems[index].id, ItemType.NavWallPaper, itemPriceTxt, purchaseBtn));
+            purchaseBtn.onClick.AddListener(() => purchaseManager.ConfirmPurchase(wallPaperItems[index].id, ItemType.NavWallPaper, itemPriceTxt, purchaseBtn, false));
 
             if (playerData.appliedWallpaperId == index)
             {
@@ -77,12 +100,16 @@ public class NavShopManager : MonoBehaviour
         StartCoroutine(SelectAppliedItem(defaultItem));
     }
 
-    void SelectItem(int itemID, Transform btnTransform, Sprite wallpaper)
+    void SelectItem(int itemID, Transform btnTransform, Sprite wallpaper, Button btnSelected, TextMeshProUGUI priceTagTxt)
     {
         checkImg.SetActive(true);
         checkImg.transform.localPosition = new Vector2(btnTransform.transform.localPosition.x + checkImgAdditionalPos.x, btnTransform.transform.localPosition.y + checkImgAdditionalPos.y);
         currentWallpaper.sprite = wallpaper;
         currentWallPaperIDSelected = itemID;
+        currentPurchaseBTnSelected = btnSelected;
+        currentPriceTagSelected = priceTagTxt;
+
+        ButtonIsApplied(false);
     }
 
     bool CheckIfItemIsAlreadyPurchased(int itemId)
@@ -113,10 +140,50 @@ public class NavShopManager : MonoBehaviour
         if (CheckIfItemIsAlreadyPurchased(currentWallPaperIDSelected) || currentWallPaperIDSelected == 0)
         {
             playerData.appliedWallpaperId = currentWallPaperIDSelected;
+            ButtonIsApplied(true);
+        }
+        else //If item is not owned then ask if they wanna purchase
+        {
+            purchaseManager.ConfirmPurchase(wallPaperItems[currentWallPaperIDSelected].id, ItemType.NavWallPaper, currentPriceTagSelected, currentPurchaseBTnSelected, true);
+        }
+    }
+
+    void ApplyJustPurchasedItem()
+    {
+        if (purchaseManager.ApplyItem())
+        {
+            playerData.appliedWallpaperId = currentWallPaperIDSelected;
+            ButtonIsApplied(true);
+        }
+    }
+
+    void ButtonIsApplied(bool val)
+    {
+        TextMeshProUGUI applyBtnTxt = applyBtn.GetComponentInChildren<TextMeshProUGUI>();
+        Image btnImg = applyBtn.GetComponent<Image>();
+
+        if (val)
+        {
+            btnImg.color = appliedColor;
+            applyBtnTxt.text = "APPLIED";
         }
         else
         {
-            Debug.Log("Item not owned");
+            btnImg.color = applyBtnInitColor;
+            applyBtnTxt.text = "APPLY";
         }
+    }
+
+    void CloseBtn()
+    {
+        currentPriceTagSelected = null;
+        currentPurchaseBTnSelected = null;
+        currentWallPaperIDSelected = 0;
+
+        currentWallpaper.sprite = wallPaperItems[playerData.appliedWallpaperId].sprite;
+        navShopPanel.SetActive(false);
+
+        ButtonIsApplied(false);
+        MainMenuCameraHandler.instance.EnableMainMenuCam();
     }
 }

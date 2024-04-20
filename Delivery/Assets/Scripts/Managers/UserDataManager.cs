@@ -6,7 +6,7 @@ public class UserDataManager : MonoBehaviour
 {
     private void Awake()
     {
-        PlayerPrefs.DeleteKey("username");
+        //PlayerPrefs.DeleteKey("username");
     }
     public void CreateNewUserName(string userName)
     {
@@ -19,4 +19,9 @@ public class UserDataManager : MonoBehaviour
     }
 
     public string GetExistingUserName => PlayerPrefs.GetString("username");
+
+    public void SetExistingUserName()
+    {
+        ClientManager.instance.playerData.name = PlayerPrefs.GetString("username");
+    }
 }

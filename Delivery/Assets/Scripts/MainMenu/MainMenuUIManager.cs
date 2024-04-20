@@ -37,14 +37,13 @@ public class MainMenuUIManager : MonoBehaviour
     {
         if (!userDataManager.checkIfUserExists())
         {
-            SetActiveNewUserPanel();
+            contractSigningManager.SetActiveContract(true);
             menuObjectsManager.SetActiveSelectionEffect(false);
             contractSigningManager.SetActiveIDCard(false, "");
         }
         else
         {
-            mainMenuPanel.SetActive(true);
-            menuObjectsManager.SetActiveSelectionEffect(true);
+            SetActiveNewUserPanel();
             userNameInput.text = userDataManager.GetExistingUserName;
             contractSigningManager.SetActiveIDCard(true, userNameInput.text);
         }

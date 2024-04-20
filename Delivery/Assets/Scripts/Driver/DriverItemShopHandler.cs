@@ -27,11 +27,11 @@ public class DriverItemShopHandler : MonoBehaviour
         }
     }
 
-    public Texture2D GetPlayerChosenCarColor()
+    public Texture2D GetPlayerChosenCarColor(int colorID)
     {
         try
         {
-            return colorItems[ClientManager.instance.playerData.appliedCarColoredID].itemTexture;
+            return colorItems[colorID].itemTexture;
         }
         catch (System.Exception)
         {

@@ -22,6 +22,7 @@ public enum ServerPackets
     carAudio,
     screechingAudio,
     carMalfunction,
+    wiper,
 
     deliveryAddress,
     timer,
@@ -56,6 +57,7 @@ public enum ClientPackets
     carAudio,
     screechingAudio,
     carMalfunction,
+    wiper,
 
     deliveryAddress,
     timer,

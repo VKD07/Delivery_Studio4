@@ -30,6 +30,11 @@ public class CarMalfunction : MonoBehaviour
     CarAudioManager carAudioManager => GetComponent<CarAudioManager>();
     #endregion
 
+    private void Start()
+    {
+        CarScreenManager.instance.carMalfunctionSymbol = malfunctionSymbol;
+    }
+
     private void Update()
     {
         FixMalfunction();
@@ -52,6 +57,7 @@ public class CarMalfunction : MonoBehaviour
             smokeParticle.Stop();
             onFixCar.Invoke();
             isBroken = false;
+            CarScreenManager.instance?.CarIsDamaged(false);
             SendPackets.SendCarMalfunction(false);
         }
         else
@@ -66,6 +72,7 @@ public class CarMalfunction : MonoBehaviour
         {
             if (!isBroken)
             {
+                CarScreenManager.instance?.CarIsDamaged(true);
                 isBroken = true;
                 crashCount = 0;
                 onCarBroken.Invoke();
@@ -98,7 +105,7 @@ public class CarMalfunction : MonoBehaviour
 
     void EnableSymbol()
     {
-        malfunctionSymbol.enabled = true;
+        //malfunctionSymbol.enabled = true;
         malfunctionSymbol.sprite = chosenMalfunction.getSpriteSymbol;
     }
 
