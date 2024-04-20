@@ -1,16 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using TMPro;
 using UnityEngine;
 
 public class LobbyModeRequest : MonoBehaviour
 {
+    [SerializeField] GameObject searchingForPlayersPanel;
     [SerializeField] float requestTimeLimit = 25f;
     [HideInInspector] public bool duoRequest;
     [HideInInspector] public bool twoVTwoRequest;
     public float currentTime;
 
+    [Header("=== DOT EFFECT ===")]
+    [SerializeField] TextMeshProUGUI dotsEffect;
+    [SerializeField] float timeInterval = .5f;
+
     LobbyManager lobbyManager => GetComponent<LobbyManager>();
+
+    private void Start()
+    {
+        StartCoroutine(EnableConnectingDotEffect());
+    }
 
     private void Update()
     {
@@ -40,6 +51,20 @@ public class LobbyModeRequest : MonoBehaviour
         SendPackets.SendLobbyModeRequest(ClientManager.instance.playerData.mode);
     }
 
+    IEnumerator EnableConnectingDotEffect()
+    {
+        while (true)
+        {
+            yield return null;
+            dotsEffect.text = "";
+            for (int i = 0; i < 7; i++)
+            {
+                yield return new WaitForSeconds(timeInterval);
+                dotsEffect.text += ".";
+            }
+        }
+    }
+
     void Timer()
     {
         if (!duoRequest && !twoVTwoRequest) return;
@@ -54,6 +79,7 @@ public class LobbyModeRequest : MonoBehaviour
             duoRequest = false;
             twoVTwoRequest = false;
             lobbyManager.DisableLobbyRequest();
+            searchingForPlayersPanel.SetActive(false);
         }
     }
 
