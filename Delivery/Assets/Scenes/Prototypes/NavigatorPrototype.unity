@@ -671,6 +671,7 @@ MonoBehaviour:
   bubbleUI: {fileID: 1199342952}
   bubbleMsg: {fileID: 1060204472}
   voiceCallUIAnim: {fileID: 153203672}
+  randomCalls: {x: 15, y: 40}
   writingSpeed: 0.05
   disableTime: 5
   welcomeMessages:
@@ -5143,6 +5144,21 @@ MonoBehaviour:
   packagesSpawned: []
   chosenPackageObj: {fileID: 0}
   chosenPackageProperties: {fileID: 0}
+  OnDriverArrived:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 79328593}
+        m_TargetAssemblyTypeName: VoiceCallManager, Assembly-CSharp
+        m_MethodName: StopRandomCalls
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1346182643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7427,7 +7443,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 79328593}
         m_TargetAssemblyTypeName: VoiceCallManager, Assembly-CSharp
-        m_MethodName: EnableWelcomeCall
+        m_MethodName: EnableRandomCall
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

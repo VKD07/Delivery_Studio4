@@ -48,6 +48,7 @@ public class LobbyManager : MonoBehaviour
     [SerializeField] GameObject toBeDisabledNotes, searchingForPlayersPanel, selection4v4, selectionDuo;
     [SerializeField] GameObject duoNamePanel, twoVtwoNamePanel, warmUpNamePanel;
     [SerializeField] Button cancelBtn;
+    [SerializeField] TextMeshProUGUI gameStartingTxt;
 
     [Header("=== MAIN MENU UI's ===")]
     [SerializeField] GameObject mainMenuPanel;
@@ -98,6 +99,7 @@ public class LobbyManager : MonoBehaviour
 
         cancelBtn.onClick.AddListener(() => ChangeTeam(btnRolePressed, txtChanged, thisClient.playerData.name, true));
         cancelBtn.gameObject.SetActive(false);
+        gameStartingTxt.gameObject.SetActive(false);
     }
 
     #region UNASSIGNED PLAYERS HANDLER
@@ -170,8 +172,11 @@ public class LobbyManager : MonoBehaviour
         playerNameTxt.GetComponent<TextMeshProUGUI>().SetText(playerName);
         RemoveNameFromUnAssignedPlayerList(playerName);
 
+        //GAME IS STARTING
         if (CheckIfAllPlayersHaveChosen())
         {
+            gameStartingTxt.gameObject.SetActive(true);
+            StartCoroutine(EnableConnectingDotEffect());
             StartCoroutine(StartGame());
         }
     }
@@ -195,6 +200,7 @@ public class LobbyManager : MonoBehaviour
         textToDisable.GetComponent<TextMeshProUGUI>().SetText("");
 
         StopAllCoroutines();
+        gameStartingTxt.gameObject.SetActive(false);
     }
     #endregion
 
@@ -253,6 +259,28 @@ public class LobbyManager : MonoBehaviour
         }
         //Send To network you started the game
         //NetworkSender.instance?.SendStartGamePacket();
+    }
+
+    IEnumerator EnableConnectingDotEffect()
+    {
+        int dotNum = 0;
+        gameStartingTxt.text = "GAME STARTING";
+
+        while (true)
+        {
+            yield return new WaitForSeconds(.4f);
+
+            if(dotNum < 3)
+            {
+                gameStartingTxt.text += ".";
+                dotNum++;
+            }
+            else
+            {
+                dotNum = 0;
+                gameStartingTxt.text = "GAME STARTING";
+            }
+        }
     }
     #endregion
 

@@ -16,6 +16,7 @@ public class HandlePackets : MonoBehaviour
         Debug.Log($"Message from the server: {msg}");
         ClientManager.instance.myId = id;
 
+        ServerConnection.instance?.ServerConnectionSuccess();
         //Send welcome receive packet
         SendPackets.WelcomeReceived();
     }

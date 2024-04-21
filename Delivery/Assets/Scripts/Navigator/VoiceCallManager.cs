@@ -1,5 +1,7 @@
+using GD.MinMaxSlider;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using TMPro;
 using UnityEngine;
 
@@ -9,15 +11,30 @@ public class VoiceCallManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI bubbleMsg;
     [SerializeField] Animator voiceCallUIAnim;
 
-    //[Header("=== RANDOM CALL SETTINGS ===")]
-
+    [Header("=== RANDOM CALL SETTINGS ===")]
+    [SerializeField,MinMaxSlider(0, 50)] Vector2 randomCalls;
 
     [Header("=== DIALOUGES ===")]
     [SerializeField] float writingSpeed = .05f;
     [SerializeField] float disableTime = 5f;
     [SerializeField] string[] welcomeMessages;
 
-    public void EnableWelcomeCall()
+    public void EnableRandomCall()
+    {
+        StartCoroutine(RandomCallCoroutine());
+    }
+
+    IEnumerator RandomCallCoroutine()
+    {
+        while (true)
+        {
+            float randomTime = Random.Range(randomCalls.x, randomCalls.y);
+            yield return new WaitForSeconds(randomTime);
+            EnableCalls();
+        }
+    }
+
+    public void EnableCalls()
     {
         int index = Random.Range(0, welcomeMessages.Length);
 
@@ -25,10 +42,12 @@ public class VoiceCallManager : MonoBehaviour
         
         bubbleUI.SetActive(true);
         voiceCallUIAnim.SetBool("ShakeIcon", true);
-        StartCoroutine(DisableWelcomeCall());
+        StartCoroutine(DisableCall());
     }
 
-    IEnumerator DisableWelcomeCall()
+ 
+
+    IEnumerator DisableCall()
     {
         yield return new WaitForSeconds(disableTime);
         bubbleUI.SetActive(false);
@@ -45,5 +64,10 @@ public class VoiceCallManager : MonoBehaviour
             yield return new WaitForSeconds(writingSpeed);
             bubbleMsg.text += characters[i];
         }
+    }
+
+    public void StopRandomCalls()
+    {
+        StopAllCoroutines();
     }
 }

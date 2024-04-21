@@ -39,6 +39,9 @@ public class NavCustomerPackage : MonoBehaviour
     GameObject currentSelectedPckg;
     int packageNum = 0;
 
+    [Space(2)]
+    [SerializeField] UnityEvent OnDriverArrived;
+
     PackageSelectionManager packageSelection => GetComponent<PackageSelectionManager>();
 
     private void Awake()
@@ -169,6 +172,7 @@ public class NavCustomerPackage : MonoBehaviour
         panelDescription.gameObject.SetActive(false);
         panelDescription.color = wrongColor;
         panelDescription.text = "WRONG PACKAGE!";
+        OnDriverArrived.Invoke();
     }
     #endregion
 }
