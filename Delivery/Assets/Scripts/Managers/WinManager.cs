@@ -37,14 +37,6 @@ public class WinManager : MonoBehaviour
         thisClient = ClientManager.instance;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            DeclareWinner(1);
-        }
-    }
-
     public void DeclareWinner(int teamNumber)
     {
         WinPanel.SetActive(true);
@@ -93,7 +85,8 @@ public class WinManager : MonoBehaviour
     IEnumerator LoadToRatingScene()
     {
         yield return new WaitForSeconds(timeToLoad);
-        SceneManager.LoadScene(sceneName);
+        SceneLoaderManager sceneLoader = SceneLoaderManager.instance;
+        sceneLoader.LoadNextScene(sceneLoader.ratingAndLeaderBoardScene);
     }
 
     void EnableVFX()

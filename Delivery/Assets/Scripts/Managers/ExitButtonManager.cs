@@ -5,11 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class ExitButtonManager : MonoBehaviour
 {
-    [SerializeField] string mainMenuScene = "MainMenu";
+    SceneLoaderManager sceneLoader;
+
+    private void Start()
+    {
+        sceneLoader = SceneLoaderManager.instance;
+    }
+
     public void ExitToMenu()
     {
         ResetPlayerData();
-        SceneManager.LoadScene(mainMenuScene);
+        sceneLoader.LoadNextScene(sceneLoader.mainMenuScene);
     }
 
     void ResetPlayerData()
@@ -19,5 +25,6 @@ public class ExitButtonManager : MonoBehaviour
         ClientManager.instance.playerData.mode = LobbyMode.None;
         ClientManager.instance.playerData.role = GameRole.None;
         ClientManager.instance.playerData.teamNumber = 0;
+        HandlePackets.newRatingData = false;
     }
 }

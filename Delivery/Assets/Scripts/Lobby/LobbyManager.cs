@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -61,6 +62,7 @@ public class LobbyManager : MonoBehaviour
     GameObject btnRolePressed;
     GameObject txtChanged;
     LobbyModeRequest lobbyModeRequest => GetComponent<LobbyModeRequest>();
+    SceneLoaderManager sceneLoader;
     #endregion
 
     private void Awake()
@@ -84,6 +86,7 @@ public class LobbyManager : MonoBehaviour
 
     private void Start()
     {
+        sceneLoader = SceneLoaderManager.instance;
         driver.OnClick.AddListener(() => SetPlayerRoleAndTeam(1, GameRole.Driver, driver.gameObject, driveNameTxt, thisClient.playerData.name, true));
         navigator.OnClick.AddListener(() => SetPlayerRoleAndTeam(1, GameRole.Navigator, navigator.gameObject, navigatorNameTxt, thisClient.playerData.name, true));
 
@@ -223,7 +226,7 @@ public class LobbyManager : MonoBehaviour
                 break;
             case LobbyMode.TwoVTwo:
                 if (t1_driver.gameObject.activeSelf || t2_driver.gameObject.activeSelf
-                    /*|| t2_navigator.gameObject.activeSelf || t1_navigator.gameObject.activeSelf*/)
+              || t2_navigator.gameObject.activeSelf || t1_navigator.gameObject.activeSelf)
                 {
                     return false;
                 }
@@ -236,17 +239,16 @@ public class LobbyManager : MonoBehaviour
     IEnumerator StartGame()
     {
         yield return new WaitForSeconds(timeToStart);
-
         //SendPackets.SendStartGamePacket();
 
         switch (thisClient.playerData.role)
         {
             case GameRole.Driver:
-                SceneManager.LoadScene(driverScene);
+                sceneLoader.LoadNextScene(sceneLoader.driverScene);
                 break;
 
             case GameRole.Navigator:
-                SceneManager.LoadScene(navigatorScene);
+                sceneLoader.LoadNextScene(sceneLoader.navigatorScene);
                 break;
         }
         //Send To network you started the game
@@ -418,15 +420,14 @@ public class LobbyManager : MonoBehaviour
 
     public void ReceivePacketIfGameHasStarted()
     {
-        Debug.Log(thisClient.playerData.teamNumber);
         switch (thisClient.playerData.role)
         {
             case GameRole.Driver:
-                SceneManager.LoadScene(driverScene);
+                sceneLoader.LoadNextScene(sceneLoader.driverScene);
                 break;
 
             case GameRole.Navigator:
-                SceneManager.LoadScene(navigatorScene);
+                sceneLoader.LoadNextScene(sceneLoader.navigatorScene);
                 break;
         }
 

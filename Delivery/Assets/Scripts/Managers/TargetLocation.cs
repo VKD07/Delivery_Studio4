@@ -40,6 +40,7 @@ public class TargetLocation : MonoBehaviour
             SendPackets.SendDriverArrived(ClientManager.instance.playerData.teamNumber);
             DriverSpawnerManager.instance.DisableSpawnedDriver();
             CustomerDialougeManager.instance.EnableCustomer();
+            CarScreenManager.instance?.DisableCarScreen();
 
             ////NetworkSender.instance?.SendNetworkDriverArrived();
             //SendPackets.SendDriverArrived(ClientManager.instance.playerData.teamNumber);

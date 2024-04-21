@@ -143,11 +143,17 @@ public class CarNPCSpawner : MonoBehaviour
 
     public void UpdateCarPropertiesOnTheList(int id, Vector3 pos, Quaternion rot)
     {
-        if (!poolOfCars[id].activeSelf)
+        try
         {
-            poolOfCars[id].SetActive(true);
+            if (!poolOfCars[id].activeSelf)
+            {
+                poolOfCars[id].SetActive(true);
+            }
+            poolOfCars[id].GetComponent<NPCCarManager>().UpdateTransform(pos, rot);
         }
-        poolOfCars[id].GetComponent<NPCCarManager>().UpdateTransform(pos, rot);
+        catch (System.Exception)
+        {
+        }
     }
 
     public void DisableNPCCar(int id, bool val)

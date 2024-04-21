@@ -16400,8 +16400,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: BINSS
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 75510f652c0347b48a20aae510dd7c25, type: 2}
-  m_sharedMaterial: {fileID: 632546501535064950, guid: 75510f652c0347b48a20aae510dd7c25,
+  m_fontAsset: {fileID: 11400000, guid: ac6918a9e0dcbaa47b6061457df67a7d, type: 2}
+  m_sharedMaterial: {fileID: 2447064585031970200, guid: ac6918a9e0dcbaa47b6061457df67a7d,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -20979,8 +20979,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'UNEMPLOYED PLAYERS:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 75510f652c0347b48a20aae510dd7c25, type: 2}
-  m_sharedMaterial: {fileID: 632546501535064950, guid: 75510f652c0347b48a20aae510dd7c25,
+  m_fontAsset: {fileID: 11400000, guid: ac6918a9e0dcbaa47b6061457df67a7d, type: 2}
+  m_sharedMaterial: {fileID: 2447064585031970200, guid: ac6918a9e0dcbaa47b6061457df67a7d,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -45510,13 +45510,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitionAnimator: {fileID: 1323273278}
-  loadSceneDelayTime: 0
+  loadSceneDelayTime: 2
   currentSceneDelayTime: 0
   enableCurrentSceneTranstionEffect: 1
-  titleScene: 
+  titleScene: TitleScene
   mainMenuScene: MainMenu
-  driverScene: 
-  navigatorScene: 
+  driverScene: DrivingPrototype
+  navigatorScene: NavigatorPrototype
   ratingAndLeaderBoardScene: RatingAndLeaderboard
 --- !u!4 &1846544324
 Transform:
@@ -49828,7 +49828,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 75510f652c0347b48a20aae510dd7c25, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ac6918a9e0dcbaa47b6061457df67a7d, type: 2}
   m_sharedMaterial: {fileID: 632546501535064950, guid: 75510f652c0347b48a20aae510dd7c25,
     type: 2}
   m_fontSharedMaterials: []
@@ -49893,7 +49893,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &2033507024
@@ -50479,79 +50479,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f544acb0570e71c4b8ed12908c59e74e, type: 3}
---- !u!1001 &2064519435
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 768610999875826477, guid: 8aa24c18f60819d43a8dd8d522b85abb,
-        type: 3}
-      propertyPath: ip
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5618746960664537456, guid: 8aa24c18f60819d43a8dd8d522b85abb,
-        type: 3}
-      propertyPath: m_Name
-      value: Networking(Updated)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7223452745061388132, guid: 8aa24c18f60819d43a8dd8d522b85abb,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -9.28975
-      objectReference: {fileID: 0}
-    - target: {fileID: 7223452745061388132, guid: 8aa24c18f60819d43a8dd8d522b85abb,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.23384689
-      objectReference: {fileID: 0}
-    - target: {fileID: 7223452745061388132, guid: 8aa24c18f60819d43a8dd8d522b85abb,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 26.497776
-      objectReference: {fileID: 0}
-    - target: {fileID: 7223452745061388132, guid: 8aa24c18f60819d43a8dd8d522b85abb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7223452745061388132, guid: 8aa24c18f60819d43a8dd8d522b85abb,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7223452745061388132, guid: 8aa24c18f60819d43a8dd8d522b85abb,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7223452745061388132, guid: 8aa24c18f60819d43a8dd8d522b85abb,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7223452745061388132, guid: 8aa24c18f60819d43a8dd8d522b85abb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7223452745061388132, guid: 8aa24c18f60819d43a8dd8d522b85abb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7223452745061388132, guid: 8aa24c18f60819d43a8dd8d522b85abb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8aa24c18f60819d43a8dd8d522b85abb, type: 3}
 --- !u!1001 &2064603011
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54288,5 +54215,4 @@ SceneRoots:
   - {fileID: 1693399856}
   - {fileID: 265434662}
   - {fileID: 1846544324}
-  - {fileID: 2064519435}
   - {fileID: 1584832936}

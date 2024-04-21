@@ -30,6 +30,10 @@ public class MainMenuUIManager : MonoBehaviour
         //SetActiveTitlePanel(true);
         InitPanelsAndBtnEvents();
 
+    }
+
+    private void Start()
+    {
         CheckIfUserAlreadyExists();
     }
 

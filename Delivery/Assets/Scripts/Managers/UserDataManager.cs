@@ -22,6 +22,13 @@ public class UserDataManager : MonoBehaviour
 
     public void SetExistingUserName()
     {
-        ClientManager.instance.playerData.name = PlayerPrefs.GetString("username");
+        if (ClientManager.instance.playerData.name.ToCharArray().Length > 0)
+        {
+            ClientManager.instance.SetPlayerName(ClientManager.instance.playerData.name);
+        }
+        else
+        {
+            ClientManager.instance.SetPlayerName(PlayerPrefs.GetString("username"));
+        }
     }
 }

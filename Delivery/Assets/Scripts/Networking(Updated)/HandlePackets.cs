@@ -178,7 +178,7 @@ public class HandlePackets : MonoBehaviour
 
     static List<string> playerNames = new List<string>();
     static List<int> ratings = new List<int>();
-    static bool newData;
+    public static bool newRatingData;
 
     public static void ReceiveOverAllRating(Packet packet)
     {
@@ -215,9 +215,9 @@ public class HandlePackets : MonoBehaviour
     /// </summary>
     static void ClearData()
     {
-        if (!newData)
+        if (!newRatingData)
         {
-            newData = true;
+            newRatingData = true;
             playerNames.Clear();
             ratings.Clear();
         }

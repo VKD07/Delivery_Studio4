@@ -19,6 +19,7 @@ public class ServerConnection : MonoBehaviour
     [Header("=== CONNECTING DOT EFFECT ===")]
     [SerializeField] TextMeshProUGUI dots;
     [SerializeField] float timeInterval = .5f;
+
     private void Awake()
     {
         joinServerBtn.onClick.AddListener(JoinServer);
@@ -31,7 +32,6 @@ public class ServerConnection : MonoBehaviour
         {
             Destroy(this);
         }
-
     }
 
     private void Start()
@@ -39,24 +39,16 @@ public class ServerConnection : MonoBehaviour
         closeBtn.onClick.AddListener(CloseBtn);
         StartCoroutine(EnableConnectingDotEffect());
         thisClient = ClientManager.instance;
+        DisconnectToServer();
     }
 
     public void JoinServer()
     {
-        try
-        {
-            ClientManager.instance.ConnectToServer(ipAddressInput.text);
-            serverConnectionPanel.SetActive(false);
-            lobbySelectionPanel.SetActive(true);
 
-            StartCoroutine(SendPlayerData());
-
-        }
-        catch (System.Exception)
-        {
-            errorTxt.SetActive(true);
-            Debug.Log("Failed to connect to server");
-        }
+        ClientManager.instance.ConnectToServer(ipAddressInput.text);
+        serverConnectionPanel.SetActive(false);
+        lobbySelectionPanel.SetActive(true);
+        StartCoroutine(SendPlayerData());
     }
 
     IEnumerator SendPlayerData()
@@ -83,5 +75,10 @@ public class ServerConnection : MonoBehaviour
     {
         onCloseBtn.Invoke();
         serverConnectionPanel.SetActive(false);
+    }
+
+    void DisconnectToServer()
+    {
+        ClientManager.instance?.Disconnect();
     }
 }

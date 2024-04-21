@@ -29,14 +29,6 @@ public class SceneLoaderManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SceneManager.LoadScene(2);
-        }
-    }
-
     private void Start()
     {
         if (enableCurrentSceneTranstionEffect)
