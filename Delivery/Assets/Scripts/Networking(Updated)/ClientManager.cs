@@ -226,7 +226,7 @@ public class ClientManager : MonoBehaviour
         }
     }
 
-    private void Disconnect()
+    public void Disconnect()
     {
         if (isConnected)
         {

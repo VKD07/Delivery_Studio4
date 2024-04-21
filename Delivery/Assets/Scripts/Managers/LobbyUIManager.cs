@@ -132,20 +132,6 @@ public class LobbyUIManager : MonoBehaviour
         if (thisClient == null) { Debug.Log("NoClient"); }
     }
 
-    private void Update()
-    {
-        EnableGameReady();
-        //CheckAndEnableRoleBtns();
-    }
-
-    private void EnableGameReady()
-    {
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            startGameBtn.gameObject.SetActive(true);
-        }
-    }
-
     void SetTeamPanels(bool value)
     {
         for (int i = 0; i < teamPanels.Length; i++)

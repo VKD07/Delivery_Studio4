@@ -11,7 +11,7 @@ public class ServerConnection : MonoBehaviour
 
     [SerializeField] TMP_InputField ipAddressInput;
     [SerializeField] Button joinServerBtn;
-    [SerializeField] GameObject lobbySelectionPanel, serverConnectionPanel, errorTxt;
+    [SerializeField] GameObject lobbySelectionPanel, serverConnectionPanel, connectionFailurePanel;
     [SerializeField] Button closeBtn;
     [SerializeField] UnityEvent onCloseBtn;
     ClientManager thisClient;
@@ -19,9 +19,13 @@ public class ServerConnection : MonoBehaviour
     [Header("=== CONNECTING DOT EFFECT ===")]
     [SerializeField] TextMeshProUGUI dots;
     [SerializeField] float timeInterval = .5f;
+    bool connectedSuccessfully;
+    bool isConnecting;
+
+    UserDataManager userDataManager;
+
     private void Awake()
     {
-        joinServerBtn.onClick.AddListener(JoinServer);
 
         if (instance == null)
         {
@@ -32,37 +36,59 @@ public class ServerConnection : MonoBehaviour
             Destroy(this);
         }
 
+        joinServerBtn.onClick.AddListener(JoinServer);
     }
 
     private void Start()
     {
-        closeBtn.onClick.AddListener(CloseBtn);
-        StartCoroutine(EnableConnectingDotEffect());
         thisClient = ClientManager.instance;
+        userDataManager = UserDataManager.instance;
+
+        closeBtn.onClick.AddListener(CloseBtn);
+        SetPreviousIPAddress();
+        DisconnectToServer();
     }
 
     public void JoinServer()
     {
-        try
+        if (!isConnecting)
         {
+            isConnecting = true;
+            
             ClientManager.instance.ConnectToServer(ipAddressInput.text);
-            serverConnectionPanel.SetActive(false);
-            lobbySelectionPanel.SetActive(true);
-
-            StartCoroutine(SendPlayerData());
-
-        }
-        catch (System.Exception)
-        {
-            errorTxt.SetActive(true);
-            Debug.Log("Failed to connect to server");
+            SaveNewIP();
+            StopAllCoroutines();
+            StartCoroutine(EnableConnectingDotEffect());
+            StartCoroutine(ServerConnectionDelay());
         }
     }
 
-    IEnumerator SendPlayerData()
+    public void SetPreviousIPAddress()
     {
-        yield return new WaitForSeconds(.2f);
-        SendPackets.SendPlayerData(thisClient.playerData.name, thisClient.playerData.teamNumber, (int)thisClient.playerData.role);
+        if (userDataManager.CheckPrevIPAddress())
+        {
+            ipAddressInput.text = userDataManager.GetPreviousIP();
+        }
+    }
+
+    void SaveNewIP()
+    {
+        userDataManager.SaveIPAddress(ipAddressInput.text);
+    }
+
+    IEnumerator ServerConnectionDelay()
+    {
+        yield return new WaitForSeconds(3.2f);
+        if (connectedSuccessfully)
+        {
+            EnableLobbyPanel();
+        }
+        else
+        {
+            StopAllCoroutines();
+            StartCoroutine(ErrorConnection());
+        }
+        isConnecting = false;
     }
 
     IEnumerator EnableConnectingDotEffect()
@@ -84,4 +110,37 @@ public class ServerConnection : MonoBehaviour
         onCloseBtn.Invoke();
         serverConnectionPanel.SetActive(false);
     }
+
+    void EnableLobbyPanel()
+    {
+        serverConnectionPanel.SetActive(false);
+        lobbySelectionPanel.SetActive(true);
+        StartCoroutine(SendPlayerData());
+    }
+
+    IEnumerator SendPlayerData()
+    {
+        yield return new WaitForSeconds(.2f);
+        SendPackets.SendPlayerData(thisClient.playerData.name, thisClient.playerData.teamNumber, (int)thisClient.playerData.role);
+    }
+
+    IEnumerator ErrorConnection()
+    {
+        connectionFailurePanel.SetActive(true);
+        yield return new WaitForSeconds(2);
+        connectionFailurePanel.SetActive(false);
+        dots.text = "......";
+    }
+
+    public void DisconnectToServer()
+    {
+        ClientManager.instance?.Disconnect();
+    }
+
+    #region NETWORK RECEIVERS
+    public void ServerConnectionSuccess()
+    {
+        connectedSuccessfully = true;
+    }
+    #endregion
 }

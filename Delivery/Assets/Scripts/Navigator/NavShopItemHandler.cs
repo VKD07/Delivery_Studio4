@@ -14,6 +14,14 @@ public class NavShopItemHandler : MonoBehaviour
     }
     void ApplyAllItemsChosen()
     {
-        currentWallPaper.sprite = navWallpaperItems[ClientManager.instance.playerData.appliedWallpaperId].sprite;
+        try
+        {
+            currentWallPaper.sprite = navWallpaperItems[ClientManager.instance.playerData.appliedWallpaperId].sprite;
+
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("No Client Manager");
+        }
     }
 }

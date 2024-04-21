@@ -9,6 +9,7 @@ public class CarScreenManager : MonoBehaviour
     public static CarScreenManager instance;
 
     [Header("=== UI PANELS ===")]
+    [SerializeField] GameObject carScreenPanel;
     [SerializeField] GameObject homeScreenUI;
     [SerializeField] GameObject carSystemPanel;
     [SerializeField] GameObject healthyPanel;
@@ -85,5 +86,10 @@ public class CarScreenManager : MonoBehaviour
             healthyPanel.SetActive(true);
             malfunctionPanel.SetActive(false);
         }
+    }
+
+    public void DisableCarScreen()
+    {
+        carScreenPanel.SetActive(false);
     }
 }

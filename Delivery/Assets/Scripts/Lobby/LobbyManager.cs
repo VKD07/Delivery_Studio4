@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -47,6 +48,7 @@ public class LobbyManager : MonoBehaviour
     [SerializeField] GameObject toBeDisabledNotes, searchingForPlayersPanel, selection4v4, selectionDuo;
     [SerializeField] GameObject duoNamePanel, twoVtwoNamePanel, warmUpNamePanel;
     [SerializeField] Button cancelBtn;
+    [SerializeField] TextMeshProUGUI gameStartingTxt;
 
     [Header("=== MAIN MENU UI's ===")]
     [SerializeField] GameObject mainMenuPanel;
@@ -61,6 +63,7 @@ public class LobbyManager : MonoBehaviour
     GameObject btnRolePressed;
     GameObject txtChanged;
     LobbyModeRequest lobbyModeRequest => GetComponent<LobbyModeRequest>();
+    SceneLoaderManager sceneLoader;
     #endregion
 
     private void Awake()
@@ -84,6 +87,7 @@ public class LobbyManager : MonoBehaviour
 
     private void Start()
     {
+        sceneLoader = SceneLoaderManager.instance;
         driver.OnClick.AddListener(() => SetPlayerRoleAndTeam(1, GameRole.Driver, driver.gameObject, driveNameTxt, thisClient.playerData.name, true));
         navigator.OnClick.AddListener(() => SetPlayerRoleAndTeam(1, GameRole.Navigator, navigator.gameObject, navigatorNameTxt, thisClient.playerData.name, true));
 
@@ -95,6 +99,7 @@ public class LobbyManager : MonoBehaviour
 
         cancelBtn.onClick.AddListener(() => ChangeTeam(btnRolePressed, txtChanged, thisClient.playerData.name, true));
         cancelBtn.gameObject.SetActive(false);
+        gameStartingTxt.gameObject.SetActive(false);
     }
 
     #region UNASSIGNED PLAYERS HANDLER
@@ -167,8 +172,11 @@ public class LobbyManager : MonoBehaviour
         playerNameTxt.GetComponent<TextMeshProUGUI>().SetText(playerName);
         RemoveNameFromUnAssignedPlayerList(playerName);
 
+        //GAME IS STARTING
         if (CheckIfAllPlayersHaveChosen())
         {
+            gameStartingTxt.gameObject.SetActive(true);
+            StartCoroutine(EnableConnectingDotEffect());
             StartCoroutine(StartGame());
         }
     }
@@ -192,6 +200,7 @@ public class LobbyManager : MonoBehaviour
         textToDisable.GetComponent<TextMeshProUGUI>().SetText("");
 
         StopAllCoroutines();
+        gameStartingTxt.gameObject.SetActive(false);
     }
     #endregion
 
@@ -223,7 +232,7 @@ public class LobbyManager : MonoBehaviour
                 break;
             case LobbyMode.TwoVTwo:
                 if (t1_driver.gameObject.activeSelf || t2_driver.gameObject.activeSelf
-                    /*|| t2_navigator.gameObject.activeSelf || t1_navigator.gameObject.activeSelf*/)
+              || t2_navigator.gameObject.activeSelf || t1_navigator.gameObject.activeSelf)
                 {
                     return false;
                 }
@@ -236,21 +245,42 @@ public class LobbyManager : MonoBehaviour
     IEnumerator StartGame()
     {
         yield return new WaitForSeconds(timeToStart);
-
         //SendPackets.SendStartGamePacket();
 
         switch (thisClient.playerData.role)
         {
             case GameRole.Driver:
-                SceneManager.LoadScene(driverScene);
+                sceneLoader.LoadNextScene(sceneLoader.driverScene);
                 break;
 
             case GameRole.Navigator:
-                SceneManager.LoadScene(navigatorScene);
+                sceneLoader.LoadNextScene(sceneLoader.navigatorScene);
                 break;
         }
         //Send To network you started the game
         //NetworkSender.instance?.SendStartGamePacket();
+    }
+
+    IEnumerator EnableConnectingDotEffect()
+    {
+        int dotNum = 0;
+        gameStartingTxt.text = "GAME STARTING";
+
+        while (true)
+        {
+            yield return new WaitForSeconds(.4f);
+
+            if(dotNum < 3)
+            {
+                gameStartingTxt.text += ".";
+                dotNum++;
+            }
+            else
+            {
+                dotNum = 0;
+                gameStartingTxt.text = "GAME STARTING";
+            }
+        }
     }
     #endregion
 
@@ -418,15 +448,14 @@ public class LobbyManager : MonoBehaviour
 
     public void ReceivePacketIfGameHasStarted()
     {
-        Debug.Log(thisClient.playerData.teamNumber);
         switch (thisClient.playerData.role)
         {
             case GameRole.Driver:
-                SceneManager.LoadScene(driverScene);
+                sceneLoader.LoadNextScene(sceneLoader.driverScene);
                 break;
 
             case GameRole.Navigator:
-                SceneManager.LoadScene(navigatorScene);
+                sceneLoader.LoadNextScene(sceneLoader.navigatorScene);
                 break;
         }
 

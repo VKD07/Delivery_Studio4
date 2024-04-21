@@ -19,14 +19,6 @@ public class DriverItemShopHandler : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SceneManager.LoadScene(0);
-        }
-    }
-
     public Texture2D GetPlayerChosenCarColor(int colorID)
     {
         try
