@@ -23,10 +23,12 @@ public class CollectData : MonoBehaviour
     public int crashCount;
     public int averagePlayTime;
     public int playerCount;
+    public int carColor;
+    public int mapSkin;
 }
 
 //    Data to collect:
-//- Cat color picked
+//- Car color picked
 //- nav map Wall paper picked
 //- Average playtime 
 //- Average player count
