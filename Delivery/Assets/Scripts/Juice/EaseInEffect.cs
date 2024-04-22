@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EaseInEffect : MonoBehaviour
 {
     [SerializeField] float initSize;
     [SerializeField] float targetSize;
     [SerializeField] float scaleSpeed = 10f;
-
+    [SerializeField] UnityEvent onAppear;    
+    
     private void OnEnable()
     {
         transform.localScale = Vector3.one * initSize;
@@ -17,6 +19,7 @@ public class EaseInEffect : MonoBehaviour
 
     IEnumerator ScaleToTargetSize()
     {
+        onAppear.Invoke();
         Vector3 initScale = transform.localScale;
         Vector3 targetScale = Vector3.one * targetSize;
 

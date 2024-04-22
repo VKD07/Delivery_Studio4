@@ -32,16 +32,17 @@ public class AudioManager : MonoBehaviour
         {
             for (int i = 0; i < sounds.Length; i++)
             {
-                if (sounds[i].audioName == name)
+                int index = i;
+                if (sounds[index].audioName == name)
                 {
-                    switch (sounds[i].type)
+                    switch (sounds[index].type)
                     {
                         case AudioType.Music:
-                            musicSource.clip = sounds[i].clip;
+                            musicSource.clip = sounds[index].clip;
                             musicSource.Play();
                             break;
                         case AudioType.SFX:
-                            sfxSource.PlayOneShot(sounds[i].clip, sounds[i].volume);
+                            sfxSource.PlayOneShot(sounds[index].clip, sounds[index].volume);
                             break;
                     }
                     break;

@@ -77,6 +77,7 @@ public class ContractSigningManager : MonoBehaviour
         InteractWithPen();
         WriteLines();
         ResetSignatureAfterUserNameInput();
+        TypeWriterSfx();
     }
 
     #region Signature Writing
@@ -198,6 +199,20 @@ public class ContractSigningManager : MonoBehaviour
         yield return new WaitForSeconds(delayTime);
         menuUIManager.SetActiveContractPanelWithDelay();
 
+    }
+    #endregion
+
+    #region SFX
+    void TypeWriterSfx()
+    {
+        if (contractIsActive)
+        {
+            if (Input.anyKeyDown && !Input.GetMouseButtonDown(0) && !Input.GetMouseButtonDown(1) && !Input.GetMouseButtonDown(2))
+            {
+                if (menuUIManager.userNameInput.text.Length >= maxCharacterLimit) return;
+                AudioManager.instance?.PlaySound("Type");
+            }
+        }
     }
     #endregion
 }

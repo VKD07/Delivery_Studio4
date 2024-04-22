@@ -58,6 +58,7 @@ public class WinManager : MonoBehaviour
 
     IEnumerator ShowWinnerUI(int teamNumber)
     {
+        AudioManager.instance?.PlaySound("Winner");
         EnableVFX();
 
         while(winnerBackground.fillAmount < 1)

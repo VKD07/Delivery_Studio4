@@ -295,6 +295,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5390339607944918616}
   - component: {fileID: 6260777957905630106}
+  - component: {fileID: 6435640234098593881}
   m_Layer: 5
   m_Name: NavShopItem
   m_TagString: Untagged
@@ -368,7 +369,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6435640234098593881}
+        m_TargetAssemblyTypeName: AudioManagerFinder, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: SelectSfx
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6435640234098593881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3180271235316243683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e615376c41787a4d8f44c5291e130e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3916164425197479205
 GameObject:
   m_ObjectHideFlags: 0

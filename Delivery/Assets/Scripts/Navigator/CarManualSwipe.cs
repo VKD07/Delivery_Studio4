@@ -63,6 +63,7 @@ public class CarManualSwipe : MonoBehaviour
             {
                 if (distance >= distanceToDisableFrontPage)
                 {
+                    AudioManager.instance?.PlaySound("Paper");
                     triggerPageMovement = true;
                     StartCoroutine(DisableActivePage());
                     enableSwipe = false;
