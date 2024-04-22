@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class SendToGoogleForm : MonoBehaviour
 {    
     //The link of the google form response
-    private string BASE_URL = "https://docs.google.com/forms/u/2/d/e/1FAIpQLSf9aNBbPNOhHDXxQ35scuK_UuXQQhrok_FiU8nrIgcpcOHHfw/formResponse";
+    private string BASE_URL = "https://docs.google.com/forms/u/2/d/e/1FAIpQLScwjJrJhm-N1-J17TPob9_op4M7WuTIp0sLUy40om63HoELAg/formResponse";
 
     CollectData collectData;
     private void Awake()
@@ -15,15 +15,17 @@ public class SendToGoogleForm : MonoBehaviour
     }
 
     //Add data inside the parenthesis
-    IEnumerator Post(string crashCount, string playTime, string playerCount)
+    IEnumerator Post(string crashCount, string playTime, string playerCount, string mapSkin, string carColor)
     {
         WWWForm form = new WWWForm();
 
         //All the input responses here
         //add inputfield ID here.
-        form.AddField("entry.739522593", crashCount);
-        form.AddField("entry.1245199307", playTime);
-        form.AddField("entry.1345776529", playerCount);
+        form.AddField("entry.941594906", playTime);
+        form.AddField("entry.2141905459", crashCount);
+        form.AddField("entry.212434959", carColor);
+        form.AddField("entry.346141718", mapSkin);
+        form.AddField("entry.1989726220", playerCount);
 
         UnityWebRequest www = UnityWebRequest.Post(BASE_URL, form);
         yield return www.SendWebRequest();
@@ -42,7 +44,7 @@ public class SendToGoogleForm : MonoBehaviour
     //Sends the data to google form
     public void Send()
     {
-        StartCoroutine(Post(collectData.crashCount.ToString(), collectData.averagePlayTime.ToString(), collectData.playerCount.ToString()));
+        StartCoroutine(Post(collectData.crashCount.ToString(), collectData.averagePlayTime.ToString(), collectData.playerCount.ToString(), collectData.mapSkin.ToString(), collectData.carColor.ToString()));
     }
 
     private void OnApplicationQuit()
