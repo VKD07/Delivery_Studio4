@@ -33,6 +33,7 @@ public class SceneLoaderManager : MonoBehaviour
     {
         if (enableCurrentSceneTranstionEffect)
         {
+            AudioManager.instance?.PlaySound("ScreenAppear");
             StartCoroutine(TriggerCurrentSceneTransitionEffect());
         }
     }
@@ -45,6 +46,7 @@ public class SceneLoaderManager : MonoBehaviour
 
     public void LoadNextScene(string sceneName)
     {
+        AudioManager.instance?.PlaySound("ScreenTransition");
         StartCoroutine(LoadSceneWithDelay(sceneName));
     }
 

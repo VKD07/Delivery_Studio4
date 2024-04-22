@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MainMenuCameraHandler : MonoBehaviour
 {
     public static MainMenuCameraHandler instance;
 
     [SerializeField] GameObject mainMenuCamera, lobbyCamera, carShopCam, navShopCam;
+
+    [SerializeField] UnityEvent OnCameraSwitch;
 
     MainMenuUIManager mainMenuUIManager => GetComponent<MainMenuUIManager>();
     MenuObjectsManager menuObjectsManager => GetComponent<MenuObjectsManager>();
@@ -24,6 +27,7 @@ public class MainMenuCameraHandler : MonoBehaviour
 
     public void EnableMainMenuCam()
     {
+        OnCameraSwitch.Invoke();
         mainMenuUIManager.SetActiveMainMenuPanelWithDelay();
         menuObjectsManager.SetActiveSelectionEffect(true);
 
@@ -35,6 +39,7 @@ public class MainMenuCameraHandler : MonoBehaviour
 
     public void EnableLobbyCam()
     {
+        OnCameraSwitch.Invoke();
         mainMenuCamera.SetActive(false);
         lobbyCamera.SetActive(true);
         navShopCam.SetActive(false);
@@ -43,6 +48,7 @@ public class MainMenuCameraHandler : MonoBehaviour
 
     public void EnableCarShopCam()
     {
+        OnCameraSwitch.Invoke();
         mainMenuCamera.SetActive(false);
         lobbyCamera.SetActive(false);
         navShopCam.SetActive(false);
@@ -51,6 +57,7 @@ public class MainMenuCameraHandler : MonoBehaviour
 
     public void EnableNavShopCam()
     {
+        OnCameraSwitch.Invoke();
         mainMenuCamera.SetActive(false);
         lobbyCamera.SetActive(false);
         navShopCam.SetActive(true);

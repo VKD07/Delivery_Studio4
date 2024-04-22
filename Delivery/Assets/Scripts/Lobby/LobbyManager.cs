@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -57,6 +58,7 @@ public class LobbyManager : MonoBehaviour
     [Header("=== CAMERAS ===")]
     [SerializeField] GameObject mainMenuCamera;
     [SerializeField] GameObject lobbyCamera, carShopCamera, navShopCamera;
+    [SerializeField] UnityEvent OnCameraTransition;
 
     #region private vars
     ClientManager thisClient;
@@ -309,6 +311,8 @@ public class LobbyManager : MonoBehaviour
             lobbyModeRequest.duoRequest = false;
         }
 
+        OnCameraTransition.Invoke();
+
         duoNamePanel.SetActive(true);
 
         mainMenuPanel.SetActive(false);
@@ -334,6 +338,7 @@ public class LobbyManager : MonoBehaviour
         }
 
         twoVtwoNamePanel.SetActive(true);
+        OnCameraTransition.Invoke();
 
         mainMenuPanel.SetActive(false);
         lobbySelectionPanel.SetActive(false);

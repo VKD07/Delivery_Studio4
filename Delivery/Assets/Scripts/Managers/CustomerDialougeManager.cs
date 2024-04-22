@@ -14,7 +14,7 @@ public class CustomerDialougeManager : MonoBehaviour
 
     [SerializeField] Image packageShape, packageColor, tagColor;
     [SerializeField] GameObject customerDialougePanel, customerDialougeContents;
-    [SerializeField] TextMeshProUGUI customerDialougeTxt;
+    //[SerializeField] TextMeshProUGUI customerDialougeTxt;
     [SerializeField] Package[] packageList;
 
     [Header("== ANGRY CUSTOMER ===")]
@@ -59,7 +59,6 @@ public class CustomerDialougeManager : MonoBehaviour
             start = false;
             customerDialougeContents.SetActive(true);
             angryLetters.gameObject.SetActive(false);
-            customerDialougeTxt.text = "I'm looking for...";
         }
     }
 
@@ -78,7 +77,7 @@ public class CustomerDialougeManager : MonoBehaviour
         
         customerAnim.SwitchAnim(customerAnim.WRONGITEM);
         
-        customerDialougeTxt.text = "Thats not my package!";
+        //customerDialougeTxt.text = "Thats not my package!";
         
         StartCoroutine(RandomizeAngryChars());
     }

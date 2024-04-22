@@ -22,6 +22,7 @@ public class ObjSelection : MonoBehaviour, MouseSelection
     [Header("On Click Event")]
     public UnityEvent OnClick;
 
+    bool hovered;
     private void Awake()
     {
         initObjSize = transform.localScale;
@@ -35,11 +36,16 @@ public class ObjSelection : MonoBehaviour, MouseSelection
     {
         if (resizeObj)
         {
-            OnHover.Invoke();
+            if (!hovered)
+            {
+                hovered = true;
+                OnHover.Invoke();
+            }
             transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * maxSize, resizeSpeed * Time.deltaTime);
         }
         else
         {
+            hovered = false;
             UnHover.Invoke();
             transform.localScale = Vector3.Lerp(transform.localScale, initObjSize, resizeSpeed * Time.deltaTime);
         }

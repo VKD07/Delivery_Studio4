@@ -79,6 +79,12 @@ public class MainMenuUIManager : MonoBehaviour
         }
     }
 
+    public void ExitGame()
+    {
+        Debug.Log("Game Exits");
+        Application.Quit();
+    }
+
     #region UI Setters Func
     public void SetActiveTitlePanel(bool val)
     {

@@ -110,7 +110,6 @@ public class RatingUIManager : MonoBehaviour
         {
             StartCoroutine(EaseInOutEffect(DuoPlayerRatingUI[index].playerRatingPanel, 1.1768f, 1f, .5f));
         }
-
         for (int i = 0; i < rating; i++)
         {
             starPanel.transform.GetChild(i).GetComponent<Image>().color = Color.yellow;
@@ -160,6 +159,7 @@ public class RatingUIManager : MonoBehaviour
                 }
                 break;
         }
+        AudioManager.instance?.PlaySound("SelectSfx");
 
     }
     #endregion
