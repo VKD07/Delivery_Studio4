@@ -74,6 +74,7 @@ public class ClientManager : MonoBehaviour
             {(int)ServerPackets.timer, HandlePackets.ReceiveTimer},
             {(int)ServerPackets.carMalfunction, HandlePackets.ReceiveCarMalfunction},
             {(int)ServerPackets.wiper, HandlePackets.ReceiveWiper},
+            {(int)ServerPackets.carHorn, HandlePackets.ReceiveCarHorn},
 
             {(int)ServerPackets.carAudio, HandlePackets.ReceiveOtherPlayerAudio},
             {(int)ServerPackets.screechingAudio, HandlePackets.ReceiveCarScreechingAudio},
@@ -90,6 +91,8 @@ public class ClientManager : MonoBehaviour
 
             {(int)ServerPackets.overallRating, HandlePackets.ReceiveOverAllRating},
             {(int)ServerPackets.SendLeadboard, HandlePackets.ReceiveLeaderboard},
+            {(int)ServerPackets.pause, HandlePackets.ReceivePausePacket},
+            {(int)ServerPackets.playerLeft, HandlePackets.ReceivePlayerLeft},
         };
 
     public class TCP

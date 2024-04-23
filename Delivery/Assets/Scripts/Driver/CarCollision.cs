@@ -14,18 +14,40 @@ public class CarCollision : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         OnCarCollided.Invoke();
+        SendCollisionData();
         //NetworkSender.instance?.SendCollisionPacket();
         CinemachineShake.instance?.ShakeCamera(shakeIntensity, shakeTimer);
         SendPackets.SendDriverCollision();
+    }
 
-        //Collecting data
-        try
+    void SendCollisionData()
+    {
+        switch (MapChooser.instance?.chosenSetOfMapID)
         {
-            CollectData.instance.crashCount++;
+            case 0:
+                //Collecting data
+                try
+                {
+                    CollectData.instance.kioMapCrashCount++;
+                }
+                catch (System.Exception)
+                {
+                    Debug.Log("Collect Data Not found");
+                }
+                break;
+
+            case 1:
+                //Collecting data
+                try
+                {
+                    CollectData.instance.cityMapCrashCount++;
+                }
+                catch (System.Exception)
+                {
+                    Debug.Log("Collect Data Not found");
+                }
+                break;
         }
-        catch (System.Exception)
-        {
-            Debug.Log("Collect Data Not found");
-        }
+
     }
 }

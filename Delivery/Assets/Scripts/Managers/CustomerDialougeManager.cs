@@ -76,9 +76,9 @@ public class CustomerDialougeManager : MonoBehaviour
         angryLetters.gameObject.SetActive(true);
         
         customerAnim.SwitchAnim(customerAnim.WRONGITEM);
-        
+
         //customerDialougeTxt.text = "Thats not my package!";
-        
+        AudioManager.instance?.PlaySound("AngrySfx");
         StartCoroutine(RandomizeAngryChars());
     }
 

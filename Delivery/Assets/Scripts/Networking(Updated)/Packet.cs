@@ -24,6 +24,7 @@ public enum ServerPackets
     screechingAudio,
     carMalfunction,
     wiper,
+    carHorn,
 
     deliveryAddress,
     timer,
@@ -37,6 +38,8 @@ public enum ServerPackets
 
     overallRating,
     SendLeadboard,
+    pause,
+    playerLeft,
 }
 
 /// <summary>Sent from client to server.</summary>
@@ -60,6 +63,7 @@ public enum ClientPackets
     screechingAudio,
     carMalfunction,
     wiper,
+    carHorn,
 
     deliveryAddress,
     timer,
@@ -73,6 +77,8 @@ public enum ClientPackets
 
     partnerRating,
     SendTeamRecord,
+    pause,
+    playerLeft,
 }
 
 public class Packet : IDisposable

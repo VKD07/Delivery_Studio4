@@ -133,6 +133,10 @@ public class HandlePackets : MonoBehaviour
         NavDirtScreen.instance?.ReceiveDriverWipers();
     }
 
+    public static void ReceiveCarHorn(Packet packet)
+    {
+        NetworkPlayerManager.instance?.PlaycarHornAudio();
+    }
     #endregion
 
     #region Navigator Packets
@@ -209,11 +213,22 @@ public class HandlePackets : MonoBehaviour
 
     public static void ReceiveLeaderboard(Packet packet)
     {
-        Debug.Log("Successfully received Leaderboard");
         LeaderboardUIManager.instance.partnerHasSent = true;
         LeaderboardUIManager.instance?.SetLeaderBoardUI(packet.ReadInt(), packet.ReadString(), packet.ReadString());
     }
 
+    #endregion
+
+    #region Pause
+    public static void ReceivePausePacket(Packet packet)
+    {
+        PauseManager.instance?.ReceivePauseFromTheNetwork(packet.ReadBool());
+    }
+
+    public static void ReceivePlayerLeft(Packet packet)
+    {
+        PauseManager.instance?.ReceivePlayerLeft(packet.ReadString());
+    }
     #endregion
 
     /// <summary>

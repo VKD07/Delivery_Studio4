@@ -109,6 +109,11 @@ public class NetworkPlayerManager : MonoBehaviour
         enemyAudioManager?.PlayCarScreeching(val);
     }
 
+    public void PlaycarHornAudio()
+    {
+        enemyAudioManager?.PlayCarHorn();
+    }
+
     public void SetSmokeVFX(bool val)
     {
         enemyManager?.SetSmokeVFX(val);

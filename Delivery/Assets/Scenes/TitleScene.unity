@@ -1604,8 +1604,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setOfMaps:
-  - {fileID: 11400000, guid: d15c2367936dd3849b84abae06e92e75, type: 2}
   - {fileID: 11400000, guid: b31e3f1906f8cd1458a45b4329ee1ec0, type: 2}
+  - {fileID: 11400000, guid: d15c2367936dd3849b84abae06e92e75, type: 2}
   chosenSetOfMapID: 0
 --- !u!1001 &8973291752760017120
 PrefabInstance:

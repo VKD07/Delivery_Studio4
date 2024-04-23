@@ -85,6 +85,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 20a90b6ea2a28f5479d8f3a133f1575a, type: 3}
     volume: 1
     type: 1
+  - audioName: AngrySfx
+    clip: {fileID: 8300000, guid: d510c9bc60a3b3a43a8ac587237334f3, type: 3}
+    volume: 1
+    type: 1
 --- !u!1 &7920738116176216357
 GameObject:
   m_ObjectHideFlags: 0

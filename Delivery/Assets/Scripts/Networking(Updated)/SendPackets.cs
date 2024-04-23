@@ -186,6 +186,14 @@ public class SendPackets : MonoBehaviour
             SendTCPData(packet);
         }
     }
+
+    public static void SendCarHorn()
+    {
+        using (Packet packet = new Packet((int)ClientPackets.carHorn))
+        {
+            SendTCPData(packet);
+        }
+    }
     #endregion
 
     #region Navigator Packets
@@ -288,6 +296,26 @@ public class SendPackets : MonoBehaviour
         {
             packet.Write(partnerName);
             packet.Write(timer);
+            SendTCPData(packet);
+        }
+    }
+    #endregion
+
+    #region PAUSE
+    public static void SendPausePacket(bool pause)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.pause))
+        {
+            packet.Write(pause);
+            SendTCPData(packet);
+        }
+    }
+
+    public static void SendPlayerLeft(string playerWhoLeft)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.playerLeft))
+        {
+            packet.Write(playerWhoLeft);
             SendTCPData(packet);
         }
     }

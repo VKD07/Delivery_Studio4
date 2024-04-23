@@ -81,7 +81,16 @@ public class MainMenuUIManager : MonoBehaviour
 
     public void ExitGame()
     {
-        Debug.Log("Game Exits");
+        SendToGoogleForm.instance?.SendDataToGoogleForm();
+        StartCoroutine(QuitGameWithDelay());
+    }
+
+    IEnumerator QuitGameWithDelay()
+    {
+        while (!SendToGoogleForm.instance.dataIsSent)
+        {
+            yield return null;
+        }
         Application.Quit();
     }
 

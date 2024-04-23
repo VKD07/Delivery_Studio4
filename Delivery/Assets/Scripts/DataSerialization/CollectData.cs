@@ -21,7 +21,8 @@ public class CollectData : MonoBehaviour
 
     //Create all the variables of data here --------------------------
     //Make sure it is public
-    public int crashCount;
+    public int kioMapCrashCount;
+    public int cityMapCrashCount;
     public string averagePlayTime;
     public int playerCount;
     public string carColor = "DefaultTex";

@@ -11,6 +11,7 @@ namespace Driver
         public Inputs horizontal;
         public Inputs vertical;
         public KeyCode breakKey;
+        public KeyCode carHorn;
         public KeyCode repositionKey = KeyCode.I;
     }
 

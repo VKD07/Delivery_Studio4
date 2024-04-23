@@ -53,7 +53,9 @@ public class LocationHandler : MonoBehaviour
         location.transform.parent = chosenLocation.transform;
         location.transform.localPosition = glowRingPos;
         location.transform.localRotation = glowRingRot;
-        location.gameObject.SetActive(false);
+        location.GetComponent<TargetLocation>().hideGlow = true;
+        location.gameObject.SetActive(true);
+
 
         Debug.Log($"Delivery Name Received: {chosenLocation.name}");
         //for (int i = 0; i < deliveryLocations.Length; i++)

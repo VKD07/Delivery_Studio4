@@ -275,7 +275,7 @@ public class LobbyManager : MonoBehaviour
         {
             yield return new WaitForSeconds(.4f);
 
-            if(dotNum < 3)
+            if (dotNum < 3)
             {
                 gameStartingTxt.text += ".";
                 dotNum++;
@@ -478,10 +478,11 @@ public class LobbyManager : MonoBehaviour
     #region DataCollection
     void CollectPlayerCount(LobbyMode mode)
     {
-        if(mode == LobbyMode.Duo)
+        if (mode == LobbyMode.Duo)
         {
             CollectData.instance.playerCount = 2;
-        }else if(mode == LobbyMode.TwoVTwo)
+        }
+        else if (mode == LobbyMode.TwoVTwo)
         {
             CollectData.instance.playerCount = 4;
         }

@@ -30,6 +30,15 @@ public class PlayerData
         this.teamNumber = teamNumber;
         this.role = role;
     }
+
+    public void ClearData()
+    {
+        teamNumber = 0;
+        role = GameRole.None;
+        mode = LobbyMode.None;
+        winner = 0;
+        time = "";
+    }
 }
 
 [Serializable]

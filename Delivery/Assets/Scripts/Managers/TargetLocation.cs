@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class TargetLocation : MonoBehaviour
 {
-    [SerializeField] bool hideGlow;
+    public bool hideGlow;
 
     [Header("=== CUSTOMER PLACEMENT ===")]
     [SerializeField] Transform customerPlacement;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.SceneManagement;
 
 public class MapChooser : MonoBehaviour
@@ -45,4 +46,5 @@ public class MapChooser : MonoBehaviour
     #endregion
 
     public GameObject[] mapsChosen => setOfMaps[chosenSetOfMapID].maps;
+    public string MapNameChosen => setOfMaps[chosenSetOfMapID].name;
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class CarAudioManager : MonoBehaviour
 {
     [SerializeField] DriverControls driverControls;
-    [SerializeField] AudioSource carEngineSource, carScreechSource, reverseSource, carCranking;
+    [SerializeField] AudioSource carEngineSource, carScreechSource, reverseSource, carCranking, carHornSource;
 
     [Header("=== CAR ACCEL SETTINGS ===")]
     [SerializeField] float acceleratorMultiplier = .1f;
@@ -19,6 +19,10 @@ public class CarAudioManager : MonoBehaviour
     [SerializeField] AudioClip[] carHits;
     [SerializeField] float carHitVolume = .3f;
 
+    [Header("=== HORN ===")]
+    [SerializeField] AudioClip hornSfx;
+    [SerializeField] float volume;
+
     bool reversed;
     bool isTryingToStart;
     float carEngineInitVolume;
@@ -26,7 +30,6 @@ public class CarAudioManager : MonoBehaviour
     Rigidbody rb => GetComponent<Rigidbody>();
     CarMalfunction carMalfunction => GetComponent<CarMalfunction>();
     CarEngineShake engineShake => GetComponent<CarEngineShake>();
-
 
     public AudioSource GetCarEngineSource => carEngineSource;
 
@@ -41,6 +44,7 @@ public class CarAudioManager : MonoBehaviour
         CarScreechingSound();
         ReverseSFX();
         CarCrankingSFX();
+        CarHorn();
     }
 
     private void AccelerationSound()
@@ -174,6 +178,16 @@ public class CarAudioManager : MonoBehaviour
                 carEngineSource.Play();
                 carEngineSource.volume = .5f;
             }
+        }
+    }
+
+    void CarHorn()
+    {
+        if (Input.GetKeyDown(driverControls.carHorn))
+        {
+            carHornSource.Stop();
+            carHornSource.Play();
+            SendPackets.SendCarHorn();
         }
     }
 
