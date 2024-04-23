@@ -13,6 +13,7 @@ public enum ServerPackets
     teamAndRole,
     teamChange,
     startGame,
+    chosenMap,
 
     spawnCar,
     carProperties,
@@ -48,6 +49,7 @@ public enum ClientPackets
     teamChange,
     startGame,
     playerData,
+    chosenMap,
 
     spawnCar,
     carProperties,

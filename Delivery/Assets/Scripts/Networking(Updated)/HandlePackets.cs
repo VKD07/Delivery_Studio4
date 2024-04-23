@@ -60,6 +60,11 @@ public class HandlePackets : MonoBehaviour
         LobbyManager.instance?.ReceivePacketIfGameHasStarted();
     }
 
+    public static void ReceiveChosenMapID(Packet packet)
+    {
+        MapChooser.instance?.LoadDriverToChosenMap(packet.ReadInt());
+    }
+
     #endregion
 
     #region Driver Packets
@@ -90,7 +95,7 @@ public class HandlePackets : MonoBehaviour
 
     public static void ReceiveDeliveryLocation(Packet packet)
     {
-        LocationHandler.instance?.SetDeliveryLocation(packet.ReadString());
+        LocationHandler.instance?.SetDeliveryLocation(packet.ReadString(), packet.ReadVector3(), packet.ReadQuaternion());
     }
 
     public static void ReceiveTimer(Packet packet)

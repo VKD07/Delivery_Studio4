@@ -14,7 +14,8 @@ public class SceneLoaderManager : MonoBehaviour
     [Header("=== SCENE NAMES ===")]
     public string titleScene;
     public string mainMenuScene = "MainMenu";
-    public string driverScene;
+    public string driverMap1 = "";
+    public string kiosMap = "";
     public string navigatorScene;
     public string ratingAndLeaderBoardScene = "RatingAndLeaderboard";
 

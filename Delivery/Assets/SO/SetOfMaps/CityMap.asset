@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aea3bc90eddc1f4bb78554b5b3a5aca, type: 3}
+  m_Name: CityMap
+  m_EditorClassIdentifier: 
+  maps:
+  - {fileID: 3477354606909220246, guid: 82b5c07643de457489b3d164ef4758d1, type: 3}
+  - {fileID: 2757434792942516418, guid: 7788b58b999075a4e9959561a45bb5eb, type: 3}
+  - {fileID: 6527127174805269417, guid: 4e5479965deae1349aaa8a9c3aa4f6e3, type: 3}
+  - {fileID: 1799171010830357109, guid: 1a51521b8f70d9a47bd2399eacf02d01, type: 3}
+  - {fileID: 6547584240693108764, guid: 195d33225009206419ff5aa12e380bdc, type: 3}
+  sceneName: DrivingPrototype

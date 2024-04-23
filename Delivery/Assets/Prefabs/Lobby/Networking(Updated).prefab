@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7223452745061388132}
   - component: {fileID: 768610999875826477}
   - component: {fileID: 4630381774502249395}
+  - component: {fileID: 3882332495645043128}
+  - component: {fileID: 2631092774427326508}
   m_Layer: 0
   m_Name: Networking(Updated)
   m_TagString: Untagged
@@ -58,5 +60,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2be4b04d81337fc4e9f64f97ee6245bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3882332495645043128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5618746960664537456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 863d9d8b1e25a9748985a7bb631e1d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crashCount: 0
+  averagePlayTime: 0
+  playerCount: 0
+  carColor: DefaultTex
+  mapSkin: DEFAULT
+--- !u!114 &2631092774427326508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5618746960664537456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78665207099d009489fd769897b79156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

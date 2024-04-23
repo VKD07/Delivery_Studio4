@@ -9,6 +9,7 @@ using UnityEngine;
 public class LocationHandler : MonoBehaviour
 {
     public static LocationHandler instance;
+    [SerializeField] GameObject glowRing;
 
     #region Private Vars
     ClientManager client;
@@ -25,15 +26,13 @@ public class LocationHandler : MonoBehaviour
         client = ClientManager.instance;
     }
 
-    [SerializeField] GameObject[] deliveryLocations;
-
     //private variables
     GameObject chosenLocation;
     bool addressAvailable;
 
     void Update()
     {
-        EnableDeliveryLocation();
+       // EnableDeliveryLocation();
     }
 
     private void EnableDeliveryLocation()
@@ -47,17 +46,25 @@ public class LocationHandler : MonoBehaviour
     }
 
     #region Network Receivers
-    public void SetDeliveryLocation(string buildingName)
+    public void SetDeliveryLocation(string buildingName, Vector3 glowRingPos, Quaternion glowRingRot)
     {
-        for (int i = 0; i < deliveryLocations.Length; i++)
-        {
-            if (deliveryLocations[i].name == buildingName)
-            {
-                chosenLocation = deliveryLocations[i];
-                Debug.Log("location found");
-                break;
-            }
-        }
+        chosenLocation = GameObject.Find(buildingName);
+        GameObject location = Instantiate(glowRing);
+        location.transform.parent = chosenLocation.transform;
+        location.transform.localPosition = glowRingPos;
+        location.transform.localRotation = glowRingRot;
+        location.gameObject.SetActive(false);
+
+        Debug.Log($"Delivery Name Received: {chosenLocation.name}");
+        //for (int i = 0; i < deliveryLocations.Length; i++)
+        //{
+        //    if (deliveryLocations[i].name == buildingName)
+        //    {
+        //        chosenLocation = deliveryLocations[i];
+        //        Debug.Log("location found");
+        //        break;
+        //    }
+        //}
     }
 
     //public void SetDeliveryLocation(PlayerData playerData, string buildingName)

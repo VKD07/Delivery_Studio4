@@ -141,6 +141,7 @@ public class NavShopManager : MonoBehaviour
         {
             playerData.appliedWallpaperId = currentWallPaperIDSelected;
             ButtonIsApplied(true);
+            CollectPickedMapSkin();
         }
         else //If item is not owned then ask if they wanna purchase
         {
@@ -148,12 +149,13 @@ public class NavShopManager : MonoBehaviour
         }
     }
 
-    void ApplyJustPurchasedItem()
+    void ApplyJustPurchasedItem(ItemType itemType)
     {
-        if (purchaseManager.ApplyItem())
+        if (purchaseManager.ApplyItem() && itemType == ItemType.NavWallPaper)
         {
             playerData.appliedWallpaperId = currentWallPaperIDSelected;
             ButtonIsApplied(true);
+            CollectPickedMapSkin();
         }
     }
 
@@ -186,4 +188,18 @@ public class NavShopManager : MonoBehaviour
         ButtonIsApplied(false);
         MainMenuCameraHandler.instance.EnableMainMenuCam();
     }
+
+    #region Data Collection
+    void CollectPickedMapSkin()
+    {
+        try
+        {
+            CollectData.instance.mapSkin = wallPaperItems[playerData.appliedWallpaperId].itemName;
+        }
+        catch (Exception)
+        {
+            Debug.Log("No Collect Data found");
+        }
+    }
+    #endregion
 }

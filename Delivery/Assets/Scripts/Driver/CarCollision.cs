@@ -17,5 +17,15 @@ public class CarCollision : MonoBehaviour
         //NetworkSender.instance?.SendCollisionPacket();
         CinemachineShake.instance?.ShakeCamera(shakeIntensity, shakeTimer);
         SendPackets.SendDriverCollision();
+
+        //Collecting data
+        try
+        {
+            CollectData.instance.crashCount++;
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("Collect Data Not found");
+        }
     }
 }

@@ -19,6 +19,10 @@ public class VoiceCallManager : MonoBehaviour
     [SerializeField] float disableTime = 5f;
     [SerializeField] string[] welcomeMessages;
 
+    [Header("=== AUDIO ===")]
+    [SerializeField] AudioSource sfxAudioSource;
+    [SerializeField] AudioClip[] talkingClips; 
+
     public void EnableRandomCall()
     {
         StartCoroutine(RandomCallCoroutine());
@@ -38,8 +42,12 @@ public class VoiceCallManager : MonoBehaviour
     {
         int index = Random.Range(0, welcomeMessages.Length);
 
+        //Sfx
+        AudioManager.instance?.PlaySound("Phone");
+        sfxAudioSource.PlayOneShot(talkingClips[index]);
+
+
         StartCoroutine(WritingEffect(welcomeMessages[index].ToCharArray()));
-        
         bubbleUI.SetActive(true);
         voiceCallUIAnim.SetBool("ShakeIcon", true);
         StartCoroutine(DisableCall());

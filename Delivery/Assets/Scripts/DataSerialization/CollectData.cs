@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,10 +22,10 @@ public class CollectData : MonoBehaviour
     //Create all the variables of data here --------------------------
     //Make sure it is public
     public int crashCount;
-    public int averagePlayTime;
+    public string averagePlayTime;
     public int playerCount;
-    public int carColor;
-    public int mapSkin;
+    public string carColor = "DefaultTex";
+    public string mapSkin = "DEFAULT";
 }
 
 //    Data to collect:

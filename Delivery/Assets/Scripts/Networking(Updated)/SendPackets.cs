@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -84,6 +85,14 @@ public class SendPackets : MonoBehaviour
         }
     }
 
+    public static void SendChosenMapID(int mapId)
+    {
+        using (Packet packet = new Packet((int)ClientPackets.chosenMap))
+        {
+            packet.Write(mapId);
+            SendTCPData(packet);
+        }
+    }
     #endregion
 
     #region Driver Packets
@@ -180,11 +189,13 @@ public class SendPackets : MonoBehaviour
     #endregion
 
     #region Navigator Packets
-    public static void SendDeliveryLocation(string chosenBuilding)
+    public static void SendDeliveryLocation(string chosenBuilding, Vector3 glowRingLocation, Quaternion glowRingRot)
     {
         using (Packet packet = new Packet((int)ClientPackets.deliveryAddress))
         {
             packet.Write(chosenBuilding);
+            packet.Write(glowRingLocation); 
+            packet.Write(glowRingRot);
             SendTCPData(packet);
         }
     }

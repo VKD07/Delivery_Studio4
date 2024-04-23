@@ -251,12 +251,15 @@ public class LobbyManager : MonoBehaviour
 
         switch (thisClient.playerData.role)
         {
-            case GameRole.Driver:
-                sceneLoader.LoadNextScene(sceneLoader.driverScene);
-                break;
+            //case GameRole.Driver:
+            //    sceneLoader.LoadNextScene(sceneLoader.driverMap1);
+            //    break;
 
+
+            //ALLOW NAVIGATOR TO RANDOMIZE THE MAP AND SEND IT TO THE DRIVER PARTNER
             case GameRole.Navigator:
-                sceneLoader.LoadNextScene(sceneLoader.navigatorScene);
+                //sceneLoader.LoadNextScene(sceneLoader.navigatorScene);
+                MapChooser.instance?.ChooseARandomSetOfMapAndLoad();
                 break;
         }
         //Send To network you started the game
@@ -328,6 +331,8 @@ public class LobbyManager : MonoBehaviour
         selectionDuo.SetActive(true);
         lobbyModeRequest.ResetTimer();
         EnableUnassignedPlayerPanel(1.5f);
+
+        CollectPlayerCount(LobbyMode.Duo);
     }
 
     public void EnableTwoVTwoLobby()
@@ -353,6 +358,8 @@ public class LobbyManager : MonoBehaviour
         selection4v4.SetActive(true);
         lobbyModeRequest.ResetTimer();
         EnableUnassignedPlayerPanel(1.5f);
+
+        CollectPlayerCount(LobbyMode.TwoVTwo);
     }
 
     public void DisableLobbyRequest()
@@ -456,7 +463,7 @@ public class LobbyManager : MonoBehaviour
         switch (thisClient.playerData.role)
         {
             case GameRole.Driver:
-                sceneLoader.LoadNextScene(sceneLoader.driverScene);
+                sceneLoader.LoadNextScene(sceneLoader.driverMap1);
                 break;
 
             case GameRole.Navigator:
@@ -465,6 +472,19 @@ public class LobbyManager : MonoBehaviour
         }
 
         //Send your data for the server to stre
+    }
+    #endregion
+
+    #region DataCollection
+    void CollectPlayerCount(LobbyMode mode)
+    {
+        if(mode == LobbyMode.Duo)
+        {
+            CollectData.instance.playerCount = 2;
+        }else if(mode == LobbyMode.TwoVTwo)
+        {
+            CollectData.instance.playerCount = 4;
+        }
     }
     #endregion
 }

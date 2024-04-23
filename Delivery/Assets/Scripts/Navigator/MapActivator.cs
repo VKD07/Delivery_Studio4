@@ -4,16 +4,46 @@ using UnityEngine;
 
 public class MapActivator : MonoBehaviour
 {
-    [SerializeField] GameObject[] maps;
+    [SerializeField] List<GameObject> spawnedMaps;
+    [SerializeField] Transform mapsParent;
+    [SerializeField] List<TargetLocation> targets;
     int mapIndex;
+
+    private void Awake()
+    {
+        InitAllMap();
+    }
+    private void OnEnable()
+    {
+    }
+
     private void Start()
     {
         DisableAllMaps();
-        maps[mapIndex].gameObject.SetActive(true);
+        spawnedMaps[mapIndex].gameObject.SetActive(true);
     }
+
+    void InitAllMap()
+    {
+        try
+        {
+            GameObject[] maps = MapChooser.instance.mapsChosen;
+            for (int i = 0; i < maps.Length; i++)
+            {
+                GameObject spawnedMap = Instantiate(maps[i], mapsParent.position, Quaternion.identity);
+                spawnedMap.transform.parent = mapsParent;
+                spawnedMaps.Add(spawnedMap);
+            }
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("Map Choose Not Detected!");
+        }
+    }
+
     public void NextMap()
     {
-        if(mapIndex == maps.Length-1)
+        if (mapIndex == spawnedMaps.Count - 1)
         {
             mapIndex = 0;
         }
@@ -23,33 +53,33 @@ public class MapActivator : MonoBehaviour
         }
 
         DisableAllMaps();
-        maps[mapIndex].gameObject.SetActive(true);
+        spawnedMaps[mapIndex].gameObject.SetActive(true);
     }
 
     public void PrevMap()
     {
-        if(mapIndex == 0)
+        if (mapIndex == 0)
         {
-            mapIndex = maps.Length-1;
+            mapIndex = spawnedMaps.Count - 1;
         }
         else
         {
             mapIndex--;
         }
         DisableAllMaps();
-        maps[mapIndex].gameObject.SetActive(true);
+        spawnedMaps[mapIndex].gameObject.SetActive(true);
     }
 
     void DisableAllMaps()
     {
-        for(int i = 0; i < maps.Length; i++)
+        for (int i = 0; i < spawnedMaps.Count; i++)
         {
-            maps[i].gameObject.SetActive(false);
+            spawnedMaps[i].gameObject.SetActive(false);
         }
     }
 
     #region Getters
-    public GameObject GetActiveMap => maps[mapIndex];
-    public GameObject[] GetMaps => maps; 
+    public GameObject GetActiveMap => spawnedMaps[mapIndex];
+    //public GameObject[] GetMaps => maps; 
     #endregion
 }

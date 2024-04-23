@@ -228,7 +228,7 @@ MonoBehaviour:
     m_Value: {x: 1, y: 0.9100098, z: 0.82487774, w: 0.2863436}
   midtones:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: 0.03246753}
+    m_Value: {x: 1, y: 0.93180066, z: 0.9181475, w: 0.03246753}
   highlights:
     m_OverrideState: 0
     m_Value: {x: 1, y: 1, z: 1, w: 0.25974023}

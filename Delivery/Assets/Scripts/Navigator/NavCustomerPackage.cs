@@ -142,6 +142,9 @@ public class NavCustomerPackage : MonoBehaviour
         customerPackagePanelImg.color = wrongColor;
         SendPackets.SendPackageMistake();
         StartCoroutine(DisablePackageContents());
+
+        //Sfx
+        AudioManager.instance?.PlaySound("Wrong");
     }
 
     IEnumerator DisablePackageContents()

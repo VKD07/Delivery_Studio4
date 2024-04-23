@@ -11,7 +11,7 @@ public class PurchaseManager : MonoBehaviour
 
     [SerializeField] Button yesBtn, noBtn;
 
-    public delegate void PurchaseConfirmationCallBack();
+    public delegate void PurchaseConfirmationCallBack(ItemType itemtype);
     public event PurchaseConfirmationCallBack PurchaseConfirmation;
 
     int itemIDToPurchase;
@@ -41,7 +41,7 @@ public class PurchaseManager : MonoBehaviour
         purchaseBtn.interactable = false;
         purchaseConfirmationPanel.SetActive(false);
 
-        PurchaseConfirmation.Invoke();
+        PurchaseConfirmation.Invoke(itemTypeToPurchase);
     }
 
     void NoBtn()

@@ -122,6 +122,7 @@ public class CarColorUIShopManager : MonoBehaviour
         {
             ButtonIsApplied(true);
             playerData.appliedCarColoredID = currentColorItemIdSelected;
+            CollectColorPicked();
         }
         else
         {
@@ -129,11 +130,12 @@ public class CarColorUIShopManager : MonoBehaviour
         }
     }
 
-    void ApplyJustPurchasedItem()
+    void ApplyJustPurchasedItem(ItemType itemType)
     {
-        if (purchaseManager.ApplyItem())
+        if (purchaseManager.ApplyItem() && itemType == ItemType.CarSkinColor)
         {
             playerData.appliedCarColoredID = currentColorItemIdSelected;
+            CollectColorPicked();
             ButtonIsApplied(true);
         }
     }
@@ -164,4 +166,18 @@ public class CarColorUIShopManager : MonoBehaviour
         currentPriceTagSelected = null;
         MainMenuCameraHandler.instance.EnableMainMenuCam();
     }
+
+    #region DataCollection
+    void CollectColorPicked()
+    {
+        try
+        {
+            CollectData.instance.carColor = colorItems[playerData.appliedCarColoredID].itemTexture.name;
+        }
+        catch (Exception)
+        {
+            Debug.Log("No Collect Data found");
+        }
+    }
+    #endregion
 }

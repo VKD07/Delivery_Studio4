@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aea3bc90eddc1f4bb78554b5b3a5aca, type: 3}
+  m_Name: KioLevel
+  m_EditorClassIdentifier: 
+  maps:
+  - {fileID: 4117117225436047210, guid: 4ffde4416b769ba4c90fc55407aa6668, type: 3}
+  - {fileID: 6350181501320159219, guid: c9e27c0efa6facd4fabdfac5ffbd5bc3, type: 3}
+  - {fileID: 4943954604579166878, guid: 98d4b911f2d370849910d639b6215950, type: 3}
+  - {fileID: 1920132967693412359, guid: 0687aef651c2d1542abb3fe0eb0f0658, type: 3}
+  - {fileID: 4668826309889814213, guid: ca4a3ad01fcb99e4cb5de5cd8cb10b9e, type: 3}
+  - {fileID: 6840246737111358486, guid: badb4153901dc524e836edb06f23208e, type: 3}
+  - {fileID: 2024651916857348480, guid: 64fb3f576737d9f4ab942c9865fd7821, type: 3}
+  - {fileID: 1046247803020637401, guid: 2b10988a385b0da4f96b16b4414a69ab, type: 3}
+  - {fileID: 7968955794704540251, guid: b80e64567053e4245b72ec5373ebc7fb, type: 3}
+  sceneName: Kio_LevelGreybox

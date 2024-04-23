@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -74,6 +75,7 @@ public class WinManager : MonoBehaviour
         {
             ClientManager.instance.playerData.winner = teamNumber;
             ClientManager.instance.playerData.time = TimerManager.instance?.GetCurrentTime;
+            CollectAveragePlayTime(TimerManager.instance?.GetCurrentTime);
         }
         catch (System.Exception)
         {
@@ -95,6 +97,19 @@ public class WinManager : MonoBehaviour
         for (int i = 0; i < conffettis.Length; i++)
         {
             conffettis[i].Play();
+        }
+    }
+
+    public void CollectAveragePlayTime(string time)
+    {
+        //Collecting data
+        try
+        {
+            CollectData.instance.averagePlayTime = time;
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("Collect Data Not found");
         }
     }
 }

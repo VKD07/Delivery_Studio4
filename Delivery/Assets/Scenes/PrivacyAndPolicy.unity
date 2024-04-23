@@ -1021,6 +1021,9 @@ MonoBehaviour:
   initSize: 0
   targetSize: 1
   scaleSpeed: 10
+  onAppear:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1041005534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1333,8 +1336,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.9407344, y: -0.7621895}
-  m_SizeDelta: {x: 95.92778, y: 52.74419}
+  m_AnchoredPosition: {x: 0.9407344, y: -1.15249}
+  m_SizeDelta: {x: 95.92778, y: 53.52479}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1571933764
 MonoBehaviour:
@@ -1674,8 +1677,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2027552402}
   m_HandleRect: {fileID: 2027552401}
   m_Direction: 2
-  m_Value: 0.9999999
-  m_Size: 0.19088992
+  m_Value: 1
+  m_Size: 0.26708636
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1944,8 +1947,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00042939, y: 124.5}
-  m_SizeDelta: {x: 186.66, y: 50}
+  m_AnchoredPosition: {x: 0.00032356, y: -0.92918}
+  m_SizeDelta: {x: 186.67, y: 393.58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1976204191
 MonoBehaviour:
@@ -1967,74 +1970,28 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus
-    risus eget aliquam dapibus. Sed in justo vitae lorem pretium elementum. Nam fringilla
-    arcu id magna tristique, eget convallis magna tempor. Integer sit amet sapien
-    sapien. Nunc eu magna vel nisi dignissim venenatis. Nullam vehicula velit id
-    lectus vestibulum, eu facilisis eros auctor. Duis auctor purus sed odio ultricies,
-    vel accumsan nisl tempor. Aliquam euismod feugiat nulla, vel venenatis quam.
-    Proin condimentum orci ac varius venenatis. Morbi a ante non nunc laoreet interdum
-    nec vitae lorem.
-
-
-
-    Vestibulum lobortis, sapien sed vehicula tincidunt, ipsum
-    justo mollis felis, ac facilisis justo magna nec turpis. Ut euismod, dui in gravida
-    aliquam, justo eros rhoncus enim, nec luctus lacus justo ac nisi. Pellentesque
-    lacinia efficitur nisl, non condimentum lacus rutrum eget. Integer sit amet leo
-    non magna facilisis volutpat. Integer nec arcu nec metus ullamcorper congue.
-    Vivamus sed sapien eget nisi ullamcorper sollicitudin. In hac habitasse platea
-    dictumst. Etiam ut orci eget nunc fermentum malesuada vel nec lorem. Sed sit
-    amet velit a mauris fermentum ultricies in ac magna. Phasellus id lorem non leo
-    finibus posuere. Phasellus sed orci vel odio maximus ultricies. Vivamus aliquet
-    congue lorem, vitae varius erat varius a. Nulla et justo vitae nulla scelerisque
-    dapibus vitae eget arcu. Sed vitae neque ullamcorper, pharetra odio sed, venenatis
-    elit. Aliquam auctor ligula eget quam pellentesque dictum.
-
-
-
-    Maecenas nec
-    justo sed elit fermentum convallis. Morbi a metus vitae mauris posuere dictum.
-    Fusce efficitur felis non felis bibendum, nec efficitur libero vestibulum. Sed
-    pellentesque, magna nec dapibus placerat, risus lectus efficitur dui, nec molestie
-    neque felis eu justo. Nam convallis metus nec libero tincidunt, et commodo nisi
-    vestibulum. Nullam sit amet efficitur nulla. Vivamus non ultrices felis. Cras
-    nec gravida velit. Vivamus in lacus purus.
-
-
-    Lorem ipsum dolor sit amet,
-    consectetur adipiscing elit. Sed faucibus risus eget aliquam dapibus. Sed in
-    justo vitae lorem pretium elementum. Nam fringilla arcu id magna tristique, eget
-    convallis magna tempor. Integer sit amet sapien sapien. Nunc eu magna vel nisi
-    dignissim venenatis. Nullam vehicula velit id lectus vestibulum, eu facilisis
-    eros auctor. Duis auctor purus sed odio ultricies, vel accumsan nisl tempor.
-    Aliquam euismod feugiat nulla, vel venenatis quam. Proin condimentum orci ac
-    varius venenatis. Morbi a ante non nunc laoreet interdum nec vitae lorem.
-
-
-
-    Vestibulum
-    lobortis, sapien sed vehicula tincidunt, ipsum justo mollis felis, ac facilisis
-    justo magna nec turpis. Ut euismod, dui in gravida aliquam, justo eros rhoncus
-    enim, nec luctus lacus justo ac nisi. Pellentesque lacinia efficitur nisl, non
-    condimentum lacus rutrum eget. Integer sit amet leo non magna facilisis volutpat.
-    Integer nec arcu nec metus ullamcorper congue. Vivamus sed sapien eget nisi ullamcorper
-    sollicitudin. In hac habitasse platea dictumst. Etiam ut orci eget nunc fermentum
-    malesuada vel nec lorem. Sed sit amet velit a mauris fermentum ultricies in ac
-    magna. Phasellus id lorem non leo finibus posuere. Phasellus sed orci vel odio
-    maximus ultricies. Vivamus aliquet congue lorem, vitae varius erat varius a.
-    Nulla et justo vitae nulla scelerisque dapibus vitae eget arcu. Sed vitae neque
-    ullamcorper, pharetra odio sed, venenatis elit. Aliquam auctor ligula eget quam
-    pellentesque dictum.
-
-
-
-    Maecenas nec justo sed elit fermentum convallis.
-    Morbi a metus vitae mauris posuere dictum. Fusce efficitur felis non felis bibendum,
-    nec efficitur libero vestibulum. Sed pellentesque, magna nec dapibus placerat,
-    risus lectus efficitur dui, nec molestie neque felis eu justo. Nam convallis
-    metus nec libero tincidunt, et commodo nisi vestibulum. Nullam sit amet efficitur
-    nulla. Vivamus non ultrices felis. Cras nec gravida velit. Vivamus in lacus purus.'
+  m_text: "At BiteCode, we respect your privacy and are committed to protecting your
+    personal information. This Privacy Policy explains how we collect and use certain
+    data when you play our game \"Delivery!.\"\n\nINFORMATION WE COLLECT:\n\n1. Color
+    Choices: \nWe collect data on the colors chosen by players during gameplay for
+    analytical purposes and to provide you more car customizations you prefer.\n\n2.
+    Crash Times on Maps: \nWe collect information on the average time players crash
+    on specific maps to enhance gameplay experience and optimize map design.\n\n3.
+    Playtime Duration:\n We collect data on the average playtime of players to understand
+    engagement levels and improve game features.\n\n4. Player Count: \nWe collect
+    aggregate data on the average number of players to monitor server performance
+    and improve game stability.\n\nData Usage\nWe use the collected data for the
+    following purposes:\n\nGame Improvement: To analyze gameplay trends and patterns,
+    allowing us to enhance game mechanics, optimize maps, and improve overall player
+    experience.\n\nAnalytics: To generate statistical insights into player behavior,
+    helping us make informed decisions about future updates and features.\n\nData
+    Sharing\nWe do not share personal information with third parties. Aggregate and
+    anonymized data may be shared for statistical purposes or to improve our services.\n\nData
+    Security\nWe employ industry-standard security measures to protect your data
+    from unauthorized access, disclosure, or alteration.\n\nConsent\nBy playing \"Delivery!,\"
+    you consent to the collection and use of the aforementioned data for the stated
+    purposes.\n\nContact Us\nIf you have any questions or concerns about our Privacy
+    Policy or data practices, please contact us at bitecodegames717@gmail.com."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ac6918a9e0dcbaa47b6061457df67a7d, type: 2}
   m_sharedMaterial: {fileID: 2447064585031970200, guid: ac6918a9e0dcbaa47b6061457df67a7d,
@@ -2044,8 +2001,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4289243304
-  m_fontColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
+    rgba: 4282137660
+  m_fontColor: {r: 0.23584908, g: 0.23584908, b: 0.23584908, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2145,8 +2102,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0003341513, y: -111.78129}
-  m_SizeDelta: {x: 95.928, y: 276.3068}
+  m_AnchoredPosition: {x: -0.0003341513, y: -73.438896}
+  m_SizeDelta: {x: 95.928, y: 200.40257}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2027552400
 GameObject:

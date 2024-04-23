@@ -49,6 +49,6 @@ public class SendToGoogleForm : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        Send();
+        //Send();
     }
 }

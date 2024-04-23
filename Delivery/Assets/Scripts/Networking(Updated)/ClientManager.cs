@@ -65,6 +65,7 @@ public class ClientManager : MonoBehaviour
             {(int)ServerPackets.teamChange, HandlePackets.ReceiveChangeTeam},
             {(int)ServerPackets.startGame, HandlePackets.ReceiveStartGame},
             {(int)ServerPackets.lobbyRequest, HandlePackets.ReceiveLobbyRequest},
+            {(int)ServerPackets.chosenMap, HandlePackets.ReceiveChosenMapID},
 
             {(int)ServerPackets.spawnCar, HandlePackets.ReceiveSpawnedCar},
             {(int)ServerPackets.carProperties, HandlePackets.ReceiveOtherPlayerCarProperties},
