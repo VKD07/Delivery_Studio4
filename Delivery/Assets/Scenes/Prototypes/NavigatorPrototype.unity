@@ -2595,6 +2595,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 362013ddab533a0489c32e69ffb04cce, type: 2}
   - {fileID: 11400000, guid: f31858d1f75e912448543544c3cb76ba, type: 2}
   - {fileID: 11400000, guid: 6e63173084e27e348a9cb43d5b2afd80, type: 2}
+  - {fileID: 11400000, guid: e075de4b502c38648b44c74382de1ad3, type: 2}
+  - {fileID: 11400000, guid: c4d49193a52c118478148f05b1576f12, type: 2}
+  - {fileID: 11400000, guid: 21fe6c7331374384ab7b7d2ffa50d5da, type: 2}
+  - {fileID: 11400000, guid: 9190b35fb4a2af247a382096cc24e3d4, type: 2}
   currentWallPaper: {fileID: 1812833218}
 --- !u!1 &996147797
 GameObject:
@@ -3558,7 +3562,8 @@ MonoBehaviour:
   enableCurrentSceneTranstionEffect: 1
   titleScene: 
   mainMenuScene: MainMenu
-  driverScene: 
+  driverMap1: 
+  kiosMap: 
   navigatorScene: 
   ratingAndLeaderBoardScene: RatingAndLeaderboard
 --- !u!1 &1199342952
