@@ -37,7 +37,7 @@ public class TargetLocation : MonoBehaviour
             ShowCustomer();
             other.gameObject.transform.parent.gameObject.SetActive(false);
 
-            SendPackets.SendDriverArrived(ClientManager.instance.playerData.teamNumber);
+            StartCoroutine(SendArrivePackets());
             DriverSpawnerManager.instance.DisableSpawnedDriver();
             CustomerDialougeManager.instance.EnableCustomer();
             CarScreenManager.instance?.DisableCarScreen();
@@ -46,6 +46,15 @@ public class TargetLocation : MonoBehaviour
             //SendPackets.SendDriverArrived(ClientManager.instance.playerData.teamNumber);
             ////Client.instance.SendPacket(new DriverArrivedPacket(true).Serialize());
             //WinManager.instance?.DeclareWinner(true);
+        }
+    }
+
+    IEnumerator SendArrivePackets()
+    {
+        while (true)
+        {
+            yield return null;
+            SendPackets.SendDriverArrived(ClientManager.instance.playerData.teamNumber);
         }
     }
 
