@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d27c6f5f8e77e149b3bb5d03e925a4b, type: 3}
+  m_Name: EnvelopePackage
+  m_EditorClassIdentifier: 
+  packageUIprefab: {fileID: 3323715686127216857, guid: 037b3b9a82ddd6b44904598ac6481c7e,
+    type: 3}
+  packageShape: {fileID: -477105244, guid: 6c1ad1ded34bf7641932aa62cd5c2973, type: 3}
+  packageColor:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  tagColors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.4031585, b: 0, a: 1}
+  - {r: 0.9941056, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0.98475456, a: 1}
+  - {r: 0, g: 1, b: 0.7974179, a: 1}
+  - {r: 0.6062865, g: 0, b: 1, a: 1}
+  - {r: 0.6226415, g: 0.32800236, b: 0, a: 1}
+  - {r: 0, g: 0.119587, b: 0.3490566, a: 1}
+  - {r: 0.4056604, g: 0.038823612, b: 0, a: 1}
