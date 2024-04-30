@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Prototypes/Kio_LevelGreybox.unity
     guid: 9ff3fdcbe0a8b3145b2c3dff89c1bccf
+  - enabled: 1
+    path: Assets/Scenes/Prototypes/IlyaLevel/Pieceful Velley.unity
+    guid: 0a16de998304e324e8fd31d0f7fdec85
   m_configObjects: {}

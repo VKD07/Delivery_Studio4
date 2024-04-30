@@ -122,9 +122,9 @@ public class NavCustomerPackage : MonoBehaviour
 
     void CheckIfRightPackageIsChosen()
     {
-        if(currentSelectedPckg == null) return;
+        if (currentSelectedPckg == null) return;
 
-        if(currentSelectedPckg.name == chosenPackageObj.name)
+        if (currentSelectedPckg.name == chosenPackageObj.name)
         {
             RightPackageSelected();
         }
@@ -170,12 +170,20 @@ public class NavCustomerPackage : MonoBehaviour
     #region Network Receivers
     public void EnablePackageUI()
     {
-        sendBtn.SetActive(true);
-        customerPackageContents.gameObject.SetActive(true);
-        panelDescription.gameObject.SetActive(false);
-        panelDescription.color = wrongColor;
-        panelDescription.text = "WRONG PACKAGE!";
-        OnDriverArrived.Invoke();
+        try
+        {
+            sendBtn.SetActive(true);
+            customerPackageContents.gameObject.SetActive(true);
+            panelDescription.gameObject.SetActive(false);
+            panelDescription.color = wrongColor;
+            panelDescription.text = "WRONG PACKAGE!";
+            OnDriverArrived.Invoke();
+        }
+        catch (System.Exception)
+        {
+
+        }
+
     }
     #endregion
 }

@@ -23,6 +23,7 @@ public class CollectData : MonoBehaviour
     //Make sure it is public
     public int kioMapCrashCount;
     public int cityMapCrashCount;
+    public int peacefulValleyCrashCount;
     public string averagePlayTime;
     public int playerCount;
     public string carColor = "DefaultTex";

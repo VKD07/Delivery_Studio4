@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aea3bc90eddc1f4bb78554b5b3a5aca, type: 3}
+  m_Name: PeacefulValley
+  m_EditorClassIdentifier: 
+  maps:
+  - {fileID: 1744008904563851917, guid: 9e15478ae1e2551449783e5ed0088b9e, type: 3}
+  - {fileID: 1943880133515011515, guid: 9e2cbeac9551f4446875f6e69e0ff53c, type: 3}
+  - {fileID: 9207355277267927888, guid: 310a70d0f778c6749b6b364d86f703f6, type: 3}
+  - {fileID: 1461427587163072581, guid: 88ae6cf154e3ef74784c329be7713bf1, type: 3}
+  - {fileID: 1291435242190292640, guid: a64ad91b70d4d944781e4d612eb476ee, type: 3}
+  - {fileID: 8205253531192526724, guid: 4d17b5fac04464c4c9815da493672a58, type: 3}
+  sceneName: Pieceful Velley

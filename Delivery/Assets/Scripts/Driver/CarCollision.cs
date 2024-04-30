@@ -47,6 +47,17 @@ public class CarCollision : MonoBehaviour
                     Debug.Log("Collect Data Not found");
                 }
                 break;
+            case 2:
+                //Collecting data
+                try
+                {
+                    CollectData.instance.peacefulValleyCrashCount++;
+                }
+                catch (System.Exception)
+                {
+                    Debug.Log("Collect Data Not found");
+                }
+                break;
         }
 
     }

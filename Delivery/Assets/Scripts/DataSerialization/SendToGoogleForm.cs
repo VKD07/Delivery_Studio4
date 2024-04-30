@@ -30,13 +30,15 @@ public class SendToGoogleForm : MonoBehaviour
     }
 
     //Add data inside the parenthesis
-    IEnumerator Post(string cityMapCrashCount, string kioMapCrashCount, string playTime, string playerCount, string mapSkin, string carColor)
+    IEnumerator Post(string cityMapCrashCount, string kioMapCrashCount, string peacefulValleyCrashCount,string playTime, string playerCount, string mapSkin, string carColor)
     {
         WWWForm form = new WWWForm();
 
         //All the input responses here
         //add inputfield ID here.
         form.AddField("entry.2141905459", cityMapCrashCount);
+        form.AddField("entry.831498841", peacefulValleyCrashCount);
+
         form.AddField("entry.1881070454", kioMapCrashCount);
 
         form.AddField("entry.941594906", playTime);
@@ -62,7 +64,7 @@ public class SendToGoogleForm : MonoBehaviour
     //Sends the data to google form
     public void SendDataToGoogleForm()
     {
-        StartCoroutine(Post(collectData.cityMapCrashCount.ToString(), collectData.kioMapCrashCount.ToString(), collectData.averagePlayTime.ToString(),
+        StartCoroutine(Post(collectData.cityMapCrashCount.ToString(), collectData.kioMapCrashCount.ToString(), collectData.peacefulValleyCrashCount.ToString(), collectData.averagePlayTime.ToString(),
                             collectData.playerCount.ToString(), collectData.mapSkin.ToString(), collectData.carColor.ToString()));
     }
 }
